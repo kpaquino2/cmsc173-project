@@ -1,9 +1,14 @@
+import React from "react";
+import { useAtom } from "jotai";
+import allowConflictAtom from "../../atoms/allowConflictAtom";
+
+import { Switch } from "@headlessui/react";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import "../../styles/Sidebar.css";
 
 const Sidebar = () => {
+  const [enabled, setEnabled] = useAtom(allowConflictAtom);
   return (
     <div className="sidebar">
       <div className="sidebar-item title">
@@ -16,6 +21,14 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="sidebar-item options">
+        <Switch.Group as="div" className="switch-group">
+          <Switch.Label className="switch-label">
+            Allow conflicts
+          </Switch.Label>
+          <Switch className={`switch ${enabled ? "switch-enabled" : "switch-disabled"}`} checked={enabled} onChange={() => {setEnabled(!enabled)}}>
+            <span className={`switch-indicator ${enabled ? "switch-indicator-enabled" : "switch-indicator-disabled"}`}></span>
+          </Switch>
+        </Switch.Group>
       </div>
     </div>
   );

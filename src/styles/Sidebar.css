@@ -65,5 +65,63 @@
 }
 
 .options {
-  
+  display: flex;
+  flex-direction: column;
+  justify-items: stretch;
+}
+
+.switch-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switch-label {
+  margin-right: 1rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  height: 38px;
+  width: 74px;
+  cursor: pointer;
+  padding: 0;
+
+  align-items: center;
+
+  border: transparent 2px;
+}
+
+.switch-enabled {
+  transition: background-color 100ms;
+  background: #34D399;
+}
+
+.switch-disabled {
+  transition: background-color 100ms;
+  background: #065F46;
+}
+
+.switch-indicator {
+  pointer-events: none;
+  display: inline-block;
+  height: 34px;
+  width: 34px;
+  border-radius: 9999px;
+  background: white;
+
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.switch-indicator-disabled {
+  transition: transform 100ms ease;
+  transform: translateX(0.25rem);
+}
+
+.switch-indicator-enabled {
+  transition: transform 100ms ease;
+  transform: translateX(2.25rem);
 }
