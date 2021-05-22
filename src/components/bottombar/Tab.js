@@ -6,7 +6,7 @@ import {
 import "../../styles/Layout.css";
 
 const Tab = ({ current, plan, currentPlan, setCurrentPlan, plans, setPlans }) => {
-  const currentStyle = current ? { background: "#3e98e6", color: "white" } : {};
+  const currentStyle = current ? { background: "#03768e", color: "white" } : {};
   return(
     <div className="tab" style={currentStyle} onClick={() => setCurrentPlan(plan)}>
       <div>

@@ -10,9 +10,6 @@ const Layout = () => {
       number: 1,
       schedule: [
         {
-          name: "Sunday"
-        },
-        {
           name: "Monday"
         },
         {
