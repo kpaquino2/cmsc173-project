@@ -35,7 +35,7 @@ const Sidebar = () => {
         <div className="subjects">
           {subjects.map((subject, idx) => {
             return (
-              <Subject key={idx} courseName={subject.name} courseSection={subject.section} startTime={subject.startTime} endTime={subject.endTime} daysOccur={subject.daysOccur} />
+              <Subject key={idx} subject={subject} />
             );
           })}
         </div>
