@@ -86,6 +86,7 @@ export const Modal = () => {
                           ...prev, subject: e.target.value
                         }));
                       }}
+                      required
                     />
                   </div>
 
@@ -106,6 +107,7 @@ export const Modal = () => {
                           ...prev, section: e.target.value
                         }));
                       }}
+                      required
                     />
                   </div>
                 </div>
@@ -128,6 +130,7 @@ export const Modal = () => {
                           ...prev, startTime: e.target.value
                         }));
                       }}
+                      required
                     />
                   </div>
 
@@ -148,6 +151,7 @@ export const Modal = () => {
                           ...prev, endTime: e.target.value
                         }));
                       }}
+                      required
                     />
                   </div>
                 </div>
