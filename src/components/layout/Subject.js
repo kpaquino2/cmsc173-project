@@ -13,11 +13,15 @@ const Subject = ({courseName, courseSection, startTime, endTime, daysOccur}) => 
           <span>{` ${courseSection}`}</span>
         </div>
         <div className="time-text">
-          <strong className="time-label">Time and Day:</strong>
+          <strong className="time-label">Time:</strong>
           <span>{` ${startTime}-${endTime} `}</span>
-          { daysOccur && daysOccur.map((day) => (
-            <span>{day}</span>
-          ))}
+          
+        </div>
+        <div className="time-text">
+          <strong className="time-label">Days: </strong>
+          <span>
+            { daysOccur && Object.keys(daysOccur).filter((day) => { return daysOccur[day] }).join(", ") }
+          </span>
         </div>
       </div>
     </>

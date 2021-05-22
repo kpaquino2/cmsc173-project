@@ -3,7 +3,7 @@ import { Dialog, Transition, Switch } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAtom } from "jotai";
 import { isOpenAtom, isDayEnabledAtom, formInputsAtom } from "../atom/modal"
-
+import { subjectsAtom } from "../atom/subjects";
 import "../../styles/Modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +12,7 @@ export const Modal = () => {
 	const [isOpen, setIsOpen] = useAtom(isOpenAtom);
 	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
 	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
+  const [subjects, setSubjects] = useAtom(subjectsAtom);
 
   const closeModal = () => {
     setIsOpen(false)
@@ -19,7 +20,14 @@ export const Modal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formInputs);
+    setSubjects([...subjects, {
+      name: formInputs.subject,
+      section: formInputs.section,
+      startTime: formInputs.startTime,
+      endTime: formInputs.endTime,
+      daysOccur: isDayEnabled
+    }]);
+    setIsOpen(false);
   }
 
   return (
@@ -149,30 +157,17 @@ export const Modal = () => {
 
                   {/* SUNDAY */}
                   <div className="switch-set">
-                    <span className="switch-button">
-                      <Switch
-                        checked={isDayEnabled.sunday}
-                        onChange={() => {
-                          setIsDayEnabled((prev) => ({
-                            ...prev, sunday: !(isDayEnabled.sunday)
-                          }));
-                        }}
-                        className={`${isDayEnabled.sunday ? "enabled" : "disabled"}`}
-                      >
-                        S
-                      </Switch>
-                    </span>
                     
                     {/* MONDAY */}
                     <span className="switch-button">
                       <Switch
-                        checked={isDayEnabled.monday}
+                        checked={isDayEnabled.Monday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, monday: !(isDayEnabled.monday)
+                            ...prev, Monday: !(isDayEnabled.Monday)
                           }));
                         }}
-                        className={`${isDayEnabled.monday ? "enabled" : "disabled"}`}
+                        className={`${isDayEnabled.Monday ? "enabled" : "disabled"}`}
                       >
                         M
                       </Switch>
@@ -181,13 +176,13 @@ export const Modal = () => {
                     {/* TUESDAY */}
                     <span className="switch-button">
                       <Switch
-                        checked={isDayEnabled.tuesday}
+                        checked={isDayEnabled.Tuesday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, tuesday: !(isDayEnabled.tuesday)
+                            ...prev, Tuesday: !(isDayEnabled.Tuesday)
                           }));
                         }}
-                        className={`${isDayEnabled.tuesday ? "enabled" : "disabled"}`}
+                        className={`${isDayEnabled.Tuesday ? "enabled" : "disabled"}`}
                       >
                         T
                       </Switch>
@@ -196,13 +191,13 @@ export const Modal = () => {
                     {/* WEDNESDAY */}
                     <span className="switch-button">
                       <Switch
-                        checked={isDayEnabled.wednesday}
+                        checked={isDayEnabled.Wednesday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, wednesday: !(isDayEnabled.wednesday)
+                            ...prev, Wednesday: !(isDayEnabled.Wednesday)
                           }));
                         }}
-                        className={`${isDayEnabled.wednesday ? "enabled" : "disabled"}`}
+                        className={`${isDayEnabled.Wednesday ? "enabled" : "disabled"}`}
                       >
                         W
                       </Switch>
@@ -211,13 +206,13 @@ export const Modal = () => {
                     {/* THURSDAY */}
                     <span className="switch-button">
                       <Switch
-                        checked={isDayEnabled.thursday}
+                        checked={isDayEnabled.Thursday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, thursday: !(isDayEnabled.thursday)
+                            ...prev, Thursday: !(isDayEnabled.Thursday)
                           }));
                         }}
-                        className={`${isDayEnabled.thursday ? "enabled" : "disabled"}`}
+                        className={`${isDayEnabled.Thursday ? "enabled" : "disabled"}`}
                       >
                         TH
                       </Switch>
@@ -226,13 +221,13 @@ export const Modal = () => {
                     {/* FRIDAY */}
                     <span className="switch-button">
                       <Switch
-                        checked={isDayEnabled.friday}
+                        checked={isDayEnabled.Friday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, friday: !(isDayEnabled.friday)
+                            ...prev, Friday: !(isDayEnabled.Friday)
                           }));
                         }}
-                        className={`${isDayEnabled.friday ? "enabled" : "disabled"}`}
+                        className={`${isDayEnabled.Friday ? "enabled" : "disabled"}`}
                       >
                         F
                       </Switch>
@@ -241,13 +236,13 @@ export const Modal = () => {
                     {/* SATURDAY */}
                     <span className="switch-button">
                       <Switch
-                        checked={isDayEnabled.saturday}
+                        checked={isDayEnabled.Saturday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, saturday: !(isDayEnabled.saturday)
+                            ...prev, Saturday: !(isDayEnabled.Saturday)
                           }));
                         }}
-                        className={`${isDayEnabled.saturday ? "enabled" : "disabled"}`}
+                        className={`${isDayEnabled.Saturday ? "enabled" : "disabled"}`}
                       >
                         S
                       </Switch>
