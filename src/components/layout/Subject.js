@@ -1,10 +1,10 @@
 import React from 'react';
 import '../../styles/Subject.css'
 
-const Subject = ({courseName, courseSection, startTime, endTime, daysOccur}) => {
+const Subject = ({courseName, courseSection, startTime, endTime, daysOccur, bgColorVar}) => {
   return (
     <>
-      <div className="subject-container" >
+      <div className="subject-container" styles={{bgColor: {bgColorVar}}}>
         <div className="subject-text"> 
           <h2>{courseName}</h2>
         </div>
