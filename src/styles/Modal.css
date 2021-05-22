@@ -14,14 +14,6 @@
   text-align: center;
 }
 
-.dialog-overlay{
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
 .span {
   display: inline-block;
   height: 100vh;
@@ -31,7 +23,7 @@
 .modal {
   display: inline-block;
   width: 100%;
-  max-width: 28rem;
+  max-width: 30rem;
   padding: 1.5rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -44,7 +36,7 @@
   border-radius: 1rem;
 }
 
-.dialog-title {
+.modal-title {
   font-size: 1.125rem;
   line-height: 1.50rem;
   font-weight: 500;
@@ -68,4 +60,66 @@
 
 .close-icon {
   color: #6B7280;
+}
+
+.modal-body {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #111827;
+}
+
+.label {
+  margin-right: 0.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.input-div {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.switch-set {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.switch {
+  margin-right: 0.5rem;
+}
+
+.enabled {
+  display: inline;
+  background-color: #059669;
+  border-radius: 100%;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.disabled {
+  display: inline;
+  background-color: white;
+  border-radius: 100%;
+  border-color: #059669;
+  border-style: solid;
+  border-width: 1px;
+  width: 2rem;
+  height: 2rem;
+  color: #059669;
+  font-weight: 600;
+  text-align: center;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
 }

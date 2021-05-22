@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import Modal from "./Modal"
   
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useAtom(isOpenAtom);
+  const [, setIsOpen] = useAtom(isOpenAtom);
   
   const handleClick = () => {
     setIsOpen(true);

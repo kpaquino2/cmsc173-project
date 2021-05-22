@@ -1,18 +1,21 @@
 import React from "react";
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, Transition, Switch } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAtom } from "jotai";
-import { isOpenAtom } from "../atom/modal"
+import { isOpenAtom, isDayEnabledAtom } from "../atom/modal"
 import "../../styles/Modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export const Modal = () => {
 	const [isOpen, setIsOpen] = useAtom(isOpenAtom);
+	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
 
   const closeModal = () => {
     setIsOpen(false)
   }
+
+  console.log(isDayEnabled);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -31,7 +34,7 @@ export const Modal = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="dialog-overlay" />
+            <Dialog.Overlay />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -53,7 +56,7 @@ export const Modal = () => {
             <div className="modal">
               <Dialog.Title
                 as="div"
-                className="dialog-title"
+                className="modal-title"
               >
                 Add a Subject
                 <button 
@@ -67,21 +70,170 @@ export const Modal = () => {
                   />
                 </button>
               </Dialog.Title>
-              <div className="mt-2">
-                <p className="text-sm text-gray-500">
-                  Your payment has been successfully submitted. We’ve sent
-                  your an email with all of the details of your order.
-                </p>
-              </div>
 
-              <div className="mt-4">
-                <button
-                  type="button"
-                  className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                  onClick={closeModal}
-                >
-                  Got it, thanks!
-                </button>
+              {/* MODAL BODY */}
+              <div className="modal-body">
+                <form>
+
+                  {/* SUBJECT INPUT */}
+                  <div className="input-div">
+                    <label
+                      htmlFor="subject"
+                      className="label"
+                    >
+                      Subject:
+                    </label>
+                    <input 
+                      type="text"
+                      id="subject"
+                      className="input"
+                    />
+                  </div>
+                    
+                  <div className="grid">
+                    {/* START TIME INPUT */}
+                    <div className="input-div">
+                      <label
+                        htmlFor="start_time"
+                        className="label"
+                      >
+                        Start time:
+                      </label>
+                      <input 
+                        type="time"
+                        id="start_time"
+                        className="input"
+                      />
+                    </div>
+
+                    {/* END TIME INPUT */}
+                    <div className="input-div">
+                      <label
+                        htmlFor="end_time"
+                        className="label"
+                      >
+                        End time:
+                      </label>
+                      <input 
+                        type="time"
+                        id="end_time"
+                        className="input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="input-div">
+                    <div>Occurs every:</div>
+
+                    {/* SUNDAY */}
+                    <div className="switch-set">
+                      <span className="switch">
+                        <Switch
+                          checked={isDayEnabled.sunday}
+                          onChange={() => {
+                            setIsDayEnabled((prev) => ({
+                              ...prev, sunday: !(isDayEnabled.sunday)
+                            }));
+                          }}
+                          className={`${isDayEnabled.sunday ? "enabled" : "disabled"}`}
+                        >
+                          S
+                        </Switch>
+                      </span>
+                      
+                      {/* MONDAY */}
+                      <span className="switch">
+                        <Switch
+                          checked={isDayEnabled.monday}
+                          onChange={() => {
+                            setIsDayEnabled((prev) => ({
+                              ...prev, monday: !(isDayEnabled.monday)
+                            }));
+                          }}
+                          className={`${isDayEnabled.monday ? "enabled" : "disabled"}`}
+                        >
+                          M
+                        </Switch>
+                      </span>
+
+                      {/* TUESDAY */}
+                      <span className="switch">
+                        <Switch
+                          checked={isDayEnabled.tuesday}
+                          onChange={() => {
+                            setIsDayEnabled((prev) => ({
+                              ...prev, tuesday: !(isDayEnabled.tuesday)
+                            }));
+                          }}
+                          className={`${isDayEnabled.tuesday ? "enabled" : "disabled"}`}
+                        >
+                          T
+                        </Switch>
+                      </span>
+
+                      {/* WEDNESDAY */}
+                      <span className="switch">
+                        <Switch
+                          checked={isDayEnabled.wednesday}
+                          onChange={() => {
+                            setIsDayEnabled((prev) => ({
+                              ...prev, wednesday: !(isDayEnabled.wednesday)
+                            }));
+                          }}
+                          className={`${isDayEnabled.wednesday ? "enabled" : "disabled"}`}
+                        >
+                          W
+                        </Switch>
+                      </span>
+
+                      {/* THURSDAY */}
+                      <span className="switch">
+                        <Switch
+                          checked={isDayEnabled.thursday}
+                          onChange={() => {
+                            setIsDayEnabled((prev) => ({
+                              ...prev, thursday: !(isDayEnabled.thursday)
+                            }));
+                          }}
+                          className={`${isDayEnabled.thursday ? "enabled" : "disabled"}`}
+                        >
+                          TH
+                        </Switch>
+                      </span>
+
+                      {/* FRIDAY */}
+                      <span className="switch">
+                        <Switch
+                          checked={isDayEnabled.friday}
+                          onChange={() => {
+                            setIsDayEnabled((prev) => ({
+                              ...prev, friday: !(isDayEnabled.friday)
+                            }));
+                          }}
+                          className={`${isDayEnabled.friday ? "enabled" : "disabled"}`}
+                        >
+                          F
+                        </Switch>
+                      </span>
+
+                      {/* SATURDAY */}
+                      <span className="switch">
+                        <Switch
+                          checked={isDayEnabled.saturday}
+                          onChange={() => {
+                            setIsDayEnabled((prev) => ({
+                              ...prev, saturday: !(isDayEnabled.saturday)
+                            }));
+                          }}
+                          className={`${isDayEnabled.saturday ? "enabled" : "disabled"}`}
+                        >
+                          S
+                        </Switch>
+                      </span>
+                    </div>
+                  </div>
+
+                </form>
               </div>
             </div>
           </Transition.Child>
