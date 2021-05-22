@@ -1,0 +1,33 @@
+.class-container {
+  display: flex;
+  /* position: absolute; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+  background: white;
+  border-radius: 15px;
+  margin: 4px;
+  padding: 7px 12px 7px 12px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+  height: 4.5%;
+} 
+
+.subject-text {
+  /* color: #FFFF; */
+  font-size: calc(1.5px + 2vmin);
+  font-weight: 600;
+}
+
+.label-text {
+  /* color: #FFFF; */
+  /* padding: 6px; */
+  font-size: calc(1px + 1vmin);
+  font-weight: 600;
+}
+.data-text {
+  /* color: #FFFF; */
+  /* padding: 6px; */
+  font-size: calc(1px + 1vmin);
+  /* font-weight: 600; */
+}
