@@ -2,7 +2,7 @@ import React from "react";
 import { Dialog, Transition, Switch } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAtom } from "jotai";
-import { isOpenAtom, isDayEnabledAtom } from "../atom/modal"
+import { isOpenAtom, isDayEnabledAtom, formInputsAtom } from "../atom/modal"
 
 import "../../styles/Modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 export const Modal = () => {
 	const [isOpen, setIsOpen] = useAtom(isOpenAtom);
 	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
+	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
 
   const closeModal = () => {
     setIsOpen(false)
@@ -18,7 +19,7 @@ export const Modal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log();
+    console.log(formInputs);
   }
 
   return (
@@ -72,6 +73,11 @@ export const Modal = () => {
                       type="text"
                       id="subject"
                       className="input"
+                      onChange={(e) => {
+                        setFormInputs((prev) => ({
+                          ...prev, subject: e.target.value
+                        }));
+                      }}
                     />
                   </div>
 
@@ -87,6 +93,11 @@ export const Modal = () => {
                       type="text"
                       id="section"
                       className="input"
+                      onChange={(e) => {
+                        setFormInputs((prev) => ({
+                          ...prev, section: e.target.value
+                        }));
+                      }}
                     />
                   </div>
                 </div>
@@ -104,6 +115,11 @@ export const Modal = () => {
                       type="time"
                       id="start_time"
                       className="input"
+                      onChange={(e) => {
+                        setFormInputs((prev) => ({
+                          ...prev, startTime: e.target.value
+                        }));
+                      }}
                     />
                   </div>
 
@@ -119,6 +135,11 @@ export const Modal = () => {
                       type="time"
                       id="end_time"
                       className="input"
+                      onChange={(e) => {
+                        setFormInputs((prev) => ({
+                          ...prev, endTime: e.target.value
+                        }));
+                      }}
                     />
                   </div>
                 </div>

@@ -13,3 +13,10 @@ export const isDayEnabledAtom = atom({
   friday: false,
   saturday: false,
 });
+
+export const formInputsAtom = atom({
+  subject: "",
+  section: "",
+  startTime: null,
+  endTime: null
+});
