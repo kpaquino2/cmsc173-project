@@ -16,9 +16,6 @@ const Bottombar = ({ plans, setPlans, currentPlan, setCurrentPlan }) => {
             number: plans[plans.length-1].number+1,
             schedule: [
               {
-                name: "Sunday"
-              },
-              {
                 name: "Monday"
               },
               {
