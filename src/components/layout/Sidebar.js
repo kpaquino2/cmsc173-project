@@ -1,24 +1,50 @@
 import React from "react";
-import "../../styles/Layout.css";
-import { isOpenAtom } from "../atom/modal"
 import { useAtom } from "jotai";
-import Modal from "./Modal"
-  
-const Sidebar = () => {
-  const [, setIsOpen] = useAtom(isOpenAtom);
-  
-  const handleClick = () => {
-    setIsOpen(true);
-  };
+import allowConflictAtom from "../../atoms/allowConflictAtom";
+import { isOpenAtom } from "../atom/modal"
 
+import { Switch } from "@headlessui/react";
+import { faClock, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { Modal } from "./Modal";
+import "../../styles/Sidebar.css";
+
+const Sidebar = () => {
+  const [isOpen, setIsOpen] = useAtom(isOpenAtom);
+  const [enabled, setEnabled] = useAtom(allowConflictAtom);
+
+  console.log(isOpen);
   return (
     <div className="sidebar">
       <Modal />
-      <button
-        onClick={handleClick}
-      >
-        Add a Subject
-      </button>
+      <div className="sidebar-item title">
+        <FontAwesomeIcon icon={faClock} size={"4x"} /> 
+      </div>
+      <div className="sidebar-item subjects-list">
+        <button 
+          className="add-subject-button"
+          onClick={() => {
+            setIsOpen(true);
+          }}
+        >
+          <FontAwesomeIcon icon={faPlus} className="plus-icon" />
+          Add a Subject
+        </button>
+        <div className="subjects">
+          TODO, MAP ALL SUBJECT CARDS INSIDE THIS DIV
+        </div>
+      </div>
+      <div className="sidebar-item options">
+        <Switch.Group as="div" className="switch-group">
+          <Switch.Label className="switch-label">
+            Allow conflicts
+          </Switch.Label>
+          <Switch className={`switch ${enabled ? "switch-enabled" : "switch-disabled"}`} checked={enabled} onChange={() => {setEnabled(!enabled)}}>
+            <span className={`switch-indicator ${enabled ? "switch-indicator-enabled" : "switch-indicator-disabled"}`}></span>
+          </Switch>
+        </Switch.Group>
+      </div>
     </div>
   );
 }
