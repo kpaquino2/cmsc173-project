@@ -1,4 +1,9 @@
 import React from "react";
+import Tab from "./Tab";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import "../../styles/Layout.css";
 
 const Bottombar = ({ plans, setPlans, currentPlan, setCurrentPlan }) => {
@@ -8,7 +13,7 @@ const Bottombar = ({ plans, setPlans, currentPlan, setCurrentPlan }) => {
         className="tab"
         onClick={() => {
           setPlans([...plans, {
-            name: `Plan ${plans.length+1}`,
+            number: plans[plans.length-1].number+1,
             schedule: [
               {
                 name: "Sunday"
@@ -35,12 +40,14 @@ const Bottombar = ({ plans, setPlans, currentPlan, setCurrentPlan }) => {
           }]);
         }}
         style={{ width: "50px", color: "white", fontSize: "20px" }}
-      >+</div>
+      >
+        <FontAwesomeIcon icon={faPlus} size="xs" />
+      </div>
       {plans.map((plan, idx) => {
         return (
           plan === currentPlan
-          ? <div key={idx} className="tab" style={{ background: "#3e98e6", color: "white" }} onClick={() => setCurrentPlan(plan)}>{plan.name}</div>
-          : <div key={idx} className="tab" onClick={() => setCurrentPlan(plan)}>{plan.name}</div>
+          ? <Tab key={idx} plan={plan} currentPlan={currentPlan} setCurrentPlan={setCurrentPlan} plans={plans} setPlans={setPlans} current={true} />
+          : <Tab key={idx} plan={plan} currentPlan={currentPlan} setCurrentPlan={setCurrentPlan} plans={plans} setPlans={setPlans} />
         );
       })}
       

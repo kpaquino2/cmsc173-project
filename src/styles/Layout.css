@@ -80,3 +80,18 @@
   border-bottom-width: 1px;
   border-bottom-color: #d9d9d9;
 }
+
+.delete-tab {
+  /* background: cyan; */
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 3px 4px;
+  margin-left: 5px;
+  z-index:20 ;
+}
+
+.delete-tab:hover {
+  background-color: #a7d6fc;  
+}
