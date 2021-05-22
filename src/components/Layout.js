@@ -34,10 +34,12 @@ const Layout = () => {
   const [currentPlan, setCurrentPlan] = useState(plans[0]);
 
   return (
-    <div>
+    <div className="outside-container">
       <Sidebar />
-      <Main currentPlan={currentPlan} />
-      <Bottombar plans={plans} setPlans={setPlans} currentPlan={currentPlan} setCurrentPlan={setCurrentPlan} />
+      <div className="schedule-panel">
+        <Main currentPlan={currentPlan} />
+        <Bottombar plans={plans} setPlans={setPlans} currentPlan={currentPlan} setCurrentPlan={setCurrentPlan} />
+      </div>
     </div>
   )
 }
