@@ -1,0 +1,153 @@
+.dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.fragment {
+  min-height: 100vh;
+  padding: 4px;
+  text-align: center;
+}
+
+.span {
+  display: inline-block;
+  height: 100vh;
+  vertical-align: middle;
+}
+
+.modal {
+  display: inline-block;
+  width: 100%;
+  max-width: 30rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  text-align: left;
+  vertical-align: middle;
+  transition-property: all;
+  background-color: white;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-radius: 1rem;
+}
+
+.modal-title {
+  font-size: 1.125rem;
+  line-height: 1.50rem;
+  font-weight: 500;
+  color: #111827;	
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  padding: 3px 5px;
+}
+
+.close-button:hover {
+  background-color: #D1D5DB;
+}
+
+.close-icon {
+  color: #6B7280;
+}
+
+.modal-body {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #111827;
+}
+
+.label {
+  margin-right: 0.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+}
+
+.input-div {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.switch-set {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.switch-button {
+  margin-right: 0.5rem;
+}
+
+.enabled {
+  display: inline;
+  background-color: #059669;
+  border-radius: 100%;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.disabled {
+  display: inline;
+  background-color: white;
+  border-radius: 100%;
+  border-color: #059669;
+  border-style: solid;
+  border-width: 1px;
+  width: 2rem;
+  height: 2rem;
+  color: #059669;
+  font-weight: 600;
+  text-align: center;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.enabled:hover, .disabled:hover {
+  cursor: pointer;
+}
+
+.add-button {
+  color: #04B2D9;
+  font-size: 1rem;
+  font-weight: bold;
+  border: unset;
+  border: 1px lightgray solid;
+  border-radius: 10px;
+  padding: 0.2rem 1rem;
+  background: white;
+  float: right;
+}
+
+.add-button:hover {
+  cursor: pointer;
+  background: lightgray;
+
+}
+
+.add-button:active {
+  background: darkgray;
+}
