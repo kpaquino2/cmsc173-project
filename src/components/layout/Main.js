@@ -23,9 +23,11 @@ const Main = ({ currentPlan }) => {
       {currentPlan.schedule.map((day, idx) => (
         <div key={idx} className="column">
           <div className="column-header">{day.name}</div>
-          <Class />
 
-          {/* <Class /> */}
+          {typeof day.classes !== "undefined" &&
+            day.classes.map((classes, i) => {
+              return <Class class={classes} key={i} />;
+            })}
         </div>
       ))}
     </div>
