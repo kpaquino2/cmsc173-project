@@ -26,13 +26,16 @@ const Class = ({ classes, subject, section, start, end }) => {
     addClass("subject", "section", 1, 2);
   }, []);
 
-  console.log("here", classCell);
   return (
     <div className="class-container">
       <div className="subject-text">{data.subject}</div>
-      <div className="label-text">{data.section}</div>
+      <div className="data-text">{data.section}</div>
     </div>
   );
+};
+
+const classCellStyle = {
+  height: "7.5%",
 };
 
 export default Class;

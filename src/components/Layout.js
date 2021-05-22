@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import Sidebar from "./layout/Sidebar";
-import Bottombar from "./layout/Bottombar";
+import Bottombar from "./bottombar/Bottombar";
 import Main from "./layout/Main";
 import "../styles/Layout.css"
 
 const Layout = () => {
   const [plans, setPlans] = useState([
     {
-      name: "Plan A",
+      number: 1,
       schedule: [
-        {
-          name: "Sunday"
-        },
         {
           name: "Monday"
         },
