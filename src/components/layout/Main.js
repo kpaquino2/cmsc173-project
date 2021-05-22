@@ -24,6 +24,8 @@ const Main = ({ currentPlan }) => {
         <div key={idx} className="column">
           <div className="column-header">{day.name}</div>
           <Class />
+
+          {/* <Class /> */}
         </div>
       ))}
     </div>
