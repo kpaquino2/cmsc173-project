@@ -14,8 +14,20 @@ export const Modal = () => {
 	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects, setSubjects] = useAtom(subjectsAtom);
 
+  const resetDays = () => {
+    setIsDayEnabled({
+      Monday: false,
+      Tuesday: false,
+      Wednesday: false,
+      Thursday: false,
+      Friday: false,
+      Saturday: false,
+    });
+  }
+
   const closeModal = () => {
-    setIsOpen(false)
+    setIsOpen(false);
+    resetDays();
   }
 
   const handleSubmit = (e) => {
@@ -27,7 +39,11 @@ export const Modal = () => {
       endTime: formInputs.endTime,
       daysOccur: isDayEnabled
     }]);
+    setFormInputs((prev) => ({
+      ...prev, startTime: e.target.value
+    }));
     setIsOpen(false);
+    resetDays();
   }
 
   return (

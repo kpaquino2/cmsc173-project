@@ -5,7 +5,6 @@ export const isOpenAtom = atom(false);
 
 // flags for enabling day
 export const isDayEnabledAtom = atom({
-  Sunday: false,
   Monday: false,
   Tuesday: false,
   Wednesday: false,
