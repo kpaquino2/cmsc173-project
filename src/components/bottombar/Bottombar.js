@@ -1,12 +1,17 @@
 import React from "react";
 import Tab from "./Tab";
+import { useAtom } from "jotai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/Layout.css";
+import { currentPlanAtom, plansAtom } from "../atom/plans";
 
-const Bottombar = ({ plans, setPlans, currentPlan, setCurrentPlan }) => {
+const Bottombar = () => {
+  const [plans, setPlans] = useAtom(plansAtom);
+  const [currentPlan] = useAtom(currentPlanAtom);
+
   return (
     <div className="bottombar">
       <div
@@ -42,9 +47,7 @@ const Bottombar = ({ plans, setPlans, currentPlan, setCurrentPlan }) => {
       </div>
       {plans.map((plan, idx) => {
         return (
-          plan === currentPlan
-          ? <Tab key={idx} plan={plan} currentPlan={currentPlan} setCurrentPlan={setCurrentPlan} plans={plans} setPlans={setPlans} current={true} />
-          : <Tab key={idx} plan={plan} currentPlan={currentPlan} setCurrentPlan={setCurrentPlan} plans={plans} setPlans={setPlans} />
+          <Tab key={idx} plan={plan} current={plan === currentPlan ? true : false} />
         );
       })}
       

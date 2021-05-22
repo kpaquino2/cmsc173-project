@@ -1,8 +1,5 @@
 .sidebar {
-  position: fixed;
-  height: 100%;
   width: 20%;
-
   border-right: 1px lightgray solid;
   
   display: flex;
@@ -54,27 +51,25 @@
 }
 
 .subjects-list {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
   padding: 0rem 1rem 1rem 1rem;
+  scrollbar-width: thin;
 }
 
 .subjects {
-  flex-grow: 1;
-  overflow-y: auto;
   margin-left: -1rem;
   margin-right: -1rem;
   margin-bottom: -1rem;
   padding: 1rem;
-
-  scrollbar-width: thin;
 }
 
 .options {
   display: flex;
   flex-direction: column;
   justify-items: stretch;
+  flex-shrink: 0;
 }
 
 .switch-group {
