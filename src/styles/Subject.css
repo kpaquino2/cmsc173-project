@@ -12,4 +12,38 @@
   margin-bottom: 0.3rem;
 }
 
+.add-lab-container{
+  margin-top: 0.5rem;
+}
+
+.add-lab-button{
+  border-radius: 0.3rem;
+  padding: 0.6rem;
+  outline: none;
+  border: none;
+}
+
+.add-lab-button:hover{
+  background-color: rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+}
+
+.all-lab-sect-container{
+  margin-top: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+}
+
+.lab-section-container{
+  border-bottom: rgba(0, 0, 0, 0.2) solid;
+  border-width: 1px;
+  padding: 1rem;
+}
+
+.lab-section-container:hover{
+  background-color: rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+
+}
+
 

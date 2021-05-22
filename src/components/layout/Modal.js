@@ -4,6 +4,7 @@ import { Fragment } from 'react'
 import { useAtom } from "jotai";
 import { isOpenAtom, isDayEnabledAtom, formInputsAtom } from "../atom/modal"
 import { subjectsAtom } from "../atom/subjects";
+
 import "../../styles/Modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
