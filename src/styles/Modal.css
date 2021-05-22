@@ -6,6 +6,7 @@
   left: 0;
   z-index: 10;
   overflow-y: auto;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .fragment {
@@ -55,7 +56,7 @@
 }
 
 .close-button:hover {
-  background-color: #D1D5DB;;
+  background-color: #D1D5DB;
 }
 
 .close-icon {
@@ -76,19 +77,20 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 1px;
 }
 
 .input-div {
-  margin-top: 0.3rem;
-  margin-bottom: 0.3rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .switch-set {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-.switch {
+
+.switch-button {
   margin-right: 0.5rem;
 }
 
@@ -122,4 +124,30 @@
   line-height: 0;
   padding: 0;
   margin: 0;
+}
+
+.enabled:hover, .disabled:hover {
+  cursor: pointer;
+}
+
+.add-button {
+  color: #04B2D9;
+  font-size: 1rem;
+  font-weight: bold;
+  border: unset;
+  border: 1px lightgray solid;
+  border-radius: 10px;
+  padding: 0.2rem 1rem;
+  background: white;
+  float: right;
+}
+
+.add-button:hover {
+  cursor: pointer;
+  background: lightgray;
+
+}
+
+.add-button:active {
+  background: darkgray;
 }
