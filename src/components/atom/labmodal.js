@@ -14,8 +14,7 @@ export const isDayEnabledAtom = atom({
 });
 
 export const formInputsAtom = atom({
-  subject: "",
   section: "",
-  startTime: null,
-  endTime: null
+  startTime: "",
+  endTime: ""
 });

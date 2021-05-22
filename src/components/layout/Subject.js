@@ -1,10 +1,16 @@
 import React from 'react';
 import '../../styles/Subject.css'
+import { useAtom } from "jotai";
+import { isOpenAtom } from "../atom/labmodal"
+import { LabModal } from "./LabModal";
 
 const Subject = ({courseName, courseSection, startTime, endTime, daysOccur}) => {
+  const [, setIsOpen] = useAtom(isOpenAtom);
+
   return (
     <>
       <div className="subject-container" >
+        <LabModal />
         <div className="subject-text"> 
           <h2>{courseName}</h2>
         </div>
@@ -23,6 +29,13 @@ const Subject = ({courseName, courseSection, startTime, endTime, daysOccur}) => 
             { daysOccur && Object.keys(daysOccur).filter((day) => { return daysOccur[day] }).join(", ") }
           </span>
         </div>
+        <button
+          onClick={() => {
+            setIsOpen(true);
+          }}
+        >
+          + Add a Lab
+        </button>
       </div>
     </>
   );

@@ -12,7 +12,7 @@ import "../../styles/Sidebar.css";
 import Subject from "./Subject";
 
 const Sidebar = () => {
-  const [setIsOpen] = useAtom(isOpenAtom);
+  const [, setIsOpen] = useAtom(isOpenAtom);
   const [enabled, setEnabled] = useAtom(allowConflictAtom);
   const [subjects] = useAtom(subjectsAtom);
 
