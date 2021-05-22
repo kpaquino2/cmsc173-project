@@ -16,8 +16,8 @@ const Tab = ({ current, plan, currentPlan, setCurrentPlan, plans, setPlans }) =>
         e.stopPropagation();
         if (plans.length === 1) return;
         var newPlans = plans.filter((cplan) => { return cplan.number !== plan.number })
-        if (plan === currentPlan) setCurrentPlan(plans[plans.length-1]);
         setPlans(newPlans);
+        if (plan === currentPlan) setCurrentPlan(plans[(plans.indexOf(plan)+1)%plans.length]);
       }}>
         <FontAwesomeIcon icon={faTimes} size="sm" />
       </div>
