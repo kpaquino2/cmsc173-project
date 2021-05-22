@@ -2,18 +2,15 @@ import React from "react";
 import { Dialog, Transition, Switch } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAtom } from "jotai";
-import { isOpenAtom, isDayEnabledAtom, formInputsAtom } from "../atom/modal"
-import { subjectsAtom } from "../atom/subjects";
-
+import { isOpenAtom, isDayEnabledAtom, formInputsAtom } from "../atom/labmodal"
 import "../../styles/Modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-export const Modal = () => {
+export const LabModal = () => {
 	const [isOpen, setIsOpen] = useAtom(isOpenAtom);
 	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
 	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
-  const [subjects, setSubjects] = useAtom(subjectsAtom);
 
   const resetDays = () => {
     setIsDayEnabled({
@@ -33,13 +30,6 @@ export const Modal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubjects([...subjects, {
-      name: formInputs.subject,
-      section: formInputs.section,
-      startTime: formInputs.startTime,
-      endTime: formInputs.endTime,
-      daysOccur: isDayEnabled
-    }]);
     setFormInputs((prev) => ({
       ...prev, startTime: e.target.value
     }));
@@ -67,7 +57,7 @@ export const Modal = () => {
               as="div"
               className="modal-title"
             >
-              Add a Subject
+              Add a Lab
               <button 
                 className="close-button"
                 onClick={closeModal}
@@ -85,28 +75,7 @@ export const Modal = () => {
 
               <form onSubmit={handleSubmit}>
                 
-                <div className="grid">
-                  {/* SUBJECT INPUT */}
-                  <div className="input-div">
-                    <label
-                      htmlFor="subject"
-                      className="label"
-                    >
-                      Subject:
-                    </label>
-                    <input 
-                      type="text"
-                      id="subject"
-                      className="input"
-                      onChange={(e) => {
-                        setFormInputs((prev) => ({
-                          ...prev, subject: e.target.value
-                        }));
-                      }}
-                      required
-                    />
-                  </div>
-
+                <div>
                   {/* SUBJECT INPUT */}
                   <div className="input-div">
                     <label
@@ -286,4 +255,4 @@ export const Modal = () => {
   );
 };
 
-export default Modal;
+export default LabModal;

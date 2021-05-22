@@ -2,19 +2,20 @@ import React from "react";
 import { useAtom } from "jotai";
 import allowConflictAtom from "../../atoms/allowConflictAtom";
 import { isOpenAtom } from "../atom/modal"
-
+import { subjectsAtom } from "../atom/subjects";
 import { Switch } from "@headlessui/react";
 import { faClock, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Modal } from "./Modal";
 import "../../styles/Sidebar.css";
+import Subject from "./Subject";
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useAtom(isOpenAtom);
+  const [, setIsOpen] = useAtom(isOpenAtom);
   const [enabled, setEnabled] = useAtom(allowConflictAtom);
+  const [subjects] = useAtom(subjectsAtom);
 
-  console.log(isOpen);
   return (
     <div className="sidebar">
       <Modal />
@@ -32,7 +33,11 @@ const Sidebar = () => {
           Add a Subject
         </button>
         <div className="subjects">
-          TODO, MAP ALL SUBJECT CARDS INSIDE THIS DIV
+          {subjects.map((subject, idx) => {
+            return (
+              <Subject key={idx} courseName={subject.name} courseSection={subject.section} startTime={subject.startTime} endTime={subject.endTime} daysOccur={subject.daysOccur} />
+            );
+          })}
         </div>
       </div>
       <div className="sidebar-item options">
