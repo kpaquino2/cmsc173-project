@@ -7,7 +7,7 @@ import "../../styles/Modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-export const LabModal = () => {
+export const LabModal = ({ labSections, setLabSections }) => {
 	const [isOpen, setIsOpen] = useAtom(isOpenAtom);
 	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
 	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
@@ -33,10 +33,19 @@ export const LabModal = () => {
     setFormInputs((prev) => ({
       ...prev, startTime: e.target.value
     }));
+    setLabSections([
+      ...labSections,
+      {
+        labSec: formInputs.section,
+        labStartTime: formInputs.startTime,
+        labEndTime: formInputs.endTime,
+        labDaysOccur: isDayEnabled
+      }
+    ])
     setIsOpen(false);
     resetDays();
   }
-
+  
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog

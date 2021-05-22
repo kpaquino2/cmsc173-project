@@ -1,38 +1,35 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useState } from 'react';
 import '../../styles/Subject.css'
 import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal"
 import { LabModal } from "./LabModal";
 
-const Subject = ({courseName, courseSection, startTime, endTime, daysOccur, bgColor}) => {
-  const labSections = [
-    {labSec: "ST1L", labStartTime: "7:00", labEndTime: "10:00", day:"M"},
-    {labSec: "ST2L", labStartTime: "10:00", labEndTime: "1:00", day:"M"}
-  ];
+const Subject = ({subject, bgColor}) => {
   const [, setIsOpen] = useAtom(isOpenAtom);
+  const [labSections, setLabSections] = useState(subject.labSections);
 
   return (
     <>
       <div className="subject-container" style={{backgroundColor: {bgColor}}}>
-        <LabModal />
+        <LabModal labSections={labSections} setLabSections={setLabSections} />
         <div className="subject-text"> 
-          <h2>{courseName}</h2>
+          <h2>{subject.name}</h2>
         </div>
         <div className="section-text">
           <strong className="section-label">Section:</strong>
-          <span>{` ${courseSection}`}</span>
+          <span>{` ${subject.section}`}</span>
         </div>
         <div className="time-text">
           <strong className="time-label">Time:</strong>
-          <span>{` ${startTime}-${endTime} `}</span>
+          <span>{` ${subject.startTime}-${subject.endTime} `}</span>
           
         </div>
         <div className="time-text">
-          <strong className="time-label">Days: </strong>
+          <strong className="time-label">Day/s: </strong>
           <span>
-            { daysOccur && Object.keys(daysOccur).filter((day) => { return daysOccur[day] }).join(", ") }
+            { subject.daysOccur && Object.keys(subject.daysOccur).filter((day) => { return subject.daysOccur[day] }).join(", ") }
           </span>
         </div>
         <div className="add-lab-container">
@@ -45,8 +42,8 @@ const Subject = ({courseName, courseSection, startTime, endTime, daysOccur, bgCo
         </div>
         <div className="all-lab-sect-container">
           {
-            labSections && labSections.map((labSection) => (
-              <div key={`${courseName}-${labSection}`} className="lab-section-container">
+            labSections && labSections.map((labSection, idx) => (
+              <div key={idx} className="lab-section-container">
                 <div className="lab-section-text">
                   <span>Lab Section:</span> 
                   <span>{` ${labSection.labSec}`}</span>
@@ -56,8 +53,10 @@ const Subject = ({courseName, courseSection, startTime, endTime, daysOccur, bgCo
                   <span>{` ${labSection.labStartTime}-${labSection.labEndTime}`}</span>
                 </div>
                 <div className="lab-day-text">
-                  <span>Day:</span> 
-                  <span>{` ${labSection.day}`}</span>
+                  <span>Day/s: </span> 
+                  <span>
+                    { labSection.labDaysOccur && Object.keys(labSection.labDaysOccur).filter((day) => { return labSection.labDaysOccur[day] }).join(", ") }
+                  </span>
                 </div>
               </div>
             ))

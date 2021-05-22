@@ -38,7 +38,8 @@ export const Modal = () => {
       section: formInputs.section,
       startTime: formInputs.startTime,
       endTime: formInputs.endTime,
-      daysOccur: isDayEnabled
+      daysOccur: isDayEnabled,
+      labSections: []
     }]);
     setFormInputs((prev) => ({
       ...prev, startTime: e.target.value
