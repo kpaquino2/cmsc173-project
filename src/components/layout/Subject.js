@@ -11,6 +11,7 @@ const Subject = ({courseName, courseSection, startTime, endTime, daysOccur, bgCo
     {labSec: "ST1L", labStartTime: "7:00", labEndTime: "10:00", day:"M"},
     {labSec: "ST2L", labStartTime: "10:00", labEndTime: "1:00", day:"M"}
   ];
+  const [, setIsOpen] = useAtom(isOpenAtom);
 
   return (
     <>
