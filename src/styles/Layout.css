@@ -7,7 +7,7 @@
   left: 20%;
   bottom: 0;
   width: 100%;
-  background-color: #90cbfb;
+  background-color: #33c3e0;
   height: 5%;
   overflow: scroll;
 }
@@ -17,9 +17,12 @@
   height: 100%;
   width: 100px;
   float: left; 
-  transition: 0.3s;
+  transition: 100ms;
   display: flex;
-  justify-content: center;
+
+  padding: 0 0.5rem 0 0.5rem;
+
+  justify-content: space-between;
   align-items: center;
   border-right-style: solid;
   border-right-width: 1px;
@@ -28,7 +31,8 @@
 }
 
 .tab:hover {
-  background-color: #70b1e6;
+  cursor: pointer;
+  background-color: #92dfee;
 }
 
 .time-column {
@@ -58,10 +62,14 @@
   justify-content: center;
   align-items: center;
   height: 3.8%;
+  
+  font-weight: bold;
+
   background-color: #ededed;
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #d9d9d9;
+
 }
 
 .time {
@@ -77,7 +85,7 @@
 
 .delete-tab {
   /* background: cyan; */
-  transition: 0.3s;
+  transition: 100ms;
   display: flex;
   align-items: center;
   text-align: center;
@@ -87,5 +95,6 @@
 }
 
 .delete-tab:hover {
+  cursor: pointer;
   background-color: #a7d6fc;  
 }
