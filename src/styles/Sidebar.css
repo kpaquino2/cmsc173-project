@@ -1,0 +1,134 @@
+.sidebar {
+  position: fixed;
+  height: 100%;
+  width: 20%;
+
+  border-right: 1px lightgray solid;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-items: stretch;
+
+  --sidebar-padding: 1rem;
+}
+
+.sidebar-item {
+  --sidebar-padding: 1rem;
+  border-bottom: lightgray 1px solid;
+  padding: var(--sidebar-padding);
+}
+
+.plus-icon {
+  margin-right: 0.5rem;
+}
+
+.add-subject-button {
+  --sidebar-padding: 1rem;
+  padding: var(--sidebar-padding);
+  margin-left: calc(-1 * var(--sidebar-padding));
+  margin-right: calc(-1 * var(--sidebar-padding));
+  margin-bottom: 1rem;
+  
+  color: #04B2D9;
+  font-size: 1rem;
+  font-weight: bold;
+  border: unset;
+  border-bottom: 1px lightgray solid;
+  background: white;
+}
+
+.add-subject-button:hover {
+  cursor: pointer;
+  background: lightgray;
+
+}
+
+.add-subject-button:active {
+  background: darkgray;
+}
+
+.title {
+  text-align: center;
+  padding: 1rem;
+}
+
+.subjects-list {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0rem 1rem 1rem 1rem;
+}
+
+.subjects {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  margin-bottom: -1rem;
+  padding: 1rem;
+
+  scrollbar-width: thin;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  justify-items: stretch;
+}
+
+.switch-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switch-label {
+  margin-right: 1rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  height: 38px;
+  width: 74px;
+  cursor: pointer;
+  padding: 0;
+
+  align-items: center;
+
+  border: transparent 2px;
+}
+
+.switch-enabled {
+  transition: background-color 100ms;
+  background: #34D399;
+}
+
+.switch-disabled {
+  transition: background-color 100ms;
+  background: #065F46;
+}
+
+.switch-indicator {
+  pointer-events: none;
+  display: inline-block;
+  height: 34px;
+  width: 34px;
+  border-radius: 9999px;
+  background: white;
+
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.switch-indicator-disabled {
+  transition: transform 100ms ease;
+  transform: translateX(0.25rem);
+}
+
+.switch-indicator-enabled {
+  transition: transform 100ms ease;
+  transform: translateX(2.25rem);
+}
