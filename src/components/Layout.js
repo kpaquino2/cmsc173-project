@@ -7,7 +7,7 @@ import "../styles/Layout.css"
 const Layout = () => {
   const [plans, setPlans] = useState([
     {
-      name: "Plan A",
+      name: "Plan 1",
       schedule: [
         {
           name: "Sunday"

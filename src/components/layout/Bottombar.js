@@ -8,7 +8,7 @@ const Bottombar = ({ plans, setPlans, currentPlan, setCurrentPlan }) => {
         className="tab"
         onClick={() => {
           setPlans([...plans, {
-            name: "Plan A",
+            name: `Plan ${plans.length+1}`,
             schedule: [
               {
                 name: "Sunday"
