@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Class.css";
-import moment from "moment";
 
 const Class = ({ classState }) => {
   const [classCell, setClassCell] = useState([]);
