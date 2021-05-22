@@ -3,6 +3,8 @@
   height: 100%;
   width: 20%;
 
+  border-right: 1px lightgray solid;
+  
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -17,6 +19,10 @@
   padding: var(--sidebar-padding);
 }
 
+.plus-icon {
+  margin-right: 0.5rem;
+}
+
 .add-subject-button {
   --sidebar-padding: 1rem;
   padding: var(--sidebar-padding);
@@ -24,6 +30,7 @@
   margin-right: calc(-1 * var(--sidebar-padding));
   margin-bottom: 1rem;
   
+  color: #04B2D9;
   font-size: 1rem;
   font-weight: bold;
   border: unset;
@@ -38,7 +45,7 @@
 }
 
 .add-subject-button:active {
-  background: dimgray;
+  background: darkgray;
 }
 
 .title {

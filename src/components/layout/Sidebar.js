@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import allowConflictAtom from "../../atoms/allowConflictAtom";
 
 import { Switch } from "@headlessui/react";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../styles/Sidebar.css";
 
@@ -15,7 +15,10 @@ const Sidebar = () => {
         <FontAwesomeIcon icon={faClock} size={"6x"} /> 
       </div>
       <div className="sidebar-item subjects-list">
-        <button className="add-subject-button">Add a Subject</button>
+        <button className="add-subject-button">
+          <FontAwesomeIcon icon={faPlus} className="plus-icon" />
+          Add a Subject
+        </button>
         <div className="subjects">
           TODO, MAP ALL SUBJECT CARDS INSIDE THIS DIV
         </div>
