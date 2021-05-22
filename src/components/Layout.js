@@ -6,10 +6,12 @@ import "../styles/Layout.css"
 
 const Layout = () => {
   return (
-    <div>
+    <div className="outside-container">
       <Sidebar />
-      <Main />
-      <Bottombar />
+      <div className="schedule-panel">
+        <Main />
+        <Bottombar />
+      </div>
     </div>
   )
 }
