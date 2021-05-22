@@ -1,0 +1,42 @@
+.class-container {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+  background: white;
+  border-radius: 15px;
+  /* top: 3.8%; */
+  margin-top: 0px;
+  margin-right: 4px;
+  margin-left: 4px;
+  margin-bottom: 0px;
+  padding: 0px 12px 0px 12px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+
+} 
+
+
+.class-container:hover {
+  background-color: beige;
+}
+
+.subject-text {
+  /* color: #FFFF; */
+  font-size: calc(1.5px + 2vmin);
+  font-weight: 600;
+}
+
+.label-text {
+  /* color: #FFFF; */
+  /* padding: 6px; */
+  font-size: calc(1px + 1vmin);
+  font-weight: 600;
+}
+.data-text {
+  /* color: #FFFF; */
+  /* padding: 6px; */
+  font-size: calc(1px + 1vmin);
+  /* font-weight: 600; */
+}

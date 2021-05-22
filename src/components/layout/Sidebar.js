@@ -20,7 +20,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <Modal />
       <div className="sidebar-item title">
-        <FontAwesomeIcon icon={faClock} size={"4x"} /> 
+        <FontAwesomeIcon icon={faClock} size={"4x"} />
       </div>
       <div className="sidebar-item subjects-list">
         <button 
@@ -42,16 +42,26 @@ const Sidebar = () => {
       </div>
       <div className="sidebar-item options">
         <Switch.Group as="div" className="switch-group">
-          <Switch.Label className="switch-label">
-            Allow conflicts
-          </Switch.Label>
-          <Switch className={`switch ${enabled ? "switch-enabled" : "switch-disabled"}`} checked={enabled} onChange={() => {setEnabled(!enabled)}}>
-            <span className={`switch-indicator ${enabled ? "switch-indicator-enabled" : "switch-indicator-disabled"}`}></span>
+          <Switch.Label className="switch-label">Allow conflicts</Switch.Label>
+          <Switch
+            className={`switch ${
+              enabled ? "switch-enabled" : "switch-disabled"
+            }`}
+            checked={enabled}
+            onChange={() => {
+              setEnabled(!enabled);
+            }}>
+            <span
+              className={`switch-indicator ${
+                enabled
+                  ? "switch-indicator-enabled"
+                  : "switch-indicator-disabled"
+              }`}></span>
           </Switch>
         </Switch.Group>
       </div>
     </div>
   );
-}
+};
 
 export default Sidebar;
