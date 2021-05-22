@@ -1,0 +1,71 @@
+.dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.fragment {
+  min-height: 100vh;
+  padding: 4px;
+  text-align: center;
+}
+
+.dialog-overlay{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.span {
+  display: inline-block;
+  height: 100vh;
+  vertical-align: middle;
+}
+
+.modal {
+  display: inline-block;
+  width: 100%;
+  max-width: 28rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  text-align: left;
+  vertical-align: middle;
+  transition-property: all;
+  background-color: white;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-radius: 1rem;
+}
+
+.dialog-title {
+  font-size: 1.125rem;
+  line-height: 1.50rem;
+  font-weight: 500;
+  color: #111827;	
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  padding: 3px 5px;
+}
+
+.close-button:hover {
+  background-color: #D1D5DB;;
+}
+
+.close-icon {
+  color: #6B7280;
+}
