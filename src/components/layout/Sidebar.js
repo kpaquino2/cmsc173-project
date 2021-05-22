@@ -12,7 +12,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="sidebar-item title">
-        <FontAwesomeIcon icon={faClock} size={"6x"} /> 
+        <FontAwesomeIcon icon={faClock} size={"4x"} /> 
       </div>
       <div className="sidebar-item subjects-list">
         <button className="add-subject-button">
