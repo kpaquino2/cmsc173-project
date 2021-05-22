@@ -1,7 +1,11 @@
 import React from "react";
+import { useAtom } from "jotai";
+import { currentPlanAtom } from "../atom/plans";
 import "../../styles/Layout.css";
 
-const Main = ({ currentPlan }) => {
+const Main = () => {
+  const [currentPlan] = useAtom(currentPlanAtom);
+
   return (
     <div className="main">
       <div className="time-column">
