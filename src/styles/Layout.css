@@ -55,6 +55,8 @@
   width: 10%;
   background-color: #ededed;
   float: left;
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
   border-right-style: solid;
   border-right-width: 1px;
@@ -87,10 +89,10 @@
 }
 
 .time {
+  flex-grow: 1;
   display: flex;
   align-items: center;
   text-align: center;
-  height: 7.5%;
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #d9d9d9;
