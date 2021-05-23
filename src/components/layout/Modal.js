@@ -2,7 +2,7 @@ import React from "react";
 import { Dialog, Transition, Switch } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAtom } from "jotai";
-import { isSubjectOpenAtom, isDayEnabledAtom, formInputsAtom, editSubjectAtom } from "../atom/modal"
+import { isSubjectOpenAtom, isDayEnabledSubjectAtom, formInputsAtom, editSubjectAtom } from "../atom/modal"
 import { subjectsAtom } from "../atom/subjects";
 
 import "../../styles/Modal.css";
@@ -11,12 +11,11 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export const Modal = () => {
 	const [isOpen, setIsOpen] = useAtom(isSubjectOpenAtom);
-	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
+	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledSubjectAtom);
 	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [edit, setEdit] = useAtom(editSubjectAtom);
 
-  console.log(edit);
   const resetDays = () => {
     setIsDayEnabled({
       Monday: false,
@@ -35,6 +34,8 @@ export const Modal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // editing subject
     if (edit !== -1){
       const newSubject = subjects[edit];
       newSubject.name = formInputs.subject;
@@ -42,6 +43,8 @@ export const Modal = () => {
       newSubject.startTime = formInputs.startTime;
       newSubject.endTime = formInputs.endTime;
       newSubject.daysOccur = isDayEnabled;
+
+    // adding subject
     } else {
       setSubjects([...subjects, {
         name: formInputs.subject,

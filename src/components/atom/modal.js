@@ -7,7 +7,7 @@ export const isSubjectOpenAtom = atom(false);
 export const editSubjectAtom = atom(-1);
 
 // flags for enabling day
-export const isDayEnabledAtom = atom({
+export const isDayEnabledSubjectAtom = atom({
   Monday: false,
   Tuesday: false,
   Wednesday: false,

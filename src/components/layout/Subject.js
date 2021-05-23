@@ -1,25 +1,29 @@
-import { faPlus, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+
 import '../../styles/Subject.css'
+
 import { useAtom } from "jotai";
-import { isLabAtom, editLabAtom } from "../atom/labmodal"
 import { subjectsAtom } from "../atom/subjects";
-import { isSubjectOpenAtom, editSubjectAtom, isDayEnabledAtom } from "../atom/modal";
-import { EditLabModal } from "./EditLabModal";
-import { editLabIsOpenAtom } from "../atom/editlabmodal";
 import { currentPlanAtom } from '../atom/plans';
+import { isSubjectOpenAtom, editSubjectAtom, isDayEnabledSubjectAtom } from "../atom/modal";
+import { isLabOpenAtom, editLabAtom, isDayEnabledLabAtom } from "../atom/labmodal"
 
 const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
-  const [, setIsOpen] = useAtom(isLabAtom);
-  const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
-  const [, setEditLabIsOpen] = useAtom(editLabIsOpenAtom);
-  const [, setSubjectEdit] = useAtom(editSubjectAtom);
-  const [, setLabEdit] = useAtom(editLabAtom);
-	const [, setIsDayEnabled] = useAtom(isDayEnabledAtom);
-  const [labSections, setLabSections] = useState(subject.labSections);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
+  
+  const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
+  const [, setSubjectEdit] = useAtom(editSubjectAtom);
+  
+  const [, setIsLabOpen] = useAtom(isLabOpenAtom);
+  const [, setLabEdit] = useAtom(editLabAtom);
+	
+  const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
+  const [, setIsDayEnabledLab] = useAtom(isDayEnabledLabAtom);
+
+  const [labSections, setLabSections] = useState(subject.labSections);
 
   const addSubjectToSchedule = (lab) => {
     var newClass = {
@@ -79,9 +83,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
             className="edit-icon"
             onClick={() => {
               setIsSubjectOpen(true);
-              console.log(index);
               setSubjectEdit(index);
-              setIsDayEnabled({
+              setIsDayEnabledSubject({
                 Monday: subjects[index].daysOccur.Monday,
                 Tuesday: subjects[index].daysOccur.Tuesday,
                 Wednesday: subjects[index].daysOccur.Wednesday,
@@ -118,8 +121,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
             className="add-lab-button" 
             onClick={(e) => {
               e.stopPropagation();
-              setIsOpen(true); 
-              setLabEdit(index);
+              setIsLabOpen(true); 
+              setLabEdit([0, index, 0]);
             }} 
             disabled={!isConflicting}
           >
@@ -131,12 +134,32 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
           {
             labSections && labSections.map((labSection, idx) => (
               <div key={idx} className="lab-section-container" onClick={() => addSubjectToSchedule(labSection)}>
-                <EditLabModal labSection={labSections[idx]}/>
                 <div className="lab-section-text">
                   <span>Lab Section:</span> 
                   <span>{` ${labSection.labSec}`}</span>
-                  <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={() => {setEditLabIsOpen(true)}}/>
-                  <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={() => {deleteLab(idx)}} />
+                  <FontAwesomeIcon 
+                    icon={faEdit}
+                    className="edit-icon"
+                    onClick={() => {
+                      setIsLabOpen(true); 
+                      setLabEdit([1, index, idx]);
+                      setIsDayEnabledLab({
+                        Monday: labSection.labDaysOccur.Monday,
+                        Tuesday: labSection.labDaysOccur.Tuesday,
+                        Wednesday: labSection.labDaysOccur.Wednesday,
+                        Thursday: labSection.labDaysOccur.Thursday,
+                        Friday: labSection.labDaysOccur.Friday,
+                        Saturday: labSection.labDaysOccur.Saturday,
+                      });
+                    }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrashAlt}
+                    className="delete-icon"
+                    onClick={() => {
+                      deleteLab(idx);
+                    }}
+                  />
                 </div>
                 <div className="lab-time-text">
                   <span>Time:</span> 
