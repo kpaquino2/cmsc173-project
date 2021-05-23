@@ -27,7 +27,7 @@ const Subject = ({subject, bgColor, isConflicting}) => {
       }
     });
 
-    if (typeof lab !== undefined) {
+    if (lab) {
       var newLabClass = {
         subject: subject.name,
         section: subject.section + "-" + lab.labSec,
