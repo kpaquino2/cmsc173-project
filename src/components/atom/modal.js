@@ -1,7 +1,10 @@
 import { atom } from "jotai";
 
 // flag for modal to open
-export const isOpenAtom = atom(false);
+export const isSubjectOpenAtom = atom(false);
+
+// flag for modal type
+export const editAtom = atom(-1);
 
 // flags for enabling day
 export const isDayEnabledAtom = atom({
@@ -16,6 +19,6 @@ export const isDayEnabledAtom = atom({
 export const formInputsAtom = atom({
   subject: "",
   section: "",
-  startTime: null,
-  endTime: null
+  startTime: "",
+  endTime: ""
 });

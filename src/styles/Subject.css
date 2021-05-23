@@ -103,9 +103,12 @@
   border-width: 0;
 }
 
-.subject-text h2{
+.subject-text, h2{
   margin: 0;
   padding: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 .add-lab-container{
@@ -147,4 +150,23 @@
 
 }
 
+.edit-icon{
+  display: inline;
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
 
+.delete-icon{
+  display: inline;
+  transition: font-size 0.1s ease;
+}
+
+.edit-icon:hover{
+  color: rgb(192, 186, 186);
+  cursor: pointer;
+}
+
+.delete-icon:hover{
+  color: rgb(192, 186, 186);
+  cursor: pointer;
+}

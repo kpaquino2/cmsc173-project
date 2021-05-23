@@ -2,7 +2,7 @@ import React from "react";
 import { Dialog, Transition, Switch } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAtom } from "jotai";
-import { isOpenAtom, isDayEnabledAtom, formInputsAtom } from "../atom/modal"
+import { isSubjectOpenAtom, isDayEnabledAtom, formInputsAtom, editAtom } from "../atom/modal"
 import { subjectsAtom } from "../atom/subjects";
 
 import "../../styles/Modal.css";
@@ -10,10 +10,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export const Modal = () => {
-	const [isOpen, setIsOpen] = useAtom(isOpenAtom);
+	const [isOpen, setIsOpen] = useAtom(isSubjectOpenAtom);
 	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
 	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects, setSubjects] = useAtom(subjectsAtom);
+  const [edit, setEdit] = useAtom(editAtom);
 
   const resetDays = () => {
     setIsDayEnabled({
@@ -33,18 +34,25 @@ export const Modal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubjects([...subjects, {
-      name: formInputs.subject,
-      section: formInputs.section,
-      startTime: formInputs.startTime,
-      endTime: formInputs.endTime,
-      daysOccur: isDayEnabled,
-      labSections: []
-    }]);
-    setFormInputs((prev) => ({
-      ...prev, startTime: e.target.value
-    }));
+    if (edit !== -1){
+      const newSubject = subjects[edit];
+      newSubject.name = formInputs.subject;
+      newSubject.section = formInputs.section;
+      newSubject.startTime = formInputs.startTime;
+      newSubject.endTime = formInputs.endTime;
+      newSubject.daysOccur = isDayEnabled;
+    } else {
+      setSubjects([...subjects, {
+        name: formInputs.subject,
+        section: formInputs.section,
+        startTime: formInputs.startTime,
+        endTime: formInputs.endTime,
+        daysOccur: isDayEnabled,
+        labSections: []
+      }]);
+    }
     setIsOpen(false);
+    setEdit(-1);
     resetDays();
   }
 
@@ -68,7 +76,7 @@ export const Modal = () => {
               as="div"
               className="modal-title"
             >
-              Add a Subject
+              {edit === -1 ? "Add a Subject" : "Edit Subject"}
               <button 
                 className="close-button"
                 onClick={closeModal}
@@ -99,6 +107,7 @@ export const Modal = () => {
                       type="text"
                       id="subject"
                       className="input"
+                      defaultValue={edit !== -1 ? subjects[edit].name : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev, subject: e.target.value
@@ -120,6 +129,7 @@ export const Modal = () => {
                       type="text"
                       id="section"
                       className="input"
+                      defaultValue={edit !== -1 ? subjects[edit].section : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev, section: e.target.value
@@ -143,6 +153,7 @@ export const Modal = () => {
                       type="time"
                       id="start_time"
                       className="input"
+                      defaultValue={edit !== -1 ? subjects[edit].startTime : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev, startTime: e.target.value
@@ -164,6 +175,7 @@ export const Modal = () => {
                       type="time"
                       id="end_time"
                       className="input"
+                      defaultValue={edit !== -1 ? subjects[edit].endTime : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev, endTime: e.target.value
@@ -276,7 +288,7 @@ export const Modal = () => {
                   className="add-button"
                   type="submit"
                 >
-                  Add
+                  {edit === -1 ? "Add" : "Save"}
                 </button>
               </form>
             </div>

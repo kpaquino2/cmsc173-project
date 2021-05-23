@@ -1,21 +1,57 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import '../../styles/Subject.css'
 import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal"
 import { LabModal } from "./LabModal";
+import { subjectsAtom } from "../atom/subjects";
+import { isSubjectOpenAtom, editAtom, isDayEnabledAtom } from "../atom/modal"
 
-const Subject = ({subject, bgColor, isConflicting = true}) => {
+const Subject = ({index, subject, bgColor, isConflicting = true}) => {
+  const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [, setIsOpen] = useAtom(isOpenAtom);
+  const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
+  const [, setEdit] = useAtom(editAtom);
+	const [, setIsDayEnabled] = useAtom(isDayEnabledAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
+
+  const deleteSubject = () => {
+    const newSubjects = subjects.slice();
+    newSubjects.splice(index, 1);
+    setSubjects(newSubjects);
+  }
 
   return (
     <>
-      <div className={`subject-container ${isConflicting ? "subject-container-disabled" : ""}`} style={{background: bgColor}}>
+      <div 
+        className={`subject-container ${!isConflicting ? "subject-container-disabled" : ""}`} 
+        style={{background: bgColor}}
+      >
         <LabModal labSections={labSections} setLabSections={setLabSections} />
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
+          <FontAwesomeIcon
+            icon={faEdit}
+            className="edit-icon"
+            onClick={() => {
+              setIsSubjectOpen(true);
+              setEdit(index);
+              setIsDayEnabled({
+                Monday: subjects[index].daysOccur.Monday,
+                Tuesday: subjects[index].daysOccur.Tuesday,
+                Wednesday: subjects[index].daysOccur.Wednesday,
+                Thursday: subjects[index].daysOccur.Thursday,
+                Friday: subjects[index].daysOccur.Friday,
+                Saturday: subjects[index].daysOccur.Saturday,
+              });
+            }}
+          />
+          <FontAwesomeIcon
+            icon={faTrashAlt}
+            className="delete-icon"
+            onClick={deleteSubject}
+          />
         </div>
         <div className="subject-details">
           <div className="section-text">
@@ -34,9 +70,13 @@ const Subject = ({subject, bgColor, isConflicting = true}) => {
           </div>
         </div>
         <div className="add-lab-container">
-          <button className="add-lab-button" onClick={() => {
-            setIsOpen(true); 
-          }} disabled={isConflicting}>
+          <button 
+            className="add-lab-button" 
+            onClick={() => {
+              setIsOpen(true); 
+            }} 
+            disabled={!isConflicting}
+          >
             <FontAwesomeIcon icon={faPlus} className="plus-icon" />
             Add Lab
           </button>
