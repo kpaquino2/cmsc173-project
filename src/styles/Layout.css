@@ -143,3 +143,12 @@
   cursor: pointer;
   color: #e35f45; 
 }
+
+.about-us-button {
+  border: unset;
+  background: unset;
+  height: 100%;
+  padding: 0 1rem 0 1rem;
+
+  border-left: #84bbe8 1px solid;
+}

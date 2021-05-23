@@ -6,11 +6,15 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/Layout.css";
+
+import { AboutUsModal } from "../layout/AboutUsModal"
 import { currentPlanAtom, plansAtom } from "../atom/plans";
+import { isOpenAtom } from "../atom/aboutusmodal";
 
 const Bottombar = () => {
   const [plans, setPlans] = useAtom(plansAtom);
   const [currentPlan] = useAtom(currentPlanAtom);
+  const [, setIsOpen] = useAtom(isOpenAtom);
 
   return (
     <div className="bottombar">
@@ -51,6 +55,12 @@ const Bottombar = () => {
             <Tab key={idx} plan={plan} current={plan === currentPlan ? true : false} />
           );
         })}
+      </div>
+      <div className="about-us-area">
+        <AboutUsModal />
+        <button className="about-us-button tab tab-not-current" onClick={() => setIsOpen(true)}>
+          About Us
+        </button>
       </div>
     </div>
   );
