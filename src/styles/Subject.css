@@ -13,6 +13,10 @@
   transform: scale(1);
 }
 
+.subject-container:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
 .subject-container-disabled {
   opacity: 0.5;
   filter: saturate(0.5);
