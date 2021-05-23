@@ -45,8 +45,11 @@
 }
 
 .title {
-  text-align: center;
+  text-align: left;
   padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .subjects-list {

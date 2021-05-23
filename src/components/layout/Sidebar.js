@@ -32,7 +32,12 @@ const Sidebar = () => {
     <div className="sidebar">
       <Modal />
       <div className="sidebar-item title">
-        <FontAwesomeIcon icon={faClock} size={"4x"} />
+        <div style={{marginRight: "1rem"}}>
+          <FontAwesomeIcon icon={faClock} size={"2x"} />
+        </div>
+        <h1>
+          Easy Planner
+        </h1>
       </div>
       <button 
         className="add-subject-button"
