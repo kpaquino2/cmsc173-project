@@ -3,29 +3,12 @@ import "../../styles/Class.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useAtom } from "jotai";
+import { currentPlanAtom } from "../atom/plans";
 
-const Class = ({ classState }) => {
-  const [classes, setClasses] = useState([]);
-  const [classCell, setClassCell] = useState([]);
-  const [diff, setDiff] = useState([3]);
-  const [offset, setOffSet] = useState([1]);
-  const [show, setShow] = useState(false);
-  const [view, setView] = useState(true);
-
-  // const deleteClass = () => {
-  //   const newClasses = ["a", "b"];
-  //   newClasses.splice(index, 1);
-  //   setClasses(newClasses);
-  // };
-
-  // dummy data
-  // const classState = {
-  //   subject: "CMSC 123",
-  //   section: "X-1L",
-  //   from: "11:00",
-  //   to: "13:00",
-  //   days: [""],
-  // };
+const Class = ({ classState, i }) => {
+  const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
+  const [classCell, setClassCell] = useState();
+  const [show, setShow] = useState("hidden");
 
   // calculate the number of minutes from classState.from
   // h * 60 + min
@@ -39,39 +22,51 @@ const Class = ({ classState }) => {
     parseInt(classState.to.split(":")[0]) * 60 +
     parseInt(classState.to.split(":")[1]);
 
-  // determines the vertical position of the cell
-  const offsetDiff = () => {
-    setOffSet((startMin - 420) / 60);
+  const offset = (startMin - 420) / 60;
+  const diff = (endMin - startMin) / 60;
+
+  // finds the classState in the currentPlanAtom and deletes using filter
+  const deleteClass = () => {
+    var newSched = currentPlan.schedule;
+    for (let day in newSched) {
+      if (newSched[day].classes.length !== 0) {
+        var temp = newSched[day].classes.filter((c) => {
+          return c !== classState;
+        });
+        newSched[day].classes = temp;
+      }
+    }
+    setCurrentPlan({ ...currentPlan, schedule: newSched });
   };
 
-  // determines the size of the cell
-  const timeDiff = () => {
-    setDiff((endMin - startMin) / 60);
-  };
+  // dummy data
+  // const classState = {
+  //   subject: "CMSC 123",
+  //   section: "X-1L",
+  //   from: "11:00",
+  //   to: "13:00",
+  // };
 
   useEffect(() => {
     addClass();
-    timeDiff();
-    offsetDiff();
   }, []);
 
+  console.log(diff, offset);
+
   const addClass = () => {
-    setClassCell([
-      ...classCell,
-      {
-        subject: classState.subject,
-        section: classState.section,
-        from: classState.from,
-        to: classState.to,
-      },
-    ]);
+    setClassCell({
+      subject: classState.subject,
+      section: classState.section,
+      from: classState.from,
+      to: classState.to,
+    });
   };
 
   return (
     <div
       className="class-container"
-      onMouseEnter={() => setShow(!show)}
-      onMouseLeave={() => setShow(!show)}
+      onMouseEnter={() => setShow("visible")}
+      onMouseLeave={() => setShow("hidden")}
       style={{
         height: `calc(7.5% * ${diff} )`,
         top: `calc(3.8% + ${offset} * 7.6% )`,
@@ -79,15 +74,16 @@ const Class = ({ classState }) => {
       <div className="top-section">
         <div className="subject-text">{classState.subject}</div>
         <div>
-          {show && (
-            <button className="close-button">
-              <FontAwesomeIcon
-                icon={faTimes}
-                className="close-icon"
-                size="lg"
-              />
-            </button>
-          )}
+          <button className="close-button" onClick={deleteClass}>
+            <FontAwesomeIcon
+              style={{
+                visibility: show,
+              }}
+              icon={faTimes}
+              className="close-icon"
+              size="lg"
+            />
+          </button>
         </div>
       </div>
       <div className="data-text">{classState.section}</div>
