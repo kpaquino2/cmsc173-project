@@ -147,4 +147,15 @@
 
 }
 
+.delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 20px;
+  color: white;
+}
 
+.delete-button:hover {
+  cursor: pointer;
+  color: #e35f45; 
+}

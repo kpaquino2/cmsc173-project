@@ -16,6 +16,8 @@ const Sidebar = () => {
   const [enabled, setEnabled] = useAtom(allowConflictAtom);
   const [subjects] = useAtom(subjectsAtom);
 
+  console.log(subjects);
+
   const colors = [
     "linear-gradient(90deg, hsla(197, 100%, 63%, 0.875) 0%, hsla(294, 100%, 55%, 0.875) 100%)",
     "linear-gradient(90deg, hsla(284, 100%, 53%, 0.875) 0%, hsla(77, 100%, 64%, 0.875) 100%)",
@@ -52,7 +54,7 @@ const Sidebar = () => {
         <div className="subjects">
           {subjects.map((subject, idx) => {
             return (
-              <Subject key={idx} subject={subject} bgColor={colors[idx % colors.length]} />
+              <Subject key={idx} index={idx} subject={subject} bgColor={colors[idx % colors.length]} />
             );
           })}
         </div>

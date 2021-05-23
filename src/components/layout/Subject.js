@@ -1,21 +1,35 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import '../../styles/Subject.css'
 import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal"
 import { LabModal } from "./LabModal";
+import { subjectsAtom } from "../atom/subjects";
 
-const Subject = ({subject, bgColor, isConflicting = true}) => {
+const Subject = ({index, subject, bgColor, isConflicting = true}) => {
+  const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [, setIsOpen] = useAtom(isOpenAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
 
+  const deleteSubject = () => {
+    const newSubjects = subjects.slice();
+    newSubjects.splice(index, 1);
+    setSubjects(newSubjects);
+  }
+
   return (
     <>
-      <div className={`subject-container ${isConflicting ? "subject-container-disabled" : ""}`} style={{background: bgColor}}>
+      <div className={`subject-container ${!isConflicting ? "subject-container-disabled" : ""}`} style={{background: bgColor}}>
         <LabModal labSections={labSections} setLabSections={setLabSections} />
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
+          <FontAwesomeIcon
+            icon={faTimes}
+            className="delete-button"
+            size="lg"
+            onClick={deleteSubject}
+          />
         </div>
         <div className="subject-details">
           <div className="section-text">
