@@ -1,15 +1,70 @@
 .subject-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
   margin: 0.5rem;
   padding: 1rem;
   border-radius: 1rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.0625), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   background-color: white;
+
+  transition: transform 100ms ease, box-shadow 125ms ease;
+  transform: scale(1);
+}
+
+.subject-container:hover {
+  transition: transform 100ms ease, box-shadow 125ms ease;
+  transform: scale(1.025);
+  cursor: pointer;
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.005), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+}
+/*
+.subject-container:after {
+  content: "";
+  border-radius: 1rem;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+
+  transition: opacity 50ms ease;
+  opacity: 0;
+}
+
+.subject-container:active:after {
+  transition: opacity 50ms ease;
+  opacity: 1;
+}
+*/
+.subject-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.section-text, .time-text {
+  color: gray;
+}
+
+.section-label, .time-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .subject-text h2{
   margin: 0;
   padding: 0;
-  margin-bottom: 0.3rem;
 }
 
 .add-lab-container{
@@ -18,13 +73,18 @@
 
 .add-lab-button{
   border-radius: 0.3rem;
-  padding: 0.6rem;
+  padding: 0.3rem 0.6rem 0.3rem 0.6rem;
   outline: none;
   border: none;
 }
 
 .add-lab-button:hover{
   background-color: rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+}
+
+.add-lab-button:active{
+  background-color: rgba(0, 0, 0, 0.375);
   cursor: pointer;
 }
 

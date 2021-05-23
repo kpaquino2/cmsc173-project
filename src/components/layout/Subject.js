@@ -17,20 +17,21 @@ const Subject = ({subject, bgColor}) => {
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
         </div>
-        <div className="section-text">
-          <strong className="section-label">Section:</strong>
-          <span>{` ${subject.section}`}</span>
-        </div>
-        <div className="time-text">
-          <strong className="time-label">Time:</strong>
-          <span>{` ${subject.startTime}-${subject.endTime} `}</span>
-          
-        </div>
-        <div className="time-text">
-          <strong className="time-label">Day/s: </strong>
-          <span>
-            { subject.daysOccur && Object.keys(subject.daysOccur).filter((day) => { return subject.daysOccur[day] }).join(", ") }
-          </span>
+        <div className="subject-details">
+          <div className="section-text">
+            <strong className="section-label">Section:</strong>
+            <span>{` ${subject.section}`}</span>
+          </div>
+          <div className="time-text">
+            <strong className="time-label">Time:</strong>
+            <span>{` ${subject.startTime}-${subject.endTime} `}</span>
+          </div>
+          <div className="time-text">
+            <strong className="time-label">Day/s: </strong>
+            <span>
+              { subject.daysOccur && Object.keys(subject.daysOccur).filter((day) => { return subject.daysOccur[day] }).join(", ") }
+            </span>
+          </div>
         </div>
         <div className="add-lab-container">
           <button className="add-lab-button" onClick={() => {
