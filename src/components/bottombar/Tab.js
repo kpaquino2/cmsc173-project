@@ -1,9 +1,7 @@
 import React from "react";
 import { useAtom } from "jotai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTimes
-} from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../../styles/Layout.css";
 import { currentPlanAtom, plansAtom } from "../atom/plans";
 
@@ -27,6 +25,6 @@ const Tab = ({ plan, current }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Tab;

@@ -29,8 +29,8 @@ const Main = () => {
           <div className="column-header">{day.name}</div>
 
           {day.classes.map((classState, i) => {
-              return <Class classState={classState} key={i} />;
-            })}
+            return <Class classState={classState} key={i} />;
+          })}
         </div>
       ))}
     </div>

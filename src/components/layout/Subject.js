@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import '../../styles/Subject.css'
 import { useAtom } from "jotai";
-import { isOpenAtom } from "../atom/labmodal"
+import { isOpenAtom } from "../atom/labmodal";
 import { LabModal } from "./LabModal";
 import { subjectsAtom } from "../atom/subjects";
 import { isSubjectOpenAtom, editAtom, isDayEnabledAtom } from "../atom/modal";
@@ -53,8 +53,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
     }
     
 
-    setCurrentPlan({...currentPlan, schedule: newSched});
-  }
+    setCurrentPlan({ ...currentPlan, schedule: newSched });
+  };
 
   const deleteSubject = () => {
     const newSubjects = subjects.slice();
@@ -112,7 +112,12 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
           <div className="time-text">
             <strong className="time-label">Day/s: </strong>
             <span>
-              { subject.daysOccur && Object.keys(subject.daysOccur).filter((day) => { return subject.daysOccur[day] }).join(", ") }
+              {subject.daysOccur &&
+                Object.keys(subject.daysOccur)
+                  .filter((day) => {
+                    return subject.daysOccur[day];
+                  })
+                  .join(", ")}
             </span>
           </div>
         </div>
@@ -135,28 +140,32 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
               <div key={idx} className="lab-section-container" onClick={() => addSubjectToSchedule(labSection)}>
                 <EditLabModal labSection={labSections[idx]}/>
                 <div className="lab-section-text">
-                  <span>Lab Section:</span> 
+                  <span>Lab Section:</span>
                   <span>{` ${labSection.labSec}`}</span>
                   <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={() => {setEditLabIsOpen(true)}}/>
                   <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={() => {deleteLab(idx)}} />
                 </div>
                 <div className="lab-time-text">
-                  <span>Time:</span> 
+                  <span>Time:</span>
                   <span>{` ${labSection.labStartTime}-${labSection.labEndTime}`}</span>
                 </div>
                 <div className="lab-day-text">
-                  <span>Day/s: </span> 
+                  <span>Day/s: </span>
                   <span>
-                    { labSection.labDaysOccur && Object.keys(labSection.labDaysOccur).filter((day) => { return labSection.labDaysOccur[day] }).join(", ") }
+                    {labSection.labDaysOccur &&
+                      Object.keys(labSection.labDaysOccur)
+                        .filter((day) => {
+                          return labSection.labDaysOccur[day];
+                        })
+                        .join(", ")}
                   </span>
                 </div>
               </div>
-            ))
-          }
+            ))}
         </div>
       </div>
     </>
   );
-}
+};
 
 export default Subject;
