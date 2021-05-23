@@ -35,6 +35,7 @@ const Class = ({ classState }) => {
     addClass();
     timeDiff();
     offsetDiff();
+    console.log(`${classState.color}`);
   }, []);
 
   const addClass = () => {
@@ -55,6 +56,7 @@ const Class = ({ classState }) => {
       style={{
         height: `calc(7.5% * ${diff} )`,
         top: `calc(3.8% + ${offset} * 7.6% )`,
+        background: classState.color
       }}>
       <div className="subject-text">{classState.subject}</div>
       <div className="data-text">{classState.section}</div>
