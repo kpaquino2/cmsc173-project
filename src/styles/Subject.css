@@ -13,6 +13,39 @@
   transform: scale(1);
 }
 
+.subject-container-disabled {
+  opacity: 0.5;
+  filter: saturate(0.5);
+}
+
+.subject-container-disabled:after {
+  pointer-events: none;
+  --padding-val: 1rem;
+  content: "This subject will conflict with your schedule.";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - var(--padding-val) * 2);
+  height: calc(100% - var(--padding-val) * 2); 
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-val);
+  text-align: center;
+  
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+
+  transition: opacity 150ms ease;
+  opacity: 0;
+}
+
+.subject-container-disabled:hover:after {
+  transition: opacity 150ms ease;
+  opacity: 1;
+}
+
 .subject-container:hover {
   transition: transform 100ms ease, box-shadow 125ms ease;
   transform: scale(1.025);

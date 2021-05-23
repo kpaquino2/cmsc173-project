@@ -6,13 +6,13 @@ import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal"
 import { LabModal } from "./LabModal";
 
-const Subject = ({subject, bgColor}) => {
+const Subject = ({subject, bgColor, isConflicting = true}) => {
   const [, setIsOpen] = useAtom(isOpenAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
 
   return (
     <>
-      <div className="subject-container" style={{background: bgColor}}>
+      <div className={`subject-container ${isConflicting ? "subject-container-disabled" : ""}`} style={{background: bgColor}}>
         <LabModal labSections={labSections} setLabSections={setLabSections} />
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
@@ -35,8 +35,8 @@ const Subject = ({subject, bgColor}) => {
         </div>
         <div className="add-lab-container">
           <button className="add-lab-button" onClick={() => {
-            setIsOpen(true);
-          }}>
+            setIsOpen(true); 
+          }} disabled={isConflicting}>
             <FontAwesomeIcon icon={faPlus} className="plus-icon" />
             Add Lab
           </button>
