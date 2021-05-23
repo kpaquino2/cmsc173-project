@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import "../../styles/Class.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useAtom } from "jotai";
 
-const Class = ({}) => {
+const Class = ({ classState }) => {
   const [classes, setClasses] = useState([]);
   const [classCell, setClassCell] = useState([]);
   const [diff, setDiff] = useState([3]);
@@ -18,13 +19,14 @@ const Class = ({}) => {
   // };
 
   // dummy data
-  const classState = {
-    subject: "CMSC 123",
-    section: "X-1L",
-    from: "11:00",
-    to: "13:00",
-    days: [""],
-  };
+  // const classState = {
+  //   subject: "CMSC 123",
+  //   section: "X-1L",
+  //   from: "11:00",
+  //   to: "13:00",
+  //   days: [""],
+  // };
+
   // calculate the number of minutes from classState.from
   // h * 60 + min
   const startMin =
@@ -89,6 +91,9 @@ const Class = ({}) => {
         </div>
       </div>
       <div className="data-text">{classState.section}</div>
+      <div className="data-text">
+        {classState.from} - {classState.to}
+      </div>
     </div>
   );
 };

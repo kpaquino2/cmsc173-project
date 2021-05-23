@@ -7,15 +7,6 @@ import Class from "./Class.js";
 const Main = () => {
   const [currentPlan] = useAtom(currentPlanAtom);
 
-  // dummy data
-  const classState = {
-    subject: "CMSC 123",
-    section: "X-1L",
-    from: "11:00",
-    to: "13:00",
-    days: [""],
-  };
-
   return (
     <div className="main">
       <div className="time-column">
@@ -37,11 +28,6 @@ const Main = () => {
         <div key={idx} className="column">
           <div className="column-header">{day.name}</div>
 
-          {/* {typeof day.classes !== "undefined" &&
-            day.classes.map((classes, i) => {
-              return <Class class={classes} key={i} />;
-            })} */}
-          {/* <Class class={classState} /> */}
           {day.classes.map((classState, i) => {
             return <Class classState={classState} key={i} />;
           })}
