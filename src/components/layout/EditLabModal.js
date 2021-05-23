@@ -20,7 +20,7 @@ export const EditLabModal = ({ labSection }) => {
     }));
 
     setIsDayEnabled(labSection.labDaysOccur);
-  },[labSection, isDayEnabled, setIsDayEnabled, setFormInputs])
+  },[labSection, setIsDayEnabled, setFormInputs])
 
   const closeModal = () => {
     setIsOpen(false);
