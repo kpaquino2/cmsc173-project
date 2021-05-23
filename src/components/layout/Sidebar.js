@@ -1,7 +1,7 @@
 import React from "react";
 import { useAtom } from "jotai";
 import allowConflictAtom from "../../atoms/allowConflictAtom";
-import { isOpenAtom } from "../atom/modal"
+import { isSubjectOpenAtom } from "../atom/modal"
 import { subjectsAtom } from "../atom/subjects";
 import { Switch } from "@headlessui/react";
 import { faClock, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -12,11 +12,9 @@ import "../../styles/Sidebar.css";
 import Subject from "./Subject";
 
 const Sidebar = () => {
-  const [, setIsOpen] = useAtom(isOpenAtom);
+  const [, setIsOpen] = useAtom(isSubjectOpenAtom);
   const [enabled, setEnabled] = useAtom(allowConflictAtom);
   const [subjects] = useAtom(subjectsAtom);
-
-  console.log(subjects);
 
   const colors = [
     "linear-gradient(90deg, hsla(197, 100%, 63%, 0.875) 0%, hsla(294, 100%, 55%, 0.875) 100%)",

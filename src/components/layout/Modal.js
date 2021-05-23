@@ -2,7 +2,7 @@ import React from "react";
 import { Dialog, Transition, Switch } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAtom } from "jotai";
-import { isOpenAtom, isDayEnabledAtom, formInputsAtom } from "../atom/modal"
+import { isSubjectOpenAtom, isDayEnabledAtom, formInputsAtom } from "../atom/modal"
 import { subjectsAtom } from "../atom/subjects";
 
 import "../../styles/Modal.css";
@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export const Modal = () => {
-	const [isOpen, setIsOpen] = useAtom(isOpenAtom);
+	const [isOpen, setIsOpen] = useAtom(isSubjectOpenAtom);
 	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
 	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects, setSubjects] = useAtom(subjectsAtom);

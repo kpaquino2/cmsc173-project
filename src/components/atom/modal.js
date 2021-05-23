@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 
 // flag for modal to open
-export const isOpenAtom = atom(false);
+export const isSubjectOpenAtom = atom(false);
 
 // flags for enabling day
 export const isDayEnabledAtom = atom({
