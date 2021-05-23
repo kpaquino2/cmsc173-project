@@ -64,6 +64,7 @@ const Class = ({ classState }) => {
             <FontAwesomeIcon
               style={{
                 visibility: show,
+                color: "white",
               }}
               icon={faTimes}
               className="close-icon"
