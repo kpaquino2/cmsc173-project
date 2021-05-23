@@ -25,6 +25,7 @@
 
   padding: var(--sidebar-padding);
   
+  text-align: left;
   color: #04B2D9;
   font-size: 1rem;
   font-weight: bold;
