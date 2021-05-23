@@ -1,4 +1,4 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrashAlt, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import '../../styles/Subject.css'
@@ -6,9 +6,15 @@ import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal"
 import { LabModal } from "./LabModal";
 
-const Subject = ({subject, bgColor, isConflicting = true}) => {
+const Subject = ({subject, bgColor, isConflicting = false}) => {
   const [, setIsOpen] = useAtom(isOpenAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
+
+  const deleteLab = (index) => {
+    const newLabList = labSections.slice();
+    newLabList.splice(index, 1);
+    setLabSections(newLabList);
+  }
 
   return (
     <>
@@ -48,6 +54,8 @@ const Subject = ({subject, bgColor, isConflicting = true}) => {
                 <div className="lab-section-text">
                   <span>Lab Section:</span> 
                   <span>{` ${labSection.labSec}`}</span>
+                  <FontAwesomeIcon icon={faEllipsisH} className="edit-icon" />
+                  <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={() => {deleteLab(idx)}} />
                 </div>
                 <div className="lab-time-text">
                   <span>Time:</span> 
