@@ -58,8 +58,6 @@ export const LabModal = () => {
     resetDays();
   }
 
-  console.log(subjects[edit[1]]);
-  console.log(subjects[edit[1]]?.labSections);
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog

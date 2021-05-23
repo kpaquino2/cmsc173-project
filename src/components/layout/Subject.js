@@ -23,8 +23,6 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
   const [, setIsDayEnabledLab] = useAtom(isDayEnabledLabAtom);
 
-  const [labSections, setLabSections] = useState(subject.labSections);
-
   const addSubjectToSchedule = (lab) => {
     var newClass = {
       subject: subject.name,
