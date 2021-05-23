@@ -157,27 +157,17 @@
   display: inline;
   margin-left: auto;
   margin-right: 0.5rem;
+  z-index: 30;
 }
 
 .delete-icon{
   display: inline;
   transition: font-size 0.1s ease;
+  z-index: 30;
+  margin-left: 5px;
 }
 
-.edit-icon:hover{
-  color: rgb(192, 186, 186);
-}
-
-.delete-icon:hover{
-  color: rgb(192, 186, 186);
-}
-
-.edit-icon:hover{
-  color: rgb(192, 186, 186);
-  cursor: pointer;
-}
-
-.delete-icon:hover{
-  color: rgb(192, 186, 186);
+.edit-icon:hover, .delete-icon:hover{
+  color: #374151;
   cursor: pointer;
 }
