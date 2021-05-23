@@ -45,12 +45,13 @@ const Bottombar = () => {
       >
         <FontAwesomeIcon icon={faPlus} size="xs" />
       </div>
-      {plans.map((plan, idx) => {
-        return (
-          <Tab key={idx} plan={plan} current={plan === currentPlan ? true : false} />
-        );
-      })}
-      
+      <div className="plans">
+        {plans.map((plan, idx) => {
+          return (
+            <Tab key={idx} plan={plan} current={plan === currentPlan ? true : false} />
+          );
+        })}
+      </div>
     </div>
   );
 }

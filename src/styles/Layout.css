@@ -1,5 +1,4 @@
 .outside-container {
-  max-height: 100vh;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -23,20 +22,29 @@
 }
 
 .bottombar {
-  color: #0396b3;
+  display: flex;
   height: 5%;
-  overflow: scroll;
+  flex-direction: row;
+  flex-grow: 0;
+  color: #0396b3;
   border-top: #d9d9d9 1px solid;
+}
+
+.plans {
+  overflow-y: hidden;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  flex-grow: 1;
 }
 
 .tab {
   font-weight: bold;
-  height: 100%;
-  width: 100px;
-  float: left; 
   transition: 100ms;
   display: flex;
-
+  flex-shrink: 0;
   padding: 0 0.5rem 0 0.5rem;
 
   justify-content: space-between;
@@ -45,7 +53,6 @@
   border-right-width: 1px;
   border-right-color: #84bbe8;
 
-  fontSize: 20px;
 }
 
 .tab-not-current {
