@@ -2,12 +2,12 @@
   display: flex;
   position: absolute;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   text-align: center;
   background: white;
+  width: 10.2%;
   border-radius: 15px;
-  /* top: 3.8%; */
   margin-top: 0px;
   margin-right: 4px;
   margin-left: 4px;
@@ -16,27 +16,31 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 
 } 
-
-
 .class-container:hover {
   background-color: beige;
 }
 
+.top-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .subject-text {
-  /* color: #FFFF; */
   font-size: calc(1.5px + 2vmin);
   font-weight: 600;
 }
 
-.label-text {
-  /* color: #FFFF; */
-  /* padding: 6px; */
+.close-button {
+  padding: 7px;
+  background-color: transparent;
+}
+.close-button:hover {
+  border-radius: 12px;
+  background-color: white;
+}
+
+.data-text {
   font-size: calc(1px + 1vmin);
   font-weight: 600;
-}
-.data-text {
-  /* color: #FFFF; */
-  /* padding: 6px; */
-  font-size: calc(1px + 1vmin);
-  /* font-weight: 600; */
 }

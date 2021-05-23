@@ -1,32 +1,41 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Class.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const Class = ({ classState }) => {
+// dummy data
+
+const Class = ({}) => {
   const [classCell, setClassCell] = useState([]);
   const [diff, setDiff] = useState([3]);
   const [offset, setOffSet] = useState([1]);
+  const [show, setShow] = useState(false);
 
-  // dummy data
-  // const classState = {
-  //   subject: "CMSC 123",
-  //   section: "X-1L",
-  //   from: "11:00",
-  //   to: "13:00",
-  //   days: [""],
-  // };
-
+  const classState = {
+    subject: "CMSC 123",
+    section: "X-1L",
+    from: "11:00",
+    to: "13:00",
+    days: [""],
+  };
+  // calculate the number of minutes from classState.from
+  // h * 60 + min
   const startMin =
     parseInt(classState.from.split(":")[0]) * 60 +
     parseInt(classState.from.split(":")[1]);
 
+  // calculate the number of minutes from classState.to
+  // h * 60 + min
   const endMin =
     parseInt(classState.to.split(":")[0]) * 60 +
     parseInt(classState.to.split(":")[1]);
 
+  // determines the vertical position of the cell
   const offsetDiff = () => {
     setOffSet((startMin - 420) / 60);
   };
 
+  // determines the size of the cell
   const timeDiff = () => {
     setDiff((endMin - startMin) / 60);
   };
@@ -52,11 +61,26 @@ const Class = ({ classState }) => {
   return (
     <div
       className="class-container"
+      onMouseEnter={() => setShow(!show)}
+      onMouseLeave={() => setShow(!show)}
       style={{
         height: `calc(7.5% * ${diff} )`,
         top: `calc(3.8% + ${offset} * 7.8% )`,
       }}>
-      <div className="subject-text">{classState.subject}</div>
+      <div className="top-section">
+        <div className="subject-text">{classState.subject}</div>
+        <div>
+          {show && (
+            <button className="close-button">
+              <FontAwesomeIcon
+                icon={faTimes}
+                className="close-icon"
+                size="lg"
+              />
+            </button>
+          )}
+        </div>
+      </div>
       <div className="data-text">{classState.section}</div>
     </div>
   );
