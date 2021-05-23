@@ -1,19 +1,22 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Switch } from "@headlessui/react";
+
 import { useAtom } from "jotai";
 import allowConflictAtom from "../../atoms/allowConflictAtom";
-import { isSubjectOpenAtom, editAtom } from "../atom/modal"
+import { isSubjectOpenAtom, editSubjectAtom } from "../atom/modal"
 import { subjectsAtom } from "../atom/subjects";
-import { Switch } from "@headlessui/react";
-import { faClock, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { Modal } from "./Modal";
 import "../../styles/Sidebar.css";
 import Subject from "./Subject";
 
+import { Modal } from "./Modal";
+import { LabModal } from "./LabModal";
+
 const Sidebar = () => {
   const [, setIsOpen] = useAtom(isSubjectOpenAtom);
-  const [, setEdit] = useAtom(editAtom);
+  const [, setEdit] = useAtom(editSubjectAtom);
   const [enabled, setEnabled] = useAtom(allowConflictAtom);
   const [subjects] = useAtom(subjectsAtom);
 
@@ -32,6 +35,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <Modal />
+      <LabModal />
       <div className="sidebar-item title">
         <div style={{marginRight: "1rem"}}>
           <FontAwesomeIcon icon={faClock} size={"2x"} />

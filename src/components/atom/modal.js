@@ -4,10 +4,10 @@ import { atom } from "jotai";
 export const isSubjectOpenAtom = atom(false);
 
 // flag for modal type
-export const editAtom = atom(-1);
+export const editSubjectAtom = atom(-1);
 
 // flags for enabling day
-export const isDayEnabledAtom = atom({
+export const isDayEnabledSubjectAtom = atom({
   Monday: false,
   Tuesday: false,
   Wednesday: false,

@@ -1,25 +1,27 @@
-import { faPlus, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+
 import '../../styles/Subject.css'
+
 import { useAtom } from "jotai";
-import { isOpenAtom } from "../atom/labmodal";
-import { LabModal } from "./LabModal";
 import { subjectsAtom } from "../atom/subjects";
-import { isSubjectOpenAtom, editAtom, isDayEnabledAtom } from "../atom/modal";
-import { EditLabModal } from "./EditLabModal";
-import { editLabIsOpenAtom } from "../atom/editlabmodal";
 import { currentPlanAtom } from '../atom/plans';
+import { isSubjectOpenAtom, editSubjectAtom, isDayEnabledSubjectAtom } from "../atom/modal";
+import { isLabOpenAtom, editLabAtom, isDayEnabledLabAtom } from "../atom/labmodal"
 
 const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
-  const [, setIsOpen] = useAtom(isOpenAtom);
-  const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
-  const [, setEditLabIsOpen] = useAtom(editLabIsOpenAtom);
-  const [, setEdit] = useAtom(editAtom);
-	const [, setIsDayEnabled] = useAtom(isDayEnabledAtom);
-  const [labSections, setLabSections] = useState(subject.labSections);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
+  
+  const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
+  const [, setSubjectEdit] = useAtom(editSubjectAtom);
+  
+  const [, setIsLabOpen] = useAtom(isLabOpenAtom);
+  const [, setLabEdit] = useAtom(editLabAtom);
+	
+  const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
+  const [, setIsDayEnabledLab] = useAtom(isDayEnabledLabAtom);
 
   const addSubjectToSchedule = (lab) => {
     var newClass = {
@@ -51,7 +53,6 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         }
       })
     }
-    
 
     setCurrentPlan({ ...currentPlan, schedule: newSched });
   };
@@ -62,10 +63,10 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
     setSubjects(newSubjects);
   }
 
-  const deleteLab = (index) => {
-    const newLabList = labSections.slice();
-    newLabList.splice(index, 1);
-    setLabSections(newLabList);
+  const deleteLab = (idx) => {
+    const newSubjects = subjects.slice();
+    newSubjects[index].labSections.splice(idx, 1);
+    setSubjects(newSubjects);
   }
 
   return (
@@ -73,9 +74,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
       <div 
         className={`subject-container ${!isConflicting ? "subject-container-disabled" : ""}`} 
         style={{background: bgColor}}
-        onClick={labSections.length ? null : () => addSubjectToSchedule(null)}
+        onClick={subject.labSections.length ? null : () => addSubjectToSchedule(null)}
       >
-        <LabModal labSections={labSections} setLabSections={setLabSections} />
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
           <FontAwesomeIcon
@@ -83,8 +83,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
             className="edit-icon"
             onClick={() => {
               setIsSubjectOpen(true);
-              setEdit(index);
-              setIsDayEnabled({
+              setSubjectEdit(index);
+              setIsDayEnabledSubject({
                 Monday: subjects[index].daysOccur.Monday,
                 Tuesday: subjects[index].daysOccur.Tuesday,
                 Wednesday: subjects[index].daysOccur.Wednesday,
@@ -126,7 +126,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
             className="add-lab-button" 
             onClick={(e) => {
               e.stopPropagation();
-              setIsOpen(true); 
+              setIsLabOpen(true); 
+              setLabEdit([0, index, 0]);
             }} 
             disabled={!isConflicting}
           >
@@ -136,28 +137,40 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         </div>
         <div className="all-lab-sect-container">
           {
-            labSections && labSections.map((labSection, idx) => (
+            subject.labSections && subject.labSections.map((labSection, idx) => (
               <div key={idx} className="lab-section-container" onClick={() => addSubjectToSchedule(labSection)}>
-                <EditLabModal labSection={labSections[idx]}/>
                 <div className="lab-section-text">
-                  <span>Lab Section:</span>
-                  <span>{` ${labSection.labSec}`}</span>
-                  <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={() => {setEditLabIsOpen(true)}}/>
-                  <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={() => {deleteLab(idx)}} />
+                  <span>Lab Section: {` ${labSection.labSec}`}</span> 
+                  <FontAwesomeIcon 
+                    icon={faEdit}
+                    className="edit-icon"
+                    onClick={() => {
+                      setIsLabOpen(true); 
+                      setLabEdit([1, index, idx]);
+                      setIsDayEnabledLab({
+                        Monday: labSection.labDaysOccur.Monday,
+                        Tuesday: labSection.labDaysOccur.Tuesday,
+                        Wednesday: labSection.labDaysOccur.Wednesday,
+                        Thursday: labSection.labDaysOccur.Thursday,
+                        Friday: labSection.labDaysOccur.Friday,
+                        Saturday: labSection.labDaysOccur.Saturday,
+                      });
+                    }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrashAlt}
+                    className="delete-icon"
+                    onClick={() => {
+                      deleteLab(idx);
+                    }}
+                  />
                 </div>
                 <div className="lab-time-text">
-                  <span>Time:</span>
-                  <span>{` ${labSection.labStartTime}-${labSection.labEndTime}`}</span>
+                  <span>Time: {` ${labSection.labStartTime}-${labSection.labEndTime}`}</span> 
                 </div>
                 <div className="lab-day-text">
-                  <span>Day/s: </span>
-                  <span>
-                    {labSection.labDaysOccur &&
-                      Object.keys(labSection.labDaysOccur)
-                        .filter((day) => {
-                          return labSection.labDaysOccur[day];
-                        })
-                        .join(", ")}
+                  <span>Day/s:{" "}
+                    { labSection.labDaysOccur && Object.keys(labSection.labDaysOccur).filter((day) => { return labSection.labDaysOccur[day] }).join(", ") }
                   </span>
                 </div>
               </div>
