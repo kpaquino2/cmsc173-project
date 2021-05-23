@@ -12,7 +12,7 @@ const Subject = ({subject, bgColor, isConflicting}) => {
   const [labSections, setLabSections] = useState(subject.labSections);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
 
-  const addSubjectToSchedule = () => {
+  const addSubjectToSchedule = (lab) => {
     var newClass = {
       subject: subject.name,
       section: subject.section,
@@ -27,7 +27,7 @@ const Subject = ({subject, bgColor, isConflicting}) => {
       }
     });
 
-    labSections.forEach((lab) => {
+    if (typeof lab !== undefined) {
       var newLabClass = {
         subject: subject.name,
         section: subject.section + "-" + lab.labSec,
@@ -39,14 +39,15 @@ const Subject = ({subject, bgColor, isConflicting}) => {
           newSched[i].classes = [...newSched[i].classes, newLabClass];
         }
       })
-    })
+    }
+    
 
     setCurrentPlan({...currentPlan, schedule: newSched});
   }
 
   return (
     <>
-      <div className={`subject-container ${isConflicting ? "subject-container-disabled" : ""}`} style={{background: bgColor}} onClick={labSections.length ? null : addSubjectToSchedule}>
+      <div className={`subject-container ${isConflicting ? "subject-container-disabled" : ""}`} style={{background: bgColor}} onClick={labSections.length ? null : () => addSubjectToSchedule(null)}>
         <LabModal subject={subject} labSections={labSections} setLabSections={setLabSections} />
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
@@ -79,7 +80,7 @@ const Subject = ({subject, bgColor, isConflicting}) => {
         <div className="all-lab-sect-container">
           {
             labSections && labSections.map((labSection, idx) => (
-              <div key={idx} className="lab-section-container" onClick={addSubjectToSchedule}>
+              <div key={idx} className="lab-section-container" onClick={() => addSubjectToSchedule(labSection)}>
                 <div className="lab-section-text">
                   <span>Lab Section:</span> 
                   <span>{` ${labSection.labSec}`}</span>
