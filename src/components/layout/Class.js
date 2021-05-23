@@ -3,14 +3,21 @@ import "../../styles/Class.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-// dummy data
-
 const Class = ({}) => {
+  const [classes, setClasses] = useState([]);
   const [classCell, setClassCell] = useState([]);
   const [diff, setDiff] = useState([3]);
   const [offset, setOffSet] = useState([1]);
   const [show, setShow] = useState(false);
+  const [view, setView] = useState(true);
 
+  // const deleteClass = () => {
+  //   const newClasses = ["a", "b"];
+  //   newClasses.splice(index, 1);
+  //   setClasses(newClasses);
+  // };
+
+  // dummy data
   const classState = {
     subject: "CMSC 123",
     section: "X-1L",

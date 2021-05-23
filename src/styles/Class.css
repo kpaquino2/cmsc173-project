@@ -41,6 +41,6 @@
 }
 
 .data-text {
-  font-size: calc(1px + 1vmin);
+  font-size: calc(2Spx + 1vmin);
   font-weight: 600;
 }
