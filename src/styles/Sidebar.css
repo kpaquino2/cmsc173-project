@@ -22,10 +22,8 @@
 
 .add-subject-button {
   --sidebar-padding: 1rem;
+
   padding: var(--sidebar-padding);
-  margin-left: calc(-1 * var(--sidebar-padding));
-  margin-right: calc(-1 * var(--sidebar-padding));
-  margin-bottom: 1rem;
   
   color: #04B2D9;
   font-size: 1rem;

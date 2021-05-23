@@ -22,16 +22,16 @@ const Sidebar = () => {
       <div className="sidebar-item title">
         <FontAwesomeIcon icon={faClock} size={"4x"} />
       </div>
+      <button 
+        className="add-subject-button"
+        onClick={() => {
+          setIsOpen(true);
+        }}
+      >
+        <FontAwesomeIcon icon={faPlus} className="plus-icon" />
+        Add a Subject
+      </button>
       <div className="sidebar-item subjects-list">
-        <button 
-          className="add-subject-button"
-          onClick={() => {
-            setIsOpen(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faPlus} className="plus-icon" />
-          Add a Subject
-        </button>
         <div className="subjects">
           {subjects.map((subject, idx) => {
             return (
