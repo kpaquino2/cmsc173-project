@@ -12,7 +12,7 @@ const Subject = ({subject, bgColor}) => {
 
   return (
     <>
-      <div className="subject-container" style={{backgroundColor: {bgColor}}}>
+      <div className="subject-container" style={{background: bgColor}}>
         <LabModal labSections={labSections} setLabSections={setLabSections} />
         <div className="subject-text"> 
           <h2>{subject.name}</h2>

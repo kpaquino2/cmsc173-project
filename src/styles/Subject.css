@@ -7,7 +7,7 @@
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.0625), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  background-color: white;
+  color: white;
 
   transition: transform 100ms ease, box-shadow 125ms ease;
   transform: scale(1);
@@ -16,8 +16,12 @@
 .subject-container:hover {
   transition: transform 100ms ease, box-shadow 125ms ease;
   transform: scale(1.025);
-  cursor: pointer;
+  cursor: grab;
   box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.005), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+}
+
+.subject-container:active {
+  cursor: grabbing;
 }
 /*
 .subject-container:after {
@@ -47,7 +51,7 @@
 }
 
 .section-text, .time-text {
-  color: gray;
+  color: white;
 }
 
 .section-label, .time-label {
@@ -79,12 +83,12 @@
 }
 
 .add-lab-button:hover{
-  background-color: rgba(0, 0, 0, 0.19);
+  background-color: rgba(255, 255, 255, 0.79);
   cursor: pointer;
 }
 
 .add-lab-button:active{
-  background-color: rgba(0, 0, 0, 0.375);
+  background-color: rgba(255, 255, 255, 0.625);
   cursor: pointer;
 }
 
