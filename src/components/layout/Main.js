@@ -28,9 +28,8 @@ const Main = () => {
         <div key={idx} className="column">
           <div className="column-header">{day.name}</div>
 
-          {typeof day.classes !== "undefined" &&
-            day.classes.map((classes, i) => {
-              return <Class class={classes} key={i} />;
+          {day.classes.map((classState, i) => {
+              return <Class classState={classState} key={i} />;
             })}
         </div>
       ))}
