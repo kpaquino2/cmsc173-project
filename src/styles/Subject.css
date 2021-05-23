@@ -159,7 +159,6 @@
 .delete-icon{
   display: inline;
   transition: font-size 0.1s ease;
-  font-size: 0.9rem;
 }
 
 .edit-icon:hover{

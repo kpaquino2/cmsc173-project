@@ -1,14 +1,19 @@
-import { faPlus, faTrashAlt, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import '../../styles/Subject.css'
 import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal"
 import { LabModal } from "./LabModal";
+import { EditLabModal } from "./EditLabModal"
+import { editLabIsOpenAtom } from "../atom/editlabmodal"
 
 const Subject = ({subject, bgColor, isConflicting = false}) => {
   const [, setIsOpen] = useAtom(isOpenAtom);
+  const [, setEditLabIsOpen] = useAtom(editLabIsOpenAtom);
+
   const [labSections, setLabSections] = useState(subject.labSections);
+
 
   const deleteLab = (index) => {
     const newLabList = labSections.slice();
@@ -20,6 +25,7 @@ const Subject = ({subject, bgColor, isConflicting = false}) => {
     <>
       <div className={`subject-container ${isConflicting ? "subject-container-disabled" : ""}`} style={{background: bgColor}}>
         <LabModal labSections={labSections} setLabSections={setLabSections} />
+        
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
         </div>
@@ -51,10 +57,11 @@ const Subject = ({subject, bgColor, isConflicting = false}) => {
           {
             labSections && labSections.map((labSection, idx) => (
               <div key={idx} className="lab-section-container">
+                <EditLabModal labSection={labSections[idx]}/>
                 <div className="lab-section-text">
                   <span>Lab Section:</span> 
                   <span>{` ${labSection.labSec}`}</span>
-                  <FontAwesomeIcon icon={faEllipsisH} className="edit-icon" />
+                  <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={() => {setEditLabIsOpen(true)}}/>
                   <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={() => {deleteLab(idx)}} />
                 </div>
                 <div className="lab-time-text">
