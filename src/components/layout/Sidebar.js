@@ -16,31 +16,48 @@ const Sidebar = () => {
   const [enabled, setEnabled] = useAtom(allowConflictAtom);
   const [subjects] = useAtom(subjectsAtom);
 
+  const colors = [
+    "linear-gradient(90deg, hsla(197, 100%, 63%, 0.875) 0%, hsla(294, 100%, 55%, 0.875) 100%)",
+    "linear-gradient(90deg, hsla(284, 100%, 53%, 0.875) 0%, hsla(77, 100%, 64%, 0.875) 100%)",
+    "linear-gradient(90deg, hsla(221, 45%, 73%, 0.875) 0%, hsla(220, 78%, 29%, 0.875) 100%)",
+    "linear-gradient(147deg, #FFE53BE1 0%, #FF2525E1 74%)",
+    "linear-gradient( 111.2deg,  rgba(232,5,5, 0.875) 1.7%, rgba(245,49,191, 0.875) 98.7% )",
+    "linear-gradient(90deg, hsla(217, 100%, 50%, 0.875) 0%, hsla(186, 100%, 69%, 0.875) 100%)",
+    "linear-gradient(90deg, hsla(333, 100%, 53%, 0.875) 0%, hsla(33, 94%, 57%, 0.875) 100%)",
+    "linear-gradient(225deg, #FF3CACE1 0%, #784BA0E1 50%, #2B86C5E1 100%)",
+    "linear-gradient(90deg, hsla(192, 80%, 51%, 0.875) 0%, hsla(355, 85%, 63%, 0.875) 100%)",
+  ];
+
   return (
     <div className="sidebar">
       <Modal />
       <div className="sidebar-item title">
-        <FontAwesomeIcon icon={faClock} size={"4x"} />
+        <div style={{marginRight: "1rem"}}>
+          <FontAwesomeIcon icon={faClock} size={"2x"} />
+        </div>
+        <h1>
+          Easy Planner
+        </h1>
       </div>
+      <button 
+        className="add-subject-button"
+        onClick={() => {
+          setIsOpen(true);
+        }}
+      >
+        <FontAwesomeIcon icon={faPlus} className="plus-icon" />
+        Add a Subject
+      </button>
       <div className="sidebar-item subjects-list">
-        <button 
-          className="add-subject-button"
-          onClick={() => {
-            setIsOpen(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faPlus} className="plus-icon" />
-          Add a Subject
-        </button>
         <div className="subjects">
           {subjects.map((subject, idx) => {
             return (
-              <Subject key={idx} subject={subject} />
+              <Subject key={idx} subject={subject} bgColor={colors[idx % colors.length]} />
             );
           })}
         </div>
       </div>
-      <div className="sidebar-item options">
+      <div className="sidebar-item options" style={{display: "none"}}>
         <Switch.Group as="div" className="switch-group">
           <Switch.Label className="switch-label">Allow conflicts</Switch.Label>
           <Switch

@@ -1,5 +1,4 @@
 .outside-container {
-  max-height: 100vh;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -23,19 +22,29 @@
 }
 
 .bottombar {
-  background-color: #33c3e0;
+  display: flex;
   height: 5%;
-  overflow: scroll;
+  flex-direction: row;
+  flex-grow: 0;
+  color: #0396b3;
+  border-top: #d9d9d9 1px solid;
+}
+
+.plans {
+  overflow-y: hidden;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  flex-grow: 1;
 }
 
 .tab {
   font-weight: bold;
-  height: 100%;
-  width: 100px;
-  float: left; 
   transition: 100ms;
   display: flex;
-
+  flex-shrink: 0;
   padding: 0 0.5rem 0 0.5rem;
 
   justify-content: space-between;
@@ -43,7 +52,16 @@
   border-right-style: solid;
   border-right-width: 1px;
   border-right-color: #84bbe8;
-  color: #6786a1;
+
+}
+
+.tab-not-current {
+  color: #0396b3;
+}
+
+.tab-current {
+  background: #d5f3f9;
+  color: #0396b3;
 }
 
 .tab:hover {
@@ -53,8 +71,10 @@
 
 .time-column {
   width: 10%;
-  background-color: #ededed;
+  background-color: #f9fafb;
   float: left;
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
   border-right-style: solid;
   border-right-width: 1px;
@@ -63,7 +83,7 @@
 
 .column {
   width: 15%;
-  background-color: #F5F5F5;
+  background-color: white;
   float: left;
   box-sizing: border-box;
   border-right-style: solid;
@@ -77,24 +97,34 @@
   align-items: center;
   height: 3.8%;
   
+  font-size: 0.875rem;
   font-weight: bold;
 
-  background-color: #ededed;
+  background-color: #f9fafb;
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #d9d9d9;
+  color: #6b7280;
+
+  text-transform: uppercase;
 
 }
 
 .time {
+  flex-grow: 1;
   display: flex;
   align-items: center;
   text-align: center;
-  height: 7.5%;
+  padding-left: 7.5px;
+
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.time:not(:last-child) {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #d9d9d9;
-  padding-left: 7.5px;
 }
 
 .delete-tab {
@@ -106,9 +136,19 @@
   padding: 3px 4px;
   margin-left: 5px;
   z-index:20 ;
+  color: #7a8c91;
 }
 
 .delete-tab:hover {
   cursor: pointer;
-  background-color: #a7d6fc;  
+  color: #e35f45; 
+}
+
+.about-us-button {
+  border: unset;
+  background: unset;
+  height: 100%;
+  padding: 0 1rem 0 1rem;
+
+  border-left: #84bbe8 1px solid;
 }

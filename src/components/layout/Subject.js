@@ -6,36 +6,37 @@ import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal"
 import { LabModal } from "./LabModal";
 
-const Subject = ({subject, bgColor}) => {
+const Subject = ({subject, bgColor, isConflicting = true}) => {
   const [, setIsOpen] = useAtom(isOpenAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
 
   return (
     <>
-      <div className="subject-container" style={{backgroundColor: {bgColor}}}>
+      <div className={`subject-container ${isConflicting ? "subject-container-disabled" : ""}`} style={{background: bgColor}}>
         <LabModal labSections={labSections} setLabSections={setLabSections} />
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
         </div>
-        <div className="section-text">
-          <strong className="section-label">Section:</strong>
-          <span>{` ${subject.section}`}</span>
-        </div>
-        <div className="time-text">
-          <strong className="time-label">Time:</strong>
-          <span>{` ${subject.startTime}-${subject.endTime} `}</span>
-          
-        </div>
-        <div className="time-text">
-          <strong className="time-label">Day/s: </strong>
-          <span>
-            { subject.daysOccur && Object.keys(subject.daysOccur).filter((day) => { return subject.daysOccur[day] }).join(", ") }
-          </span>
+        <div className="subject-details">
+          <div className="section-text">
+            <strong className="section-label">Section:</strong>
+            <span>{` ${subject.section}`}</span>
+          </div>
+          <div className="time-text">
+            <strong className="time-label">Time:</strong>
+            <span>{` ${subject.startTime}-${subject.endTime} `}</span>
+          </div>
+          <div className="time-text">
+            <strong className="time-label">Day/s: </strong>
+            <span>
+              { subject.daysOccur && Object.keys(subject.daysOccur).filter((day) => { return subject.daysOccur[day] }).join(", ") }
+            </span>
+          </div>
         </div>
         <div className="add-lab-container">
           <button className="add-lab-button" onClick={() => {
-            setIsOpen(true);
-          }}>
+            setIsOpen(true); 
+          }} disabled={isConflicting}>
             <FontAwesomeIcon icon={faPlus} className="plus-icon" />
             Add Lab
           </button>
