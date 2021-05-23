@@ -1,6 +1,6 @@
 import { faPlus, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/Subject.css'
 import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal"
@@ -22,6 +22,10 @@ const Subject = ({index, subject, bgColor}) => {
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
   const [isConflicting, setIsConflicting] = useState(false);
 
+  useEffect(() => {
+    checkConflicting();
+  }, [subjects, currentPlan])
+
   const checkConflicting = () => {
     var subjStart =
       parseInt(subject.startTime.split(":")[0]) * 60 +
@@ -31,21 +35,18 @@ const Subject = ({index, subject, bgColor}) => {
       parseInt(subject.endTime.split(":")[0]) * 60 +
       parseInt(subject.endTime.split(":")[1]);
 
-    // console.log(subjStart);
     Object.keys(subject.daysOccur).forEach((day, i) => {
       if (subject.daysOccur[day]) {
-        currentPlan.schedule.forEach((s_day) => {
-          s_day.classes.forEach((clas) => {
-            var classStart = 
-              parseInt(clas.from.split(":")[0]) * 60 +
-              parseInt(clas.from.split(":")[1]);
-            var classEnd = 
-              parseInt(clas.to.split(":")[0]) * 60 +
-              parseInt(clas.to.split(":")[1]);
-            if (subjStart <= classEnd && subjEnd >= classStart) {
-              setIsConflicting(true);
-            }
-          })
+        currentPlan.schedule[i].classes.forEach((clas) => {
+          var classStart = 
+            parseInt(clas.from.split(":")[0]) * 60 +
+            parseInt(clas.from.split(":")[1]);
+          var classEnd = 
+            parseInt(clas.to.split(":")[0]) * 60 +
+            parseInt(clas.to.split(":")[1]);
+          if (subjStart < classEnd && subjEnd > classStart) {
+            setIsConflicting(true);
+          }
         })
       }
     });
@@ -82,8 +83,6 @@ const Subject = ({index, subject, bgColor}) => {
     }
     
     setCurrentPlan({...currentPlan, schedule: newSched});
-
-    checkConflicting();
   }
 
   const deleteSubject = () => {
