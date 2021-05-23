@@ -63,10 +63,10 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
     setSubjects(newSubjects);
   }
 
-  const deleteLab = (index) => {
-    const newLabList = labSections.slice();
-    newLabList.splice(index, 1);
-    setLabSections(newLabList);
+  const deleteLab = (idx) => {
+    const newSubjects = subjects.slice();
+    newSubjects[index].labSections.splice(idx, 1);
+    setSubjects(newSubjects);
   }
 
   return (
@@ -74,7 +74,7 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
       <div 
         className={`subject-container ${!isConflicting ? "subject-container-disabled" : ""}`} 
         style={{background: bgColor}}
-        onClick={labSections.length ? null : () => addSubjectToSchedule(null)}
+        onClick={subject.labSections.length ? null : () => addSubjectToSchedule(null)}
       >
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
@@ -132,11 +132,10 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         </div>
         <div className="all-lab-sect-container">
           {
-            labSections && labSections.map((labSection, idx) => (
+            subject.labSections && subject.labSections.map((labSection, idx) => (
               <div key={idx} className="lab-section-container" onClick={() => addSubjectToSchedule(labSection)}>
                 <div className="lab-section-text">
-                  <span>Lab Section:</span> 
-                  <span>{` ${labSection.labSec}`}</span>
+                  <span>Lab Section: {` ${labSection.labSec}`}</span> 
                   <FontAwesomeIcon 
                     icon={faEdit}
                     className="edit-icon"
@@ -162,12 +161,10 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
                   />
                 </div>
                 <div className="lab-time-text">
-                  <span>Time:</span> 
-                  <span>{` ${labSection.labStartTime}-${labSection.labEndTime}`}</span>
+                  <span>Time: {` ${labSection.labStartTime}-${labSection.labEndTime}`}</span> 
                 </div>
                 <div className="lab-day-text">
-                  <span>Day/s: </span> 
-                  <span>
+                  <span>Day/s:{" "}
                     { labSection.labDaysOccur && Object.keys(labSection.labDaysOccur).filter((day) => { return labSection.labDaysOccur[day] }).join(", ") }
                   </span>
                 </div>
