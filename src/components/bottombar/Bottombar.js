@@ -41,7 +41,7 @@ const Bottombar = () => {
             ]
           }]);
         }}
-        style={{ width: "50px", color: "white", fontSize: "20px" }}
+        style={{width: "50px"}}
       >
         <FontAwesomeIcon icon={faPlus} size="xs" />
       </div>

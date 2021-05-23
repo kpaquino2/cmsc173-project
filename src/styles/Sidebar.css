@@ -26,12 +26,12 @@
   padding: var(--sidebar-padding);
   
   text-align: left;
-  color: #04B2D9;
   font-size: 1rem;
   font-weight: bold;
   border: unset;
   border-bottom: 1px lightgray solid;
   background: white;
+  color: #0396b3;
 }
 
 .add-subject-button:hover {

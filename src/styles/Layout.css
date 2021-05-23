@@ -23,9 +23,10 @@
 }
 
 .bottombar {
-  background-color: #33c3e0;
+  color: #0396b3;
   height: 5%;
   overflow: scroll;
+  border-top: #d9d9d9 1px solid;
 }
 
 .tab {
@@ -43,7 +44,17 @@
   border-right-style: solid;
   border-right-width: 1px;
   border-right-color: #84bbe8;
-  color: #6786a1;
+
+  fontSize: 20px;
+}
+
+.tab-not-current {
+  color: #0396b3;
+}
+
+.tab-current {
+  background: #d5f3f9;
+  color: #0396b3;
 }
 
 .tab:hover {
@@ -53,7 +64,7 @@
 
 .time-column {
   width: 10%;
-  background-color: #ededed;
+  background-color: #f9fafb;
   float: left;
   display: flex;
   flex-direction: column;
@@ -65,7 +76,7 @@
 
 .column {
   width: 15%;
-  background-color: #F5F5F5;
+  background-color: white;
   float: left;
   box-sizing: border-box;
   border-right-style: solid;
@@ -79,12 +90,16 @@
   align-items: center;
   height: 3.8%;
   
+  font-size: 0.875rem;
   font-weight: bold;
 
-  background-color: #ededed;
+  background-color: #f9fafb;
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #d9d9d9;
+  color: #6b7280;
+
+  text-transform: uppercase;
 
 }
 
@@ -93,10 +108,16 @@
   display: flex;
   align-items: center;
   text-align: center;
+  padding-left: 7.5px;
+
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.time:not(:last-child) {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #d9d9d9;
-  padding-left: 7.5px;
 }
 
 .delete-tab {
@@ -108,9 +129,10 @@
   padding: 3px 4px;
   margin-left: 5px;
   z-index:20 ;
+  color: #7a8c91;
 }
 
 .delete-tab:hover {
   cursor: pointer;
-  background-color: #a7d6fc;  
+  color: #e35f45; 
 }

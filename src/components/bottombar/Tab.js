@@ -8,12 +8,11 @@ import "../../styles/Layout.css";
 import { currentPlanAtom, plansAtom } from "../atom/plans";
 
 const Tab = ({ plan, current }) => {
-  const currentStyle = current ? { background: "#03768e", color: "white" } : {};
   const [plans, setPlans] = useAtom(plansAtom);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
 
   return(
-    <div className="tab" style={currentStyle} onClick={() => setCurrentPlan(plan)}>
+    <div className={`tab ${current ? "tab-current" : "tab-not-current"}`} onClick={() => setCurrentPlan(plan)}>
       <div>
         Plan {plan.number}
       </div>
