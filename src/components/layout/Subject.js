@@ -11,7 +11,7 @@ import { EditLabModal } from "./EditLabModal";
 import { editLabIsOpenAtom } from "../atom/editlabmodal";
 import { currentPlanAtom } from '../atom/plans';
 
-const Subject = ({index, subject, bgColor, isConflicting = true}) => {
+const Subject = ({index, subject, bgColor}) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [, setIsOpen] = useAtom(isOpenAtom);
   const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
@@ -20,6 +20,37 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
 	const [, setIsDayEnabled] = useAtom(isDayEnabledAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
+  const [isConflicting, setIsConflicting] = useState(false);
+
+  const checkConflicting = () => {
+    var subjStart =
+      parseInt(subject.startTime.split(":")[0]) * 60 +
+      parseInt(subject.startTime.split(":")[1]);
+
+    var subjEnd =  
+      parseInt(subject.endTime.split(":")[0]) * 60 +
+      parseInt(subject.endTime.split(":")[1]);
+
+    // console.log(subjStart);
+    Object.keys(subject.daysOccur).forEach((day, i) => {
+      if (subject.daysOccur[day]) {
+        currentPlan.schedule.forEach((s_day) => {
+          s_day.classes.forEach((clas) => {
+            var classStart = 
+              parseInt(clas.from.split(":")[0]) * 60 +
+              parseInt(clas.from.split(":")[1]);
+            var classEnd = 
+              parseInt(clas.to.split(":")[0]) * 60 +
+              parseInt(clas.to.split(":")[1]);
+            if (subjStart <= classEnd && subjEnd >= classStart) {
+              setIsConflicting(true);
+            }
+          })
+        })
+      }
+    });
+  }
+
 
   const addSubjectToSchedule = (lab) => {
     var newClass = {
@@ -50,8 +81,9 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
       })
     }
     
-
     setCurrentPlan({...currentPlan, schedule: newSched});
+
+    checkConflicting();
   }
 
   const deleteSubject = () => {
@@ -69,7 +101,7 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   return (
     <>
       <div 
-        className={`subject-container ${!isConflicting ? "subject-container-disabled" : ""}`} 
+        className={`subject-container ${isConflicting ? "subject-container-disabled" : ""}`} 
         style={{background: bgColor}}
         onClick={labSections.length ? null : () => addSubjectToSchedule(null)}
       >
@@ -121,7 +153,7 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
               e.stopPropagation();
               setIsOpen(true); 
             }} 
-            disabled={!isConflicting}
+            disabled={isConflicting}
           >
             <FontAwesomeIcon icon={faPlus} className="plus-icon" />
             Add Lab
