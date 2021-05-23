@@ -87,7 +87,8 @@ const Subject = ({index, subject, bgColor}) => {
     setCurrentPlan({...currentPlan, schedule: newSched});
   }
 
-  const deleteSubject = () => {
+  const deleteSubject = (e) => {
+    e.stopPropagation();
     const newSubjects = subjects.slice();
     newSubjects.splice(index, 1);
     setSubjects(newSubjects);
@@ -163,13 +164,13 @@ const Subject = ({index, subject, bgColor}) => {
         <div className="all-lab-sect-container">
           {
             labSections && labSections.map((labSection, idx) => (
-              <div key={idx} className="lab-section-container" onClick={() => addSubjectToSchedule(labSection)}>
+              <div key={idx} className="lab-section-container" onClick={(e) => {e.stopPropagation(); addSubjectToSchedule(labSection)}}>
                 <EditLabModal labSection={labSections[idx]}/>
                 <div className="lab-section-text">
                   <span>Lab Section:</span> 
                   <span>{` ${labSection.labSec}`}</span>
                   <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={() => {setEditLabIsOpen(true)}}/>
-                  <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={() => {deleteLab(idx)}} />
+                  <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={(e) => {e.stopPropagation(); deleteLab(idx)}} />
                 </div>
                 <div className="lab-time-text">
                   <span>Time:</span> 
