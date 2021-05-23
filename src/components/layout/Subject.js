@@ -26,7 +26,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
       subject: subject.name,
       section: subject.section,
       from: subject.startTime,
-      to: subject.endTime
+      to: subject.endTime,
+      color: bgColor
     }
 
     let newSched = [...currentPlan.schedule];
@@ -41,7 +42,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         subject: subject.name,
         section: subject.section + "-" + lab.labSec,
         from: lab.labStartTime,
-        to: lab.labEndTime
+        to: lab.labEndTime,
+        color: bgColor  
       }
       Object.keys(lab.labDaysOccur).forEach((day, i) => {
         if (lab.labDaysOccur[day]) {
