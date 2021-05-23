@@ -9,6 +9,7 @@ import { subjectsAtom } from "../atom/subjects";
 import { isSubjectOpenAtom, editAtom, isDayEnabledAtom } from "../atom/modal";
 import { EditLabModal } from "./EditLabModal";
 import { editLabIsOpenAtom } from "../atom/editlabmodal";
+import { currentPlanAtom } from '../atom/plans';
 
 const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
@@ -18,6 +19,40 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   const [, setEdit] = useAtom(editAtom);
 	const [, setIsDayEnabled] = useAtom(isDayEnabledAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
+  const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
+
+  const addSubjectToSchedule = (lab) => {
+    var newClass = {
+      subject: subject.name,
+      section: subject.section,
+      from: subject.startTime,
+      to: subject.endTime
+    }
+
+    let newSched = [...currentPlan.schedule];
+    Object.keys(subject.daysOccur).forEach((day, i) => {
+      if (subject.daysOccur[day]) {
+        newSched[i].classes = [...newSched[i].classes, newClass];
+      }
+    });
+
+    if (lab) {
+      var newLabClass = {
+        subject: subject.name,
+        section: subject.section + "-" + lab.labSec,
+        from: lab.labStartTime,
+        to: lab.labEndTime
+      }
+      Object.keys(lab.labDaysOccur).forEach((day, i) => {
+        if (lab.labDaysOccur[day]) {
+          newSched[i].classes = [...newSched[i].classes, newLabClass];
+        }
+      })
+    }
+    
+
+    setCurrentPlan({...currentPlan, schedule: newSched});
+  }
 
   const deleteSubject = () => {
     const newSubjects = subjects.slice();
@@ -36,9 +71,9 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
       <div 
         className={`subject-container ${!isConflicting ? "subject-container-disabled" : ""}`} 
         style={{background: bgColor}}
+        onClick={labSections.length ? null : () => addSubjectToSchedule(null)}
       >
         <LabModal labSections={labSections} setLabSections={setLabSections} />
-        
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
           <FontAwesomeIcon
@@ -82,7 +117,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         <div className="add-lab-container">
           <button 
             className="add-lab-button" 
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setIsOpen(true); 
             }} 
             disabled={!isConflicting}
@@ -94,7 +130,7 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         <div className="all-lab-sect-container">
           {
             labSections && labSections.map((labSection, idx) => (
-              <div key={idx} className="lab-section-container">
+              <div key={idx} className="lab-section-container" onClick={() => addSubjectToSchedule(labSection)}>
                 <EditLabModal labSection={labSections[idx]}/>
                 <div className="lab-section-text">
                   <span>Lab Section:</span> 

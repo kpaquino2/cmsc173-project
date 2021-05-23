@@ -85,6 +85,8 @@
   width: 15%;
   background-color: white;
   float: left;
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
   border-right-style: solid;
   border-right-width: 1px;
