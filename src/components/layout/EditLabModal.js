@@ -250,7 +250,7 @@ export const EditLabModal = ({ labSection }) => {
                   className="add-button"
                   type="submit"
                 >
-                  Add
+                  Save
                 </button>
               </form>
             </div>
