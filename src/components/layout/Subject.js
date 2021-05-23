@@ -27,6 +27,7 @@ const Subject = ({index, subject, bgColor}) => {
   }, [subjects, currentPlan])
 
   const checkConflicting = () => {
+    var conf = false;
     var subjStart =
       parseInt(subject.startTime.split(":")[0]) * 60 +
       parseInt(subject.startTime.split(":")[1]);
@@ -45,11 +46,12 @@ const Subject = ({index, subject, bgColor}) => {
             parseInt(clas.to.split(":")[0]) * 60 +
             parseInt(clas.to.split(":")[1]);
           if (subjStart < classEnd && subjEnd > classStart) {
-            setIsConflicting(true);
+            conf = true;
           }
         })
       }
     });
+    setIsConflicting(conf);
   }
 
 
