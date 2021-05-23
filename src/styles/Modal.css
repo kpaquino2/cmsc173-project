@@ -40,7 +40,7 @@
 .modal-title {
   font-size: 1.125rem;
   line-height: 1.50rem;
-  font-weight: 500;
+  font-weight: bold;
   color: #111827;	
   position: relative;
 }
@@ -94,6 +94,8 @@
   margin-right: 0.5rem;
 }
 
+.switch-button
+
 .enabled {
   display: inline;
   background-color: #059669;
@@ -124,6 +126,14 @@
   line-height: 0;
   padding: 0;
   margin: 0;
+}
+
+.disabled:hover {
+  background-color: #05966960;
+}
+
+.disabled:active {
+  background-color: #05966980;
 }
 
 .enabled:hover, .disabled:hover {
