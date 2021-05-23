@@ -19,7 +19,7 @@
 }
 
 .subject-container-disabled:after {
-  pointer-events: none;
+  cursor: not-allowed;
   --padding-val: 1rem;
   content: "This subject will conflict with your schedule.";
   position: absolute;
