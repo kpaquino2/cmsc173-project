@@ -1,16 +1,22 @@
-import React from "react";
+import { useState } from "react";
 import { Dialog, Transition, Switch } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAtom } from "jotai";
-import { isOpenAtom, isDayEnabledAtom, formInputsAtom } from "../atom/labmodal"
+import { isLabAtom, isDayEnabledAtom, formInputsAtom, editLabAtom } from "../atom/labmodal"
 import "../../styles/Modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { subjectsAtom } from "../atom/subjects";
 
-export const LabModal = ({ labSections, setLabSections }) => {
-	const [isOpen, setIsOpen] = useAtom(isOpenAtom);
+export const LabModal = () => {
+// export const LabModal = ({ labSections, setLabSections }) => {
+	const [isOpen, setIsOpen] = useAtom(isLabAtom);
 	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
 	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
+  const [edit, setEdit] = useAtom(editLabAtom);
+  const [subjects, setSubjects] = useAtom(subjectsAtom);
+
+  console.log(edit, subjects);
 
   const resetDays = () => {
     setIsDayEnabled({
@@ -30,18 +36,14 @@ export const LabModal = ({ labSections, setLabSections }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormInputs((prev) => ({
-      ...prev, startTime: e.target.value
-    }));
-    setLabSections([
-      ...labSections,
-      {
-        labSec: formInputs.section,
-        labStartTime: formInputs.startTime,
-        labEndTime: formInputs.endTime,
-        labDaysOccur: isDayEnabled
-      }
-    ])
+    const newLab = subjects[edit].labSections;
+    newLab.push({
+      labSec: formInputs.section,
+      labStartTime: formInputs.startTime,
+      labEndTime: formInputs.endTime,
+      labDaysOccur: isDayEnabled
+    })
+
     setIsOpen(false);
     resetDays();
   }

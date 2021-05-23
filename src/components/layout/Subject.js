@@ -3,20 +3,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import '../../styles/Subject.css'
 import { useAtom } from "jotai";
-import { isOpenAtom } from "../atom/labmodal"
-import { LabModal } from "./LabModal";
+import { isLabAtom, editLabAtom } from "../atom/labmodal"
 import { subjectsAtom } from "../atom/subjects";
-import { isSubjectOpenAtom, editAtom, isDayEnabledAtom } from "../atom/modal";
+import { isSubjectOpenAtom, editSubjectAtom, isDayEnabledAtom } from "../atom/modal";
 import { EditLabModal } from "./EditLabModal";
 import { editLabIsOpenAtom } from "../atom/editlabmodal";
 import { currentPlanAtom } from '../atom/plans';
 
 const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
-  const [, setIsOpen] = useAtom(isOpenAtom);
+  const [, setIsOpen] = useAtom(isLabAtom);
   const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
   const [, setEditLabIsOpen] = useAtom(editLabIsOpenAtom);
-  const [, setEdit] = useAtom(editAtom);
+  const [, setSubjectEdit] = useAtom(editSubjectAtom);
+  const [, setLabEdit] = useAtom(editLabAtom);
 	const [, setIsDayEnabled] = useAtom(isDayEnabledAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
@@ -49,7 +49,6 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         }
       })
     }
-    
 
     setCurrentPlan({...currentPlan, schedule: newSched});
   }
@@ -73,7 +72,6 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         style={{background: bgColor}}
         onClick={labSections.length ? null : () => addSubjectToSchedule(null)}
       >
-        <LabModal labSections={labSections} setLabSections={setLabSections} />
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
           <FontAwesomeIcon
@@ -81,7 +79,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
             className="edit-icon"
             onClick={() => {
               setIsSubjectOpen(true);
-              setEdit(index);
+              console.log(index);
+              setSubjectEdit(index);
               setIsDayEnabled({
                 Monday: subjects[index].daysOccur.Monday,
                 Tuesday: subjects[index].daysOccur.Tuesday,
@@ -120,6 +119,7 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
             onClick={(e) => {
               e.stopPropagation();
               setIsOpen(true); 
+              setLabEdit(index);
             }} 
             disabled={!isConflicting}
           >

@@ -2,7 +2,7 @@ import React from "react";
 import { Dialog, Transition, Switch } from '@headlessui/react'
 import { Fragment } from 'react'
 import { useAtom } from "jotai";
-import { isSubjectOpenAtom, isDayEnabledAtom, formInputsAtom, editAtom } from "../atom/modal"
+import { isSubjectOpenAtom, isDayEnabledAtom, formInputsAtom, editSubjectAtom } from "../atom/modal"
 import { subjectsAtom } from "../atom/subjects";
 
 import "../../styles/Modal.css";
@@ -14,8 +14,9 @@ export const Modal = () => {
 	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledAtom);
 	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects, setSubjects] = useAtom(subjectsAtom);
-  const [edit, setEdit] = useAtom(editAtom);
+  const [edit, setEdit] = useAtom(editSubjectAtom);
 
+  console.log(edit);
   const resetDays = () => {
     setIsDayEnabled({
       Monday: false,
