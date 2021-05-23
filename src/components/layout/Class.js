@@ -72,7 +72,7 @@ const Class = ({}) => {
       onMouseLeave={() => setShow(!show)}
       style={{
         height: `calc(7.5% * ${diff} )`,
-        top: `calc(3.8% + ${offset} * 7.8% )`,
+        top: `calc(3.8% + ${offset} * 7.6% )`,
       }}>
       <div className="top-section">
         <div className="subject-text">{classState.subject}</div>

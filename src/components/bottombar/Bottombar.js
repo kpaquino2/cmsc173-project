@@ -25,22 +25,28 @@ const Bottombar = () => {
             number: plans[plans.length-1].number+1,
             schedule: [
               {
-                name: "Monday"
+                name: "Monday",
+                classes: [],
               },
               {
-                name: "Tuesday"
+                name: "Tuesday",
+                classes: [],
               },
               {
-                name: "Wednesday"
+                name: "Wednesday",
+                classes: [],
               },
               {
-                name: "Thursday"
+                name: "Thursday",
+                classes: [],
               },
               {
-                name: "Friday"
+                name: "Friday",
+                classes: [],
               },
               {
-                name: "Saturday"
+                name: "Saturday",
+                classes: [],
               },
             ]
           }]);
@@ -52,7 +58,7 @@ const Bottombar = () => {
       <div className="plans">
         {plans.map((plan, idx) => {
           return (
-            <Tab key={idx} plan={plan} current={plan === currentPlan ? true : false} />
+            <Tab key={idx} plan={plan} current={plan.number === currentPlan.number ? true : false} />
           );
         })}
       </div>

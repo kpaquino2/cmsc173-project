@@ -41,7 +41,10 @@ const Main = () => {
             day.classes.map((classes, i) => {
               return <Class class={classes} key={i} />;
             })} */}
-          <Class class={classState} />
+          {/* <Class class={classState} /> */}
+          {day.classes.map((classState, i) => {
+            return <Class classState={classState} key={i} />;
+          })}
         </div>
       ))}
     </div>

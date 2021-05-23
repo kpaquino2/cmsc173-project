@@ -6,7 +6,7 @@ import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal";
 import { LabModal } from "./LabModal";
 
-const Subject = ({ subject, bgColor, isConflicting = false }) => {
+const Subject = ({ subject, bgColor, isConflicting = true }) => {
   const [, setIsOpen] = useAtom(isOpenAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
 

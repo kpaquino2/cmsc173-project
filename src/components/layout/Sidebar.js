@@ -52,7 +52,7 @@ const Sidebar = () => {
         <div className="subjects">
           {subjects.map((subject, idx) => {
             return (
-              <Subject key={idx} subject={subject} bgColor={colors[idx % colors.length]} />
+              <Subject key={idx} subject={subject} bgColor={colors[idx % colors.length]} isConflicting={false} />
             );
           })}
         </div>
