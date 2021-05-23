@@ -147,7 +147,10 @@
 .lab-section-container:hover{
   background-color: rgba(0, 0, 0, 0.08);
   cursor: pointer;
+}
 
+.lab-section-text{
+  display: flex;
 }
 
 .edit-icon{
@@ -159,6 +162,14 @@
 .delete-icon{
   display: inline;
   transition: font-size 0.1s ease;
+}
+
+.edit-icon:hover{
+  color: rgb(192, 186, 186);
+}
+
+.delete-icon:hover{
+  color: rgb(192, 186, 186);
 }
 
 .edit-icon:hover{

@@ -6,12 +6,15 @@ import { useAtom } from "jotai";
 import { isOpenAtom } from "../atom/labmodal"
 import { LabModal } from "./LabModal";
 import { subjectsAtom } from "../atom/subjects";
-import { isSubjectOpenAtom, editAtom, isDayEnabledAtom } from "../atom/modal"
+import { isSubjectOpenAtom, editAtom, isDayEnabledAtom } from "../atom/modal";
+import { EditLabModal } from "./EditLabModal";
+import { editLabIsOpenAtom } from "../atom/editlabmodal";
 
 const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [, setIsOpen] = useAtom(isOpenAtom);
   const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
+  const [, setEditLabIsOpen] = useAtom(editLabIsOpenAtom);
   const [, setEdit] = useAtom(editAtom);
 	const [, setIsDayEnabled] = useAtom(isDayEnabledAtom);
   const [labSections, setLabSections] = useState(subject.labSections);
@@ -22,6 +25,12 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
     setSubjects(newSubjects);
   }
 
+  const deleteLab = (index) => {
+    const newLabList = labSections.slice();
+    newLabList.splice(index, 1);
+    setLabSections(newLabList);
+  }
+
   return (
     <>
       <div 
@@ -29,6 +38,7 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         style={{background: bgColor}}
       >
         <LabModal labSections={labSections} setLabSections={setLabSections} />
+        
         <div className="subject-text"> 
           <h2>{subject.name}</h2>
           <FontAwesomeIcon
@@ -85,9 +95,12 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
           {
             labSections && labSections.map((labSection, idx) => (
               <div key={idx} className="lab-section-container">
+                <EditLabModal labSection={labSections[idx]}/>
                 <div className="lab-section-text">
                   <span>Lab Section:</span> 
                   <span>{` ${labSection.labSec}`}</span>
+                  <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={() => {setEditLabIsOpen(true)}}/>
+                  <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={() => {deleteLab(idx)}} />
                 </div>
                 <div className="lab-time-text">
                   <span>Time:</span> 
