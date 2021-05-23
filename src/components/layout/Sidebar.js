@@ -1,7 +1,7 @@
 import React from "react";
 import { useAtom } from "jotai";
 import allowConflictAtom from "../../atoms/allowConflictAtom";
-import { isSubjectOpenAtom } from "../atom/modal"
+import { isSubjectOpenAtom, editAtom } from "../atom/modal"
 import { subjectsAtom } from "../atom/subjects";
 import { Switch } from "@headlessui/react";
 import { faClock, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +13,7 @@ import Subject from "./Subject";
 
 const Sidebar = () => {
   const [, setIsOpen] = useAtom(isSubjectOpenAtom);
+  const [, setEdit] = useAtom(editAtom);
   const [enabled, setEnabled] = useAtom(allowConflictAtom);
   const [subjects] = useAtom(subjectsAtom);
 
@@ -43,6 +44,7 @@ const Sidebar = () => {
         className="add-subject-button"
         onClick={() => {
           setIsOpen(true);
+          setEdit(-1);
         }}
       >
         <FontAwesomeIcon icon={faPlus} className="plus-icon" />
