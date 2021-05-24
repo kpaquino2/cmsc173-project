@@ -10,14 +10,18 @@ import { useDroppable } from "@dnd-kit/core";
 
 const Main = () => {
   const [currentPlan] = useAtom(currentPlanAtom);
-  const [showInitialGuide, ] = useAtom(showInitialGuideAtom);
+  const [showInitialGuide] = useAtom(showInitialGuideAtom);
 
-  const {isOver, setNodeRef} = useDroppable({
-    id: "main_table"
+  const { isOver, setNodeRef } = useDroppable({
+    id: "main_table",
   });
 
   return (
-    <div className="main" ref={setNodeRef} style={{border: isOver ? "#16b92e 2px solid" : ""}}>
+    <div
+      className="main"
+      ref={setNodeRef}
+      style={{ border: isOver ? "#16b92e 2px solid" : "" }}
+    >
       <div className="time-column">
         <div className="column-header">Time</div>
         <div className="time">7:00 - 8:00</div>
@@ -42,13 +46,13 @@ const Main = () => {
           })}
         </div>
       ))}
-      {
-        showInitialGuide && 
+      {showInitialGuide && (
         <div className="initial-plan-reminder">
           You don't have classes on this Plan yet. <br />
-          Click a lecture section or lab section on your subjects list to add it to this Plan.
+          Click or drag a lecture section or lab section on your subjects list
+          to add it to this Plan.
         </div>
-      }
+      )}
     </div>
   );
 };
