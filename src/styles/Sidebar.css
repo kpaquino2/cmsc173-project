@@ -10,6 +10,12 @@
   --sidebar-padding: 1rem;
 }
 
+.initial-instructions {
+  margin: 1rem 0 1rem 0;
+  text-align: center;
+  color: #6b7280;
+}
+
 .sidebar-item {
   --sidebar-padding: 1rem;
   border-bottom: lightgray 1px solid;
@@ -36,14 +42,13 @@
 
 .add-subject-button:hover {
   cursor: pointer;
-  background: lightgray;
+  background: #a8dce5;
 
 }
 
 .add-subject-button:active {
-  background: darkgray;
+  background: #88cfdb;
 }
-
 .title {
   text-align: left;
   padding: 1rem;

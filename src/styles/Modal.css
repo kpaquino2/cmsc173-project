@@ -50,17 +50,13 @@
   top: 0;
   right: 0;
   border: none;
-  background-color: white;
+  background: none;
   cursor: pointer;
-  padding: 3px 5px;
+  color: #111827;	
 }
 
 .close-button:hover {
-  background-color: #D1D5DB;
-}
-
-.close-icon {
-  color: #6B7280;
+  color: #e35f45;
 }
 
 .modal-body {
@@ -72,17 +68,31 @@
 
 .label {
   margin-right: 0.5rem;
+  color: #6b7280;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
+  gap: 1rem;
 }
 
 .input-div {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: gray 1px solid;
+}
+
+.input:focus {
+  outline: 2px #0396b3 solid;
+  border: transparent 1px solid;
 }
 
 .switch-set {
@@ -94,7 +104,6 @@
   margin-right: 0.5rem;
 }
 
-.switch-button
 
 .enabled {
   display: inline;
@@ -104,7 +113,7 @@
   width: 2rem;
   height: 2rem;
   color: white;
-  font-weight: 600;
+  font-weight: bold;
   text-align: center;
   line-height: 0;
   padding: 0;
@@ -117,11 +126,11 @@
   border-radius: 100%;
   border-color: #059669;
   border-style: solid;
-  border-width: 1px;
+  border-width: 2px;
   width: 2rem;
   height: 2rem;
   color: #059669;
-  font-weight: 600;
+  font-weight: bold;
   text-align: center;
   line-height: 0;
   padding: 0;
@@ -146,18 +155,18 @@
   font-weight: bold;
   border: unset;
   border: 1px lightgray solid;
-  border-radius: 10px;
-  padding: 0.2rem 1rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
   background: white;
   float: right;
 }
 
 .add-button:hover {
   cursor: pointer;
-  background: lightgray;
+  background: #a8dce5;
 
 }
 
 .add-button:active {
-  background: darkgray;
+  background: #88cfdb;
 }
