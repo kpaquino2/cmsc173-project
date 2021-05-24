@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,6 +9,7 @@ import { subjectsAtom } from "../atom/subjects";
 import { currentPlanAtom } from '../atom/plans';
 import { isSubjectOpenAtom, editSubjectAtom, isDayEnabledSubjectAtom } from "../atom/modal";
 import { isLabOpenAtom, editLabAtom, isDayEnabledLabAtom } from "../atom/labmodal"
+import { showInitialGuideAtom } from "../atom/initialguides";
 
 const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
@@ -22,6 +23,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
 	
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
   const [, setIsDayEnabledLab] = useAtom(isDayEnabledLabAtom);
+
+  const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
 
   const addSubjectToSchedule = (lab) => {
     var newClass = {
@@ -53,6 +56,9 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         }
       })
     }
+
+    // Hide the user hint on the plan area.
+    setShowInitialGuide(false);
 
     setCurrentPlan({ ...currentPlan, schedule: newSched });
   };
@@ -112,6 +118,7 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
           <div className="time-text">
             <strong className="time-label">Day/s: </strong>
             <span>
+              Every {" "}
               {subject.daysOccur &&
                 Object.keys(subject.daysOccur)
                   .filter((day) => {
@@ -121,9 +128,9 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
             </span>
           </div>
         </div>
-        <div className="add-lab-container">
+        <div className="all-lab-sect-container">
           <button 
-            className="add-lab-button" 
+            className="add-lab-button lab-section-container" 
             onClick={(e) => {
               e.stopPropagation();
               setIsLabOpen(true); 
@@ -132,15 +139,13 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
             disabled={!isConflicting}
           >
             <FontAwesomeIcon icon={faPlus} className="plus-icon" />
-            Add Lab
+            Add Lab Section
           </button>
-        </div>
-        <div className="all-lab-sect-container">
           {
             subject.labSections && subject.labSections.map((labSection, idx) => (
               <div key={idx} className="lab-section-container" onClick={() => addSubjectToSchedule(labSection)}>
                 <div className="lab-section-text">
-                  <span>Lab Section: {` ${labSection.labSec}`}</span> 
+                  <strong>{`${subject.section}-${labSection.labSec}`}</strong> 
                   <FontAwesomeIcon 
                     icon={faEdit}
                     className="edit-icon"
@@ -166,10 +171,10 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
                   />
                 </div>
                 <div className="lab-time-text">
-                  <span>Time: {` ${labSection.labStartTime}-${labSection.labEndTime}`}</span> 
+                  <span>{` ${labSection.labStartTime}-${labSection.labEndTime}`}</span> 
                 </div>
                 <div className="lab-day-text">
-                  <span>Day/s:{" "}
+                  <span>Every{" "}
                     { labSection.labDaysOccur && Object.keys(labSection.labDaysOccur).filter((day) => { return labSection.labDaysOccur[day] }).join(", ") }
                   </span>
                 </div>

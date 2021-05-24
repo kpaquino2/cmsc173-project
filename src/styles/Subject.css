@@ -111,24 +111,16 @@
   overflow: hidden;
 }
 
-.add-lab-container{
-  margin-top: 0.5rem;
-}
-
 .add-lab-button{
   border-radius: 0.3rem;
-  padding: 0.3rem 0.6rem 0.3rem 0.6rem;
-  outline: none;
   border: none;
+  background: none;
+  width: 100%;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
-.add-lab-button:hover{
-  background-color: rgba(255, 255, 255, 0.79);
-  cursor: pointer;
-}
-
-.add-lab-button:active{
-  background-color: rgba(255, 255, 255, 0.625);
+.add-lab-button {
   cursor: pointer;
 }
 
@@ -136,16 +128,56 @@
   margin-top: 1rem;
   border-radius: 1rem;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
 .lab-section-container{
-  border-bottom: rgba(0, 0, 0, 0.2) solid;
-  border-width: 1px;
+  transition: background-color 150ms ease;
   padding: 1rem;
+  color: black;
 }
 
-.lab-section-container:hover{
-  background-color: rgba(0, 0, 0, 0.08);
+.lab-section-container:only-child {
+  border-radius: 1rem 1rem 1rem 1rem;
+}
+
+.lab-section-container:nth-child(1):not(:only-child) {
+  border-radius: 1rem 1rem 0 0;
+}
+
+.lab-section-container:not(:last-child){
+  border-bottom: lightgray 1px solid;
+  border-radius: 0 0 0 0;
+}
+
+.lab-section-container:last-child:not(:only-child){
+  border-radius: 0 0 1rem 1rem;
+}
+
+.lab-section-container:only-child:hover {
+  transition: background-color 150ms ease;
+  background-color: rgba(255, 255, 255, 0.875);
+  border-radius: 1rem 1rem 1rem 1rem;
+}
+
+.lab-section-container:nth-child(1):not(:only-child):hover{
+  transition: background-color 150ms ease;
+  background-color: rgba(255, 255, 255, 0.875);
+  border-radius: 1rem 1rem 0 0;
+  cursor: pointer;
+}
+
+.lab-section-container:not(:last-child):hover{
+  transition: background-color 150ms ease;
+  background-color: rgba(255, 255, 255, 0.875);
+  border-radius: 0rem 0rem 0 0;
+  cursor: pointer;
+}
+
+.lab-section-container:last-child:not(:only-child):hover{
+  transition: background-color 150ms ease;
+  background-color: rgba(255, 255, 255, 0.875);
+  border-radius: 0 0 1rem 1rem;
   cursor: pointer;
 }
 
