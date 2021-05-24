@@ -21,6 +21,30 @@
   align-items: stretch;
 }
 
+.main-drag-guide {
+  position: absolute;
+  overflow: hidden;
+  width: 80%;
+  height: 100vh;
+  top: 0;
+  left: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: bold;
+
+  transition: opacity 100ms ease;
+  opacity: 0;
+}
+
+.main-drag-guide-enabled {
+  transition: opacity 100ms ease;
+  opacity: 1;
+}
+
 .bottombar {
   display: flex;
   height: 5%;

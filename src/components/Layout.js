@@ -9,9 +9,10 @@ import { useAtom } from "jotai";
 import { subjectsAtom } from "./atom/subjects";
 import { currentPlanAtom } from "./atom/plans";
 import { showInitialGuideAtom } from "./atom/initialguides";
+import { isDraggingAtom } from "./atom/dragguide";
 
 const handleDragEnd = (event, subjects, currentPlan, setCurrentPlan, setShowInitialGuide) => {
-  if (event.active) {
+  if (event.active && event.over) {
     const {
       isConflicting,
       subject_index,
@@ -65,10 +66,18 @@ const Layout = () => {
   const [subjects, ] = useAtom(subjectsAtom);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
   const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
+  const [, setIsDragging] = useAtom(isDraggingAtom);
 
   return (
     <div className="outside-container">
-      <DndContext modifiers={{restrictToWindowEdges}} onDragEnd={(e) => handleDragEnd(e, subjects, currentPlan, setCurrentPlan, setShowInitialGuide)}>
+      <DndContext modifiers={{restrictToWindowEdges}} onDragStart={() => setIsDragging(true)} onDragCancel={() => setIsDragging(false)} onDragEnd=
+        {
+          (e) => { 
+            setIsDragging(false);
+            handleDragEnd(e, subjects, currentPlan, setCurrentPlan, setShowInitialGuide)
+          }
+        }
+      >
         <Sidebar />
         <div className="schedule-panel">
           <Main />

@@ -7,17 +7,22 @@ import Class from "./Class.js";
 
 // Drag-and-drop functionality
 import { useDroppable } from "@dnd-kit/core";
+import { isDraggingAtom } from "../atom/dragguide";
 
 const Main = () => {
   const [currentPlan] = useAtom(currentPlanAtom);
   const [showInitialGuide, ] = useAtom(showInitialGuideAtom);
+  const [isDragging, ] = useAtom(isDraggingAtom);
 
   const {isOver, setNodeRef} = useDroppable({
     id: "main_table"
   });
 
   return (
-    <div className="main" ref={setNodeRef} style={{border: isOver ? "#16b92e 2px solid" : ""}}>
+    <div className="main" ref={setNodeRef} style={{outline: isOver ? "#16b92e 2px solid" : ""}}>
+      <div className={`main-drag-guide ${isDragging && !isOver ? "main-drag-guide-enabled" : ""}`}>
+        Drag the schedule here to add it to your plan.
+      </div>
       <div className="time-column">
         <div className="column-header">Time</div>
         <div className="time">7:00 - 8:00</div>
