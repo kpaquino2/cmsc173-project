@@ -5,12 +5,19 @@ import { showInitialGuideAtom } from "../atom/initialguides";
 import "../../styles/Layout.css";
 import Class from "./Class.js";
 
+// Drag-and-drop functionality
+import { useDroppable } from "@dnd-kit/core";
+
 const Main = () => {
   const [currentPlan] = useAtom(currentPlanAtom);
   const [showInitialGuide, ] = useAtom(showInitialGuideAtom);
 
+  const {isOver, setNodeRef} = useDroppable({
+    id: "main_table"
+  });
+
   return (
-    <div className="main">
+    <div className="main" ref={setNodeRef} style={{border: isOver ? "#16b92e 2px solid" : ""}}>
       <div className="time-column">
         <div className="column-header">Time</div>
         <div className="time">7:00 - 8:00</div>

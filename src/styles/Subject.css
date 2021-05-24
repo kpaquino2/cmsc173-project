@@ -9,8 +9,8 @@
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.0625), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   color: white;
 
-  transition: transform 100ms ease, box-shadow 125ms ease;
-  transform: scale(1);
+  transition: box-shadow 125ms ease;
+  /* transform: scale(1); */
 }
 
 .subject-container:not(:last-child) {
@@ -51,14 +51,44 @@
 }
 
 .subject-container:hover {
-  transition: transform 100ms ease, box-shadow 125ms ease;
-  transform: scale(1.025);
-  cursor: grab;
+  transition: box-shadow 125ms ease;
+  
   box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.005), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
 }
 
+.subject-container:hover {
+  cursor: pointer;
+}
+
 .subject-container:active {
+  cursor: pointer;
+  outline: 2px white solid;
+}
+
+.drag-handle-indicator {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem 1rem 0 0;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-top: -1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  margin-bottom: 0.5rem;
+
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.drag-handle-indicator:hover {
+  cursor: grab;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.drag-handle-indicator:active {
   cursor: grabbing;
+  background: rgba(255, 255, 255, 0.125);
 }
 /*
 .subject-container:after {
@@ -122,6 +152,8 @@
 
 .add-lab-button {
   cursor: pointer;
+
+  justify-content: center;
 }
 
 .all-lab-sect-container{
@@ -135,6 +167,31 @@
   transition: background-color 150ms ease;
   padding: 1rem;
   color: black;
+  display: flex;
+  align-items: center;
+}
+
+.lab-grip-line {
+  margin-top: -1rem;
+  margin-left: -1rem;
+  margin-bottom: -1rem;
+  margin-right: 0.5rem;
+  padding: 0.5rem;
+  height: 100%;
+  display: grid;
+  place-items: center stretch;
+}
+
+.lab-grip-line:hover {
+  cursor: grab;
+}
+
+.lab-grip-line:active {
+  cursor: grabbing;
+}
+
+.lab-section-information {
+  flex-grow: 1;
 }
 
 .lab-section-container:only-child {
@@ -189,13 +246,13 @@
   display: inline;
   margin-left: auto;
   margin-right: 0.5rem;
-  z-index: 30;
+  z-index: 10;
 }
 
 .delete-icon{
   display: inline;
   transition: font-size 0.1s ease;
-  z-index: 30;
+  z-index: 10;
   margin-left: 5px;
 }
 
