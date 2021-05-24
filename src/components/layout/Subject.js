@@ -13,16 +13,13 @@ import "../../styles/Subject.css";
 
 import { useAtom } from "jotai";
 import { subjectsAtom } from "../atom/subjects";
-import { currentPlanAtom } from "../atom/plans";
+import { currentPlanAtom, plansAtom } from "../atom/plans";
 import {
   isSubjectOpenAtom,
   editSubjectAtom,
   isDayEnabledSubjectAtom,
 } from "../atom/modal";
-import {
-  isLabOpenAtom,
-  editLabAtom,
-} from "../atom/labmodal";
+import { isLabOpenAtom, editLabAtom } from "../atom/labmodal";
 import { showInitialGuideAtom } from "../atom/initialguides";
 // Drag-and-Drop Functionality
 import { useDraggable } from "@dnd-kit/core";
@@ -30,6 +27,7 @@ import { useDraggable } from "@dnd-kit/core";
 const Subject = ({ index, subject, bgColor }) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
+  const [plans, setPlans] = useAtom(plansAtom);
   const [isConflicting, setIsConflicting] = useState(false);
   const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
   const [, setSubjectEdit] = useAtom(editSubjectAtom);
@@ -126,19 +124,22 @@ const Subject = ({ index, subject, bgColor }) => {
   };
 
   const deleteClass = (toBeDeleted) => {
-    var newSched = currentPlan.schedule;
-    for (let day in newSched) {
-      if (newSched[day].classes.length !== 0) {
-        var temp = newSched[day].classes.filter((c) => {
-          return (
-            c.subject !== toBeDeleted.subject &&
-            c.section !== toBeDeleted.section
-          );
-        });
-        newSched[day].classes = temp;
+    // var newSched = currentPlan.schedule;
+    for (let i = 0; i < plans.length; i++) {
+      for (let day in plans[i].schedule) {
+        if (plans[i].schedule[day].classes.length !== 0) {
+          var temp = plans[i].schedule[day].classes.filter((c) => {
+            return (
+              c.subject !== toBeDeleted.subject &&
+              c.section !== toBeDeleted.section
+            );
+          });
+          plans[i].schedule[day].classes = temp;
+        }
       }
     }
-    setCurrentPlan({ ...currentPlan, schedule: newSched });
+
+    // setCurrentPlan({ ...currentPlan, schedule: newSched });
   };
 
   const deleteLab = (idx) => {
@@ -163,7 +164,7 @@ const Subject = ({ index, subject, bgColor }) => {
       subject_index: index,
       lab_section: null,
       bgColor: bgColor,
-    }
+    },
   });
 
   return (
