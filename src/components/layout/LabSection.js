@@ -40,7 +40,7 @@ export const LabSection = ({
       subject_index: subject_index,
       lab_section: lab_index,
       bgColor: bgColor,
-    }
+    },
   });
 
   const checkLabConflicting = () => {
@@ -108,7 +108,8 @@ export const LabSection = ({
           <FontAwesomeIcon
             icon={faEdit}
             className={`edit-icon ${isConflicting ? "edit-icon-disabled" : ""}`}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setIsLabOpen(true);
               setLabEdit([1, subject_index, lab_index]);
               setIsDayEnabledLab({

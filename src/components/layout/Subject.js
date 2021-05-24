@@ -199,7 +199,8 @@ const Subject = ({ index, subject, bgColor }) => {
             <FontAwesomeIcon
               icon={faEdit}
               className={`edit-icon ${isConflicting ? "edit-icon-disabled" : ""}`}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 setIsSubjectOpen(true);
                 setSubjectEdit(index);
                 setIsDayEnabledSubject({
