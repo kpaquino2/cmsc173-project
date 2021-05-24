@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Dialog, Transition, Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import { useAtom } from "jotai";
@@ -20,6 +20,15 @@ export const Modal = () => {
   const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [edit, setEdit] = useAtom(editSubjectAtom);
+
+  useEffect(() => {
+    setFormInputs({
+      subject: subjects[edit]?.name,
+      section: subjects[edit]?.section,
+      startTime: subjects[edit]?.startTime,
+      endTime: subjects[edit]?.endTime,
+    });
+  }, [edit]);
 
   const resetDays = () => {
     setIsDayEnabled({
@@ -48,7 +57,6 @@ export const Modal = () => {
       newSubject.startTime = formInputs.startTime;
       newSubject.endTime = formInputs.endTime;
       newSubject.daysOccur = isDayEnabled;
-
       // adding subject
     } else {
       setSubjects([
@@ -63,13 +71,6 @@ export const Modal = () => {
         },
       ]);
     }
-
-    // setFormInputs({
-    //   subject: "",
-    //   section: "",
-    //   startTime: "",
-    //   endTime: "",
-    // });
 
     setIsOpen(false);
     setEdit(-1);
