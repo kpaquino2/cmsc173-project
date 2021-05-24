@@ -117,7 +117,8 @@ export const LabSection = ({
           <FontAwesomeIcon
             icon={faTrashAlt}
             className="delete-icon"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               deleteLab(lab_index);
             }}
           />
