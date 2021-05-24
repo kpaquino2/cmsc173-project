@@ -42,14 +42,13 @@
 
 .add-subject-button:hover {
   cursor: pointer;
-  background: lightgray;
+  background: #a8dce5;
 
 }
 
 .add-subject-button:active {
-  background: darkgray;
+  background: #88cfdb;
 }
-
 .title {
   text-align: left;
   padding: 1rem;
