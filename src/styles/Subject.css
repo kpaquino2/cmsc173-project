@@ -300,3 +300,7 @@ h2 {
   color: #374151;
   cursor: pointer;
 }
+
+.edit-icon-disabled {
+  visibility: hidden;
+}

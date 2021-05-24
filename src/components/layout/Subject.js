@@ -198,7 +198,7 @@ const Subject = ({ index, subject, bgColor }) => {
             <h2>{subject.name}</h2>
             <FontAwesomeIcon
               icon={faEdit}
-              className="edit-icon"
+              className={`edit-icon ${isConflicting ? "edit-icon-disabled" : ""}`}
               onClick={() => {
                 setIsSubjectOpen(true);
                 setSubjectEdit(index);

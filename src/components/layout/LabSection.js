@@ -107,7 +107,7 @@ export const LabSection = ({
           <strong>{`${subject.section}-${labSection.labSec}`}</strong>
           <FontAwesomeIcon
             icon={faEdit}
-            className="edit-icon"
+            className={`edit-icon ${isConflicting ? "edit-icon-disabled" : ""}`}
             onClick={() => {
               setIsLabOpen(true);
               setLabEdit([1, subject_index, lab_index]);
