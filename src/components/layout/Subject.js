@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 
@@ -17,11 +17,12 @@ import {
   editLabAtom,
   isDayEnabledLabAtom,
 } from "../atom/labmodal";
+import { showInitialGuideAtom } from "../atom/initialguides";
 
-const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
+const Subject = ({ index, subject, bgColor }) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
-
+  const [isConflicting, setIsConflicting] = useState(false);
   const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
   const [, setSubjectEdit] = useAtom(editSubjectAtom);
 
@@ -30,8 +31,88 @@ const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
 
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
   const [, setIsDayEnabledLab] = useAtom(isDayEnabledLabAtom);
+  const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
+  const [labConflicts, setLabConflicts] = useState([]); // boolean array for lab conflicts
+
+  // checks for changes in subjects and current plan
+  useEffect(() => {
+    checkConflicting();
+  }, [subjects, currentPlan]);
+
+  // check conflicts
+  const checkConflicting = () => {
+    var conf = false; // default value of conflicts
+
+    // computes for int value of subj start and end
+    var subjStart =
+      parseInt(subject.startTime.split(":")[0]) * 60 +
+      parseInt(subject.startTime.split(":")[1]);
+
+    var subjEnd =
+      parseInt(subject.endTime.split(":")[0]) * 60 +
+      parseInt(subject.endTime.split(":")[1]);
+
+    // checks for conflict for each day of the subject
+    Object.keys(subject.daysOccur).forEach((day, i) => {
+      if (subject.daysOccur[day]) {
+        currentPlan.schedule[i].classes.forEach((clas) => {
+          var classStart =
+            parseInt(clas.from.split(":")[0]) * 60 +
+            parseInt(clas.from.split(":")[1]);
+          var classEnd =
+            parseInt(clas.to.split(":")[0]) * 60 +
+            parseInt(clas.to.split(":")[1]);
+
+          // will be true when the subject and class conflict
+          if (subjStart < classEnd && subjEnd > classStart) {
+            conf = true;
+          }
+        });
+      }
+    });
+
+    setIsConflicting(conf); // set the state of isConflicting to true
+
+    // checks the conflict of each lab in the subject
+
+    var newLabConf = []; // empty list of new lab conflict (will replace the old conflicts array)
+    // iterate over the labsections
+    subjects[index].labSections.forEach((labSection, idx) => {
+      conf = false; // default conf value
+      // get int value of start and end of each lab
+      var labStart =
+        parseInt(labSection.labStartTime.split(":")[0]) * 60 +
+        parseInt(labSection.labStartTime.split(":")[1]);
+
+      var labEnd =
+        parseInt(labSection.labEndTime.split(":")[0]) * 60 +
+        parseInt(labSection.labEndTime.split(":")[1]);
+
+      // for each lab section, compare the classes of the days it occurs
+      Object.keys(labSection.labDaysOccur).forEach((day, i) => {
+        if (labSection.labDaysOccur[day]) {
+          currentPlan.schedule[i].classes.forEach((clas) => {
+            var classStart =
+              parseInt(clas.from.split(":")[0]) * 60 +
+              parseInt(clas.from.split(":")[1]);
+            var classEnd =
+              parseInt(clas.to.split(":")[0]) * 60 +
+              parseInt(clas.to.split(":")[1]);
+            if (labStart < classEnd && labEnd > classStart) {
+              conf = true;
+            }
+          });
+        }
+      });
+      labSection.labConflict = conf;
+      newLabConf[idx] = conf;
+    });
+
+    setLabConflicts(newLabConf);
+  };
 
   const addSubjectToSchedule = (lab) => {
+    if (isConflicting) return;
     var newClass = {
       subject: subject.name,
       section: subject.section,
@@ -61,6 +142,9 @@ const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
         }
       });
     }
+
+    // Hide the user hint on the plan area.
+    setShowInitialGuide(false);
 
     setCurrentPlan({ ...currentPlan, schedule: newSched });
   };
@@ -94,7 +178,7 @@ const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
     <>
       <div
         className={`subject-container ${
-          !isConflicting ? "subject-container-disabled" : ""
+          isConflicting ? "subject-container-disabled" : ""
         }`}
         style={{ background: bgColor }}
         onClick={
@@ -161,6 +245,7 @@ const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
           <div className="time-text">
             <strong className="time-label">Day/s: </strong>
             <span>
+              Every{" "}
               {subject.daysOccur &&
                 Object.keys(subject.daysOccur)
                   .filter((day) => {
@@ -170,32 +255,36 @@ const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
             </span>
           </div>
         </div>
-        <div className="add-lab-container">
+        <div className="all-lab-sect-container">
           <button
-            className="add-lab-button"
+            className="add-lab-button lab-section-container"
             onClick={(e) => {
               e.stopPropagation();
               setIsLabOpen(true);
               setLabEdit([0, index, 0]);
             }}
-            disabled={!isConflicting}>
+            disabled={isConflicting}>
             <FontAwesomeIcon icon={faPlus} className="plus-icon" />
-            Add Lab
+            Add Lab Section
           </button>
-        </div>
-        <div className="all-lab-sect-container">
           {subject.labSections &&
             subject.labSections.map((labSection, idx) => (
               <div
                 key={idx}
-                className="lab-section-container"
-                onClick={() => addSubjectToSchedule(labSection)}>
+                className={`lab-section-container ${
+                  labConflicts[idx] ? "lab-section-container-disabled" : ""
+                }`}
+                onClick={() => {
+                  if (labConflicts[idx]) return;
+                  addSubjectToSchedule(labSection);
+                }}>
                 <div className="lab-section-text">
-                  <span>Lab Section: {` ${labSection.labSec}`}</span>
+                  <strong>{`${subject.section}-${labSection.labSec}`}</strong>
                   <FontAwesomeIcon
                     icon={faEdit}
                     className="edit-icon"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setIsLabOpen(true);
                       setLabEdit([1, index, idx]);
                       setIsDayEnabledLab({
@@ -234,14 +323,11 @@ const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
                   />
                 </div>
                 <div className="lab-time-text">
-                  <span>
-                    Time:{" "}
-                    {` ${labSection.labStartTime}-${labSection.labEndTime}`}
-                  </span>
+                  <span>{` ${labSection.labStartTime}-${labSection.labEndTime}`}</span>
                 </div>
                 <div className="lab-day-text">
                   <span>
-                    Day/s:{" "}
+                    Every{" "}
                     {labSection.labDaysOccur &&
                       Object.keys(labSection.labDaysOccur)
                         .filter((day) => {

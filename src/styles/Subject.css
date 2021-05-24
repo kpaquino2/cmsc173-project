@@ -6,7 +6,8 @@
   margin: 0.5rem;
   padding: 1rem;
   border-radius: 1rem;
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.0625), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.0625),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
   color: white;
 
   transition: transform 100ms ease, box-shadow 125ms ease;
@@ -30,14 +31,14 @@
   top: 0;
   left: 0;
   width: calc(100% - var(--padding-val) * 2);
-  height: calc(100% - var(--padding-val) * 2); 
-  
+  height: calc(100% - var(--padding-val) * 2);
+
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--padding-val);
   text-align: center;
-  
+
   background: rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
 
@@ -54,7 +55,8 @@
   transition: transform 100ms ease, box-shadow 125ms ease;
   transform: scale(1.025);
   cursor: grab;
-  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.005), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.005),
+    0 12px 40px 0 rgba(0, 0, 0, 0.19);
 }
 
 .subject-container:active {
@@ -87,11 +89,13 @@
   flex-grow: 1;
 }
 
-.section-text, .time-text {
+.section-text,
+.time-text {
   color: white;
 }
 
-.section-label, .time-label {
+.section-label,
+.time-label {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -103,7 +107,8 @@
   border-width: 0;
 }
 
-.subject-text, h2{
+.subject-text,
+h2 {
   margin: 0;
   padding: 0;
   display: flex;
@@ -111,63 +116,130 @@
   overflow: hidden;
 }
 
-.add-lab-container{
-  margin-top: 0.5rem;
-}
-
-.add-lab-button{
+.add-lab-button {
   border-radius: 0.3rem;
-  padding: 0.3rem 0.6rem 0.3rem 0.6rem;
-  outline: none;
   border: none;
+  background: none;
+  width: 100%;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
-.add-lab-button:hover{
-  background-color: rgba(255, 255, 255, 0.79);
+.add-lab-button {
   cursor: pointer;
 }
 
-.add-lab-button:active{
-  background-color: rgba(255, 255, 255, 0.625);
-  cursor: pointer;
-}
-
-.all-lab-sect-container{
+.all-lab-sect-container {
   margin-top: 1rem;
   border-radius: 1rem;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
-.lab-section-container{
-  border-bottom: rgba(0, 0, 0, 0.2) solid;
-  border-width: 1px;
+.lab-section-container {
+  transition: background-color 150ms ease;
   padding: 1rem;
+  color: black;
 }
 
-.lab-section-container:hover{
-  background-color: rgba(0, 0, 0, 0.08);
+.lab-section-container-disabled {
+  opacity: 0.2;
+  filter: saturate(0.5);
+}
+
+.lab-section-container-disabled::after {
+  cursor: not-allowed;
+  --padding-val: 1rem;
+  content: "This lab will conflict with your schedule.";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - var(--padding-val) * 2);
+  height: calc(100% - var(--padding-val) * 2);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-val);
+  text-align: center;
+
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: inherit;
+
+  transition: opacity 150ms ease;
+  opacity: 0;
+}
+
+.lab-section-container-disabled:hover:after {
+  transition: opacity 150ms ease;
+  opacity: 1;
+}
+
+.lab-section-container:only-child {
+  border-radius: 1rem 1rem 1rem 1rem;
+}
+
+.lab-section-container:nth-child(1):not(:only-child) {
+  border-radius: 1rem 1rem 0 0;
+}
+
+.lab-section-container:not(:last-child) {
+  border-bottom: lightgray 1px solid;
+  border-radius: 0 0 0 0;
+}
+
+.lab-section-container:last-child:not(:only-child) {
+  border-radius: 0 0 1rem 1rem;
+}
+
+.lab-section-container:only-child:hover {
+  transition: background-color 150ms ease;
+  background-color: rgba(255, 255, 255, 0.875);
+  border-radius: 1rem 1rem 1rem 1rem;
+}
+
+.lab-section-container:nth-child(1):not(:only-child):hover {
+  transition: background-color 150ms ease;
+  background-color: rgba(255, 255, 255, 0.875);
+  border-radius: 1rem 1rem 0 0;
   cursor: pointer;
 }
 
-.lab-section-text{
+.lab-section-container:not(:last-child):hover {
+  transition: background-color 150ms ease;
+  background-color: rgba(255, 255, 255, 0.875);
+  border-radius: 0rem 0rem 0 0;
+  cursor: pointer;
+}
+
+.lab-section-container:last-child:not(:only-child):hover {
+  transition: background-color 150ms ease;
+  background-color: rgba(255, 255, 255, 0.875);
+  border-radius: 0 0 1rem 1rem;
+  cursor: pointer;
+}
+
+.lab-section-text {
   display: flex;
 }
 
-.edit-icon{
+.edit-icon {
   display: inline;
   margin-left: auto;
   margin-right: 0.5rem;
   z-index: 30;
 }
 
-.delete-icon{
+.delete-icon {
   display: inline;
   transition: font-size 0.1s ease;
   z-index: 30;
   margin-left: 5px;
 }
 
-.edit-icon:hover, .delete-icon:hover{
+.edit-icon:hover,
+.delete-icon:hover {
   color: #374151;
   cursor: pointer;
 }

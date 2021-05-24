@@ -154,3 +154,15 @@
 
   border-left: #84bbe8 1px solid;
 }
+
+.initial-plan-reminder {
+  position: absolute;
+  top: calc(50% - 1rem);
+  left: calc(50% - 1rem);
+  padding: 1rem;
+
+  text-align: center;
+  color: #6b7280;
+
+  background: white;
+}

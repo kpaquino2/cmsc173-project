@@ -1,11 +1,13 @@
 import React from "react";
 import { useAtom } from "jotai";
 import { currentPlanAtom } from "../atom/plans";
+import { showInitialGuideAtom } from "../atom/initialguides";
 import "../../styles/Layout.css";
 import Class from "./Class.js";
 
 const Main = () => {
   const [currentPlan] = useAtom(currentPlanAtom);
+  const [showInitialGuide, ] = useAtom(showInitialGuideAtom);
 
   return (
     <div className="main">
@@ -33,6 +35,13 @@ const Main = () => {
           })}
         </div>
       ))}
+      {
+        showInitialGuide && 
+        <div className="initial-plan-reminder">
+          You don't have classes on this Plan yet. <br />
+          Click a lecture section or lab section on your subjects list to add it to this Plan.
+        </div>
+      }
     </div>
   );
 };
