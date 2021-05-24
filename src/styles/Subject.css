@@ -53,8 +53,9 @@
 
 .subject-container:hover {
   transition: box-shadow 125ms ease;
-  
-  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.005), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+
+  box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.005),
+    0 12px 40px 0 rgba(0, 0, 0, 0.19);
 }
 
 .subject-container:hover {
@@ -199,11 +200,11 @@ h2 {
 }
 
 .lab-section-container-disabled {
-  opacity: 0.2;
+  opacity: 0.4;
   filter: saturate(0.5);
 }
 
-.lab-section-container-disabled::after {
+.lab-section-container-disabled:after {
   cursor: not-allowed;
   --padding-val: 1rem;
   content: "This lab will conflict with your schedule.";
@@ -212,7 +213,7 @@ h2 {
   left: 0;
   width: calc(100% - var(--padding-val) * 2);
   height: calc(100% - var(--padding-val) * 2);
-  color: white;
+  color: black;
 
   display: flex;
   align-items: center;
@@ -220,7 +221,7 @@ h2 {
   padding: var(--padding-val);
   text-align: center;
 
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: inherit;
 
   transition: opacity 150ms ease;
@@ -240,7 +241,7 @@ h2 {
   border-radius: 1rem 1rem 0 0;
 }
 
-.lab-section-container:not(:nth-child(1)){
+.lab-section-container:not(:nth-child(1)) {
   border-top: lightgray 1px solid;
   border-radius: 0 0 0 0;
 }
