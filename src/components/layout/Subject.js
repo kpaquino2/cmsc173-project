@@ -32,6 +32,7 @@ const Subject = ({ index, subject, bgColor }) => {
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
   const [, setIsDayEnabledLab] = useAtom(isDayEnabledLabAtom);
   const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
+  const [labConflicts, setLabConflicts] = useState([]);
 
   useEffect(() => {
     checkConflicting();
@@ -63,6 +64,37 @@ const Subject = ({ index, subject, bgColor }) => {
       }
     });
     setIsConflicting(conf);
+
+    var newLabConf = [];
+    subjects[index].labSections.forEach((labSection, idx) => {
+      conf = false;
+      var labStart =
+        parseInt(labSection.labStartTime.split(":")[0]) * 60 +
+        parseInt(labSection.labStartTime.split(":")[1]);
+
+      var labEnd =
+        parseInt(labSection.labEndTime.split(":")[0]) * 60 +
+        parseInt(labSection.labEndTime.split(":")[1]);
+      Object.keys(labSection.labDaysOccur).forEach((day, i) => {
+        if (labSection.labDaysOccur[day]) {
+          currentPlan.schedule[i].classes.forEach((clas) => {
+            var classStart =
+              parseInt(clas.from.split(":")[0]) * 60 +
+              parseInt(clas.from.split(":")[1]);
+            var classEnd =
+              parseInt(clas.to.split(":")[0]) * 60 +
+              parseInt(clas.to.split(":")[1]);
+            if (labStart < classEnd && labEnd > classStart) {
+              conf = true;
+            }
+          });
+        }
+      });
+      labSection.labConflict = conf;
+      newLabConf[idx] = conf;
+    });
+
+    setLabConflicts(newLabConf);
   };
 
   const addSubjectToSchedule = (lab) => {
@@ -190,8 +222,13 @@ const Subject = ({ index, subject, bgColor }) => {
             subject.labSections.map((labSection, idx) => (
               <div
                 key={idx}
-                className="lab-section-container lab-section-container-disabled"
-                onClick={() => addSubjectToSchedule(labSection)}
+                className={`lab-section-container ${
+                  labConflicts[idx] ? "lab-section-container-disabled" : ""
+                }`}
+                onClick={() => {
+                  if (labConflicts[idx]) return;
+                  addSubjectToSchedule(labSection);
+                }}
               >
                 <div className="lab-section-text">
                   <strong>{`${subject.section}-${labSection.labSec}`}</strong>
