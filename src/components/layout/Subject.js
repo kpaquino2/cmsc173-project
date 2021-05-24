@@ -27,7 +27,7 @@ import { useDraggable } from "@dnd-kit/core";
 const Subject = ({ index, subject, bgColor }) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
-  const [plans, setPlans] = useAtom(plansAtom);
+  const [plans] = useAtom(plansAtom);
   const [isConflicting, setIsConflicting] = useState(false);
   const [, setIsSubjectOpen] = useAtom(isSubjectOpenAtom);
   const [, setSubjectEdit] = useAtom(editSubjectAtom);
@@ -198,7 +198,9 @@ const Subject = ({ index, subject, bgColor }) => {
             <h2>{subject.name}</h2>
             <FontAwesomeIcon
               icon={faEdit}
-              className={`edit-icon ${isConflicting ? "edit-icon-disabled" : ""}`}
+              className={`edit-icon ${
+                isConflicting ? "edit-icon-disabled" : ""
+              }`}
               onClick={(e) => {
                 e.stopPropagation();
                 setIsSubjectOpen(true);
