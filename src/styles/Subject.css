@@ -202,8 +202,8 @@
   border-radius: 1rem 1rem 0 0;
 }
 
-.lab-section-container:not(:last-child){
-  border-bottom: lightgray 1px solid;
+.lab-section-container:not(:nth-child(1)){
+  border-top: lightgray 1px solid;
   border-radius: 0 0 0 0;
 }
 
