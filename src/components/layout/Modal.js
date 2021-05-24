@@ -105,7 +105,7 @@ export const Modal = () => {
                       htmlFor="subject"
                       className="label"
                     >
-                      Subject:
+                      Subject
                     </label>
                     <input 
                       type="text"
@@ -127,7 +127,7 @@ export const Modal = () => {
                       htmlFor="section"
                       className="label"
                     >
-                      Section:
+                      Section
                     </label>
                     <input 
                       type="text"
@@ -151,7 +151,7 @@ export const Modal = () => {
                       htmlFor="start_time"
                       className="label"
                     >
-                      Start time:
+                      Start time
                     </label>
                     <input 
                       type="time"
@@ -173,7 +173,7 @@ export const Modal = () => {
                       htmlFor="end_time"
                       className="label"
                     >
-                      End time:
+                      End time
                     </label>
                     <input 
                       type="time"
@@ -191,7 +191,7 @@ export const Modal = () => {
                 </div>
 
                 <div className="input-div">
-                  <div>Occurs every:</div>
+                  <div className="label">Occurs every</div>
 
                   {/* SUNDAY */}
                   <div className="switch-set">
