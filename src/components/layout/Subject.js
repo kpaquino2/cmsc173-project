@@ -133,13 +133,13 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
             disabled={!isConflicting}
           >
             <FontAwesomeIcon icon={faPlus} className="plus-icon" />
-            Add Lab
+            Add Lab Section
           </button>
           {
             subject.labSections && subject.labSections.map((labSection, idx) => (
               <div key={idx} className="lab-section-container" onClick={() => addSubjectToSchedule(labSection)}>
                 <div className="lab-section-text">
-                  <span>{`${subject.section}-${labSection.labSec}`}</span> 
+                  <strong>{`${subject.section}-${labSection.labSec}`}</strong> 
                   <FontAwesomeIcon 
                     icon={faEdit}
                     className="edit-icon"
