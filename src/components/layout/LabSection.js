@@ -9,7 +9,7 @@ import { useAtom } from "jotai";
 // Drag-and-Drop Functionality
 import { useDraggable } from "@dnd-kit/core";
 
-export const LabSection = ({ lab_index, subject_index, subject, labSection, addSubjectToSchedule, deleteLab }) => {
+export const LabSection = ({ bgColor, lab_index, subject_index, subject, labSection, addSubjectToSchedule, deleteLab }) => {
   
   const [, setIsLabOpen] = useAtom(isLabOpenAtom);
   const [, setLabEdit] = useAtom(editLabAtom);
@@ -17,6 +17,12 @@ export const LabSection = ({ lab_index, subject_index, subject, labSection, addS
   
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
     id: `draggable-lab-${subject_index}-${lab_index}`,
+    data: {
+      isConflicting: false,
+      subject_index: subject_index,
+      lab_section: lab_index,
+      bgColor: bgColor,
+    }
   });
 
   return (

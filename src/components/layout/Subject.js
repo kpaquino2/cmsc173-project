@@ -17,7 +17,6 @@ import {
 import {
   isLabOpenAtom,
   editLabAtom,
-  isDayEnabledLabAtom,
 } from "../atom/labmodal";
 import { showInitialGuideAtom } from "../atom/initialguides";
 // Drag-and-Drop Functionality
@@ -35,7 +34,7 @@ const Subject = ({ index, subject, bgColor }) => {
 
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
   const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
-  const [labConflicts, setLabConflicts] = useState([]); // boolean array for lab conflicts
+  const [, setLabConflicts] = useState([]); // boolean array for lab conflicts
 
   // checks for changes in subjects and current plan
   useEffect(() => {
@@ -168,6 +167,12 @@ const Subject = ({ index, subject, bgColor }) => {
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
     id: `draggable-${index}`,
     disabled: subject.labSections.length > 0, // Disables dragging the lecture subject if it has laboratory sections.
+    data: {
+      isConflicting: isConflicting,
+      subject_index: index,
+      lab_section: null,
+      bgColor: bgColor,
+    }
   });
 
   return (
@@ -253,7 +258,7 @@ const Subject = ({ index, subject, bgColor }) => {
             </button>
             {
               subject.labSections && subject.labSections.map((labSection, idx) => (
-                <LabSection key={idx} lab_index={idx} subject_index={index} subject={subject} labSection={labSection} addSubjectToSchedule={addSubjectToSchedule} deleteLab={deleteLab} />
+                <LabSection bgColor={bgColor} key={idx} lab_index={idx} subject_index={index} subject={subject} labSection={labSection} addSubjectToSchedule={addSubjectToSchedule} deleteLab={deleteLab} />
               ))
             }
           </div>
