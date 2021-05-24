@@ -48,7 +48,6 @@ export const LabModal = () => {
         labStartTime: formInputs.startTime,
         labEndTime: formInputs.endTime,
         labDaysOccur: isDayEnabled,
-        labConflict: false,
       });
 
       // editing lab

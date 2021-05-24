@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { LabSection } from "./LabSection";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrashAlt, faEdit, faGripLines } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlus,
+  faTrashAlt,
+  faEdit,
+  faGripLines,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "../../styles/Subject.css";
 
@@ -14,11 +19,7 @@ import {
   editSubjectAtom,
   isDayEnabledSubjectAtom,
 } from "../atom/modal";
-import {
-  isLabOpenAtom,
-  editLabAtom,
-  isDayEnabledLabAtom,
-} from "../atom/labmodal";
+import { isLabOpenAtom, editLabAtom } from "../atom/labmodal";
 import { showInitialGuideAtom } from "../atom/initialguides";
 // Drag-and-Drop Functionality
 import { useDraggable } from "@dnd-kit/core";
@@ -35,12 +36,6 @@ const Subject = ({ index, subject, bgColor }) => {
 
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
   const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
-  const [labConflicts, setLabConflicts] = useState([]); // boolean array for lab conflicts
-
-  // checks for changes in subjects and current plan
-  useEffect(() => {
-    checkConflicting();
-  }, [subjects, currentPlan]);
 
   // check conflicts
   const checkConflicting = () => {
@@ -75,44 +70,12 @@ const Subject = ({ index, subject, bgColor }) => {
     });
 
     setIsConflicting(conf); // set the state of isConflicting to true
-
-    // checks the conflict of each lab in the subject
-
-    var newLabConf = []; // empty list of new lab conflict (will replace the old conflicts array)
-    // iterate over the labsections
-    subjects[index].labSections.forEach((labSection, idx) => {
-      conf = false; // default conf value
-      // get int value of start and end of each lab
-      var labStart =
-        parseInt(labSection.labStartTime.split(":")[0]) * 60 +
-        parseInt(labSection.labStartTime.split(":")[1]);
-
-      var labEnd =
-        parseInt(labSection.labEndTime.split(":")[0]) * 60 +
-        parseInt(labSection.labEndTime.split(":")[1]);
-
-      // for each lab section, compare the classes of the days it occurs
-      Object.keys(labSection.labDaysOccur).forEach((day, i) => {
-        if (labSection.labDaysOccur[day]) {
-          currentPlan.schedule[i].classes.forEach((clas) => {
-            var classStart =
-              parseInt(clas.from.split(":")[0]) * 60 +
-              parseInt(clas.from.split(":")[1]);
-            var classEnd =
-              parseInt(clas.to.split(":")[0]) * 60 +
-              parseInt(clas.to.split(":")[1]);
-            if (labStart < classEnd && labEnd > classStart) {
-              conf = true;
-            }
-          });
-        }
-      });
-      labSection.labConflict = conf;
-      newLabConf[idx] = conf;
-    });
-
-    setLabConflicts(newLabConf);
   };
+
+  // checks for changes in subjects and current plan
+  useEffect(() => {
+    checkConflicting();
+  }, [subjects, currentPlan]);
 
   const addSubjectToSchedule = (lab) => {
     if (isConflicting) return;
@@ -165,34 +128,39 @@ const Subject = ({ index, subject, bgColor }) => {
     setSubjects(newSubjects);
   };
 
-  const {attributes, listeners, setNodeRef, transform} = useDraggable({
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `draggable-${index}`,
     disabled: subject.labSections.length > 0, // Disables dragging the lecture subject if it has laboratory sections.
   });
 
   return (
     <>
-      <div 
-        className={`subject-container ${isConflicting ? "subject-container-disabled" : ""}`} 
-        style={
-          {
-            background: bgColor, 
-            transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : "",
-            position: transform ? "absolute" : "static",
-            width: transform ? "calc(20% - 5rem)" : "",
-            zIndex: transform ? "100" : "auto",
-          }
-        }
+      <div
+        className={`subject-container ${
+          isConflicting ? "subject-container-disabled" : ""
+        }`}
+        style={{
+          background: bgColor,
+          transform: transform
+            ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+            : "",
+          position: transform ? "absolute" : "static",
+          width: transform ? "calc(20% - 5rem)" : "",
+          zIndex: transform ? "100" : "auto",
+        }}
         ref={setNodeRef}
       >
-        {
-          subject.labSections && subject.labSections.length === 0 && 
+        {subject.labSections && subject.labSections.length === 0 && (
           <div className="drag-handle-indicator" {...listeners} {...attributes}>
             <FontAwesomeIcon icon={faGripLines} />
           </div>
-        }
-        <div onClick={subject.labSections.length ? null : () => addSubjectToSchedule(null)} >
-          <div className="subject-text"> 
+        )}
+        <div
+          onClick={
+            subject.labSections.length ? null : () => addSubjectToSchedule(null)
+          }
+        >
+          <div className="subject-text">
             <h2>{subject.name}</h2>
             <FontAwesomeIcon
               icon={faEdit}
@@ -228,7 +196,7 @@ const Subject = ({ index, subject, bgColor }) => {
             <div className="time-text">
               <strong className="time-label">Day/s: </strong>
               <span>
-                Every {" "}
+                Every{" "}
                 {subject.daysOccur &&
                   Object.keys(subject.daysOccur)
                     .filter((day) => {
@@ -239,23 +207,30 @@ const Subject = ({ index, subject, bgColor }) => {
             </div>
           </div>
           <div className="all-lab-sect-container">
-            <button 
-              className="add-lab-button lab-section-container" 
+            <button
+              className="add-lab-button lab-section-container"
               onClick={(e) => {
                 e.stopPropagation();
-                setIsLabOpen(true); 
+                setIsLabOpen(true);
                 setLabEdit([0, index, 0]);
-              }} 
+              }}
               disabled={isConflicting}
             >
               <FontAwesomeIcon icon={faPlus} className="plus-icon" />
               Add Lab Section
             </button>
-            {
-              subject.labSections && subject.labSections.map((labSection, idx) => (
-                <LabSection key={idx} lab_index={idx} subject_index={index} subject={subject} labSection={labSection} addSubjectToSchedule={addSubjectToSchedule} deleteLab={deleteLab} />
-              ))
-            }
+            {subject.labSections &&
+              subject.labSections.map((labSection, idx) => (
+                <LabSection
+                  key={idx}
+                  lab_index={idx}
+                  subject_index={index}
+                  subject={subject}
+                  labSection={labSection}
+                  addSubjectToSchedule={addSubjectToSchedule}
+                  deleteLab={deleteLab}
+                />
+              ))}
           </div>
         </div>
       </div>
