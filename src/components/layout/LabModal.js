@@ -1,19 +1,24 @@
 import React from "react";
-import { Dialog, Transition, Switch } from '@headlessui/react'
-import { Fragment } from 'react'
+import { Dialog, Transition, Switch } from "@headlessui/react";
+import { Fragment } from "react";
 import "../../styles/Modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import { useAtom } from "jotai";
-import { isLabOpenAtom, isDayEnabledLabAtom, formInputsAtom, editLabAtom } from "../atom/labmodal"
+import {
+  isLabOpenAtom,
+  isDayEnabledLabAtom,
+  formInputsAtom,
+  editLabAtom,
+} from "../atom/labmodal";
 import { subjectsAtom } from "../atom/subjects";
 
 export const LabModal = () => {
-	const [isOpen, setIsOpen] = useAtom(isLabOpenAtom);
-	const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledLabAtom);
-	const [formInputs, setFormInputs] = useAtom(formInputsAtom);
-  const [subjects,] = useAtom(subjectsAtom);
+  const [isOpen, setIsOpen] = useAtom(isLabOpenAtom);
+  const [isDayEnabled, setIsDayEnabled] = useAtom(isDayEnabledLabAtom);
+  const [formInputs, setFormInputs] = useAtom(formInputsAtom);
+  const [subjects] = useAtom(subjectsAtom);
   const [edit, setEdit] = useAtom(editLabAtom);
 
   const resetDays = () => {
@@ -25,27 +30,28 @@ export const LabModal = () => {
       Friday: false,
       Saturday: false,
     });
-  }
+  };
 
   const closeModal = () => {
     setIsOpen(false);
     resetDays();
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // adding lab
-    if (edit[0] === 0){
+    if (edit[0] === 0) {
       const newLab = subjects[edit[1]].labSections;
       newLab.push({
         labSec: formInputs.section,
         labStartTime: formInputs.startTime,
         labEndTime: formInputs.endTime,
-        labDaysOccur: isDayEnabled
-      })
+        labDaysOccur: isDayEnabled,
+        labConflict: false,
+      });
 
-    // editing lab
+      // editing lab
     } else {
       const newLab = subjects[edit[1]].labSections[edit[2]];
       newLab.labSec = formInputs.section;
@@ -56,33 +62,20 @@ export const LabModal = () => {
     setIsOpen(false);
     setEdit([0, 0, 0]);
     resetDays();
-  }
+  };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="dialog"
-        onClose={closeModal}
-      >
+      <Dialog as="div" className="dialog" onClose={closeModal}>
         <div className="fragment">
-          <span
-            className="span"
-            aria-hidden="true"
-          >
+          <span className="span" aria-hidden="true">
             &#8203;
           </span>
-        
+
           <div className="modal">
-            <Dialog.Title
-              as="div"
-              className="modal-title"
-            >
+            <Dialog.Title as="div" className="modal-title">
               {edit[0] === 0 ? "Add a Lab" : "Edit Lab"}
-              <button 
-                className="close-button"
-                onClick={closeModal}
-              >
+              <button className="close-button" onClick={closeModal}>
                 <FontAwesomeIcon
                   icon={faTimes}
                   className="close-icon"
@@ -93,50 +86,52 @@ export const LabModal = () => {
 
             {/* MODAL BODY */}
             <div className="modal-body">
-
               <form onSubmit={handleSubmit}>
-                
                 <div>
                   {/* SUBJECT INPUT */}
                   <div className="input-div">
-                    <label
-                      htmlFor="section"
-                      className="label"
-                    >
+                    <label htmlFor="section" className="label">
                       Section:
                     </label>
-                    <input 
+                    <input
                       type="text"
                       id="section"
                       className="input"
-                      defaultValue={edit[0] === 0 ? "" : subjects[edit[1]].labSections[edit[2]].labSec}
+                      defaultValue={
+                        edit[0] === 0
+                          ? ""
+                          : subjects[edit[1]].labSections[edit[2]].labSec
+                      }
                       onChange={(e) => {
                         setFormInputs((prev) => ({
-                          ...prev, section: e.target.value
+                          ...prev,
+                          section: e.target.value,
                         }));
                       }}
                       required
                     />
                   </div>
                 </div>
-                  
+
                 <div className="grid">
                   {/* START TIME INPUT */}
                   <div className="input-div">
-                    <label
-                      htmlFor="start_time"
-                      className="label"
-                    >
+                    <label htmlFor="start_time" className="label">
                       Start time:
                     </label>
-                    <input 
+                    <input
                       type="time"
                       id="start_time"
                       className="input"
-                      defaultValue={edit[0] === 0 ? "" : subjects[edit[1]].labSections[edit[2]].labStartTime}
+                      defaultValue={
+                        edit[0] === 0
+                          ? ""
+                          : subjects[edit[1]].labSections[edit[2]].labStartTime
+                      }
                       onChange={(e) => {
                         setFormInputs((prev) => ({
-                          ...prev, startTime: e.target.value
+                          ...prev,
+                          startTime: e.target.value,
                         }));
                       }}
                       required
@@ -145,20 +140,22 @@ export const LabModal = () => {
 
                   {/* END TIME INPUT */}
                   <div className="input-div">
-                    <label
-                      htmlFor="end_time"
-                      className="label"
-                    >
+                    <label htmlFor="end_time" className="label">
                       End time:
                     </label>
-                    <input 
+                    <input
                       type="time"
                       id="end_time"
                       className="input"
-                      defaultValue={edit[0] === 0 ? "" : subjects[edit[1]].labSections[edit[2]].labEndTime}
+                      defaultValue={
+                        edit[0] === 0
+                          ? ""
+                          : subjects[edit[1]].labSections[edit[2]].labEndTime
+                      }
                       onChange={(e) => {
                         setFormInputs((prev) => ({
-                          ...prev, endTime: e.target.value
+                          ...prev,
+                          endTime: e.target.value,
                         }));
                       }}
                       required
@@ -170,17 +167,19 @@ export const LabModal = () => {
                   <div>Occurs every:</div>
 
                   <div className="switch-set">
-                    
                     {/* MONDAY */}
                     <span className="switch-button">
                       <Switch
                         checked={isDayEnabled.Monday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, Monday: !(isDayEnabled.Monday)
+                            ...prev,
+                            Monday: !isDayEnabled.Monday,
                           }));
                         }}
-                        className={`${isDayEnabled.Monday ? "enabled" : "disabled"}`}
+                        className={`${
+                          isDayEnabled.Monday ? "enabled" : "disabled"
+                        }`}
                       >
                         M
                       </Switch>
@@ -192,10 +191,13 @@ export const LabModal = () => {
                         checked={isDayEnabled.Tuesday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, Tuesday: !(isDayEnabled.Tuesday)
+                            ...prev,
+                            Tuesday: !isDayEnabled.Tuesday,
                           }));
                         }}
-                        className={`${isDayEnabled.Tuesday ? "enabled" : "disabled"}`}
+                        className={`${
+                          isDayEnabled.Tuesday ? "enabled" : "disabled"
+                        }`}
                       >
                         T
                       </Switch>
@@ -207,10 +209,13 @@ export const LabModal = () => {
                         checked={isDayEnabled.Wednesday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, Wednesday: !(isDayEnabled.Wednesday)
+                            ...prev,
+                            Wednesday: !isDayEnabled.Wednesday,
                           }));
                         }}
-                        className={`${isDayEnabled.Wednesday ? "enabled" : "disabled"}`}
+                        className={`${
+                          isDayEnabled.Wednesday ? "enabled" : "disabled"
+                        }`}
                       >
                         W
                       </Switch>
@@ -222,10 +227,13 @@ export const LabModal = () => {
                         checked={isDayEnabled.Thursday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, Thursday: !(isDayEnabled.Thursday)
+                            ...prev,
+                            Thursday: !isDayEnabled.Thursday,
                           }));
                         }}
-                        className={`${isDayEnabled.Thursday ? "enabled" : "disabled"}`}
+                        className={`${
+                          isDayEnabled.Thursday ? "enabled" : "disabled"
+                        }`}
                       >
                         TH
                       </Switch>
@@ -237,10 +245,13 @@ export const LabModal = () => {
                         checked={isDayEnabled.Friday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, Friday: !(isDayEnabled.Friday)
+                            ...prev,
+                            Friday: !isDayEnabled.Friday,
                           }));
                         }}
-                        className={`${isDayEnabled.Friday ? "enabled" : "disabled"}`}
+                        className={`${
+                          isDayEnabled.Friday ? "enabled" : "disabled"
+                        }`}
                       >
                         F
                       </Switch>
@@ -252,10 +263,13 @@ export const LabModal = () => {
                         checked={isDayEnabled.Saturday}
                         onChange={() => {
                           setIsDayEnabled((prev) => ({
-                            ...prev, Saturday: !(isDayEnabled.Saturday)
+                            ...prev,
+                            Saturday: !isDayEnabled.Saturday,
                           }));
                         }}
-                        className={`${isDayEnabled.Saturday ? "enabled" : "disabled"}`}
+                        className={`${
+                          isDayEnabled.Saturday ? "enabled" : "disabled"
+                        }`}
                       >
                         S
                       </Switch>
@@ -263,10 +277,7 @@ export const LabModal = () => {
                   </div>
                 </div>
 
-                <button 
-                  className="add-button"
-                  type="submit"
-                >
+                <button className="add-button" type="submit">
                   {edit[0] === 0 ? "Add" : "Save"}
                 </button>
               </form>
