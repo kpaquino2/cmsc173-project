@@ -19,7 +19,10 @@ import {
   editSubjectAtom,
   isDayEnabledSubjectAtom,
 } from "../atom/modal";
-import { isLabOpenAtom, editLabAtom } from "../atom/labmodal";
+import {
+  isLabOpenAtom,
+  editLabAtom,
+} from "../atom/labmodal";
 import { showInitialGuideAtom } from "../atom/initialguides";
 // Drag-and-Drop Functionality
 import { useDraggable } from "@dnd-kit/core";
@@ -155,6 +158,12 @@ const Subject = ({ index, subject, bgColor }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `draggable-${index}`,
     disabled: subject.labSections.length > 0, // Disables dragging the lecture subject if it has laboratory sections.
+    data: {
+      isConflicting: isConflicting,
+      subject_index: index,
+      lab_section: null,
+      bgColor: bgColor,
+    }
   });
 
   return (
@@ -271,6 +280,7 @@ const Subject = ({ index, subject, bgColor }) => {
             {subject.labSections &&
               subject.labSections.map((labSection, idx) => (
                 <LabSection
+                  bgColor={bgColor}
                   key={idx}
                   lab_index={idx}
                   subject_index={index}

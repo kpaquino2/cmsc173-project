@@ -19,6 +19,7 @@ import { currentPlanAtom } from "../atom/plans";
 import { useEffect } from "react";
 
 export const LabSection = ({
+  bgColor,
   lab_index,
   subject_index,
   subject,
@@ -34,6 +35,12 @@ export const LabSection = ({
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `draggable-lab-${subject_index}-${lab_index}`,
+    data: {
+      isConflicting: isConflicting,
+      subject_index: subject_index,
+      lab_section: lab_index,
+      bgColor: bgColor,
+    }
   });
 
   const checkLabConflicting = () => {
