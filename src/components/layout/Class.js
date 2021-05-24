@@ -30,7 +30,7 @@ const Class = ({ classState }) => {
     for (let day in newSched) {
       if (newSched[day].classes.length !== 0) {
         var temp = newSched[day].classes.filter((c) => {
-          return c !== classState;
+          return c.subject !== classState.subject;
         });
         newSched[day].classes = temp;
       }
