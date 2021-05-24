@@ -127,7 +127,6 @@ const Subject = ({ index, subject, bgColor }) => {
     for (let day in newSched) {
       if (newSched[day].classes.length !== 0) {
         var temp = newSched[day].classes.filter((c) => {
-          console.log("c", c);
           return (
             c.subject !== toBeDeleted.subject &&
             c.section !== toBeDeleted.section
@@ -137,22 +136,16 @@ const Subject = ({ index, subject, bgColor }) => {
       }
     }
     setCurrentPlan({ ...currentPlan, schedule: newSched });
-    console.log("currplan:\n", currentPlan);
   };
 
   const deleteLab = (idx) => {
     const newSubjects = subjects.slice();
-    console.log(index, idx);
-    console.log(subjects[0].labSections[0]);
     const labSec = `${subjects[index].section}-${subjects[index].labSections[idx].labSec}`;
-    console.log(labSec);
-    // console.log(subjects[index].labSections);
     var tbd = createTempUser(
       // subjects[index].labSections[idx].name,
       subjects[index].name,
       labSec
     );
-    console.log("delete lab", tbd);
     deleteClass(tbd);
 
     newSubjects[index].labSections.splice(idx, 1);
@@ -223,7 +216,6 @@ const Subject = ({ index, subject, bgColor }) => {
                       newSubjects[index].name,
                       `${newSubjects[index].section}-${newSubjects[index].labSections[i].labSec}`
                     );
-                    console.log("all lab", tbd);
 
                     deleteClass(tbd);
                     newSubjects[index].labSections.splice(i, 1);
@@ -235,7 +227,6 @@ const Subject = ({ index, subject, bgColor }) => {
                   subjects[index].name,
                   subjects[index].section
                 );
-                // console.log("tobedeleted", tbd);
                 deleteClass(tbd);
                 newSubjects.splice(index, 1);
                 setSubjects(newSubjects);
