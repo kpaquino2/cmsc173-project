@@ -50,17 +50,13 @@
   top: 0;
   right: 0;
   border: none;
-  background-color: white;
+  background: none;
   cursor: pointer;
-  padding: 3px 5px;
+  color: #111827;	
 }
 
 .close-button:hover {
-  background-color: #D1D5DB;
-}
-
-.close-icon {
-  color: #6B7280;
+  color: #e35f45;
 }
 
 .modal-body {

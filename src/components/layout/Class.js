@@ -60,14 +60,13 @@ const Class = ({ classState }) => {
       <div className="top-section">
         <div className="subject-text">{classState.subject}</div>
         <div>
-          <button className="close-button" onClick={deleteClass}>
+          <button className="class-close-button" onClick={deleteClass}>
             <FontAwesomeIcon
               style={{
                 visibility: show,
-                color: "white",
               }}
               icon={faTimes}
-              className="close-icon"
+              className="class-close-icon"
               size="lg"
             />
           </button>
