@@ -38,9 +38,11 @@
 
   transition: opacity 100ms ease;
   opacity: 0;
+  z-index: -1;
 }
 
 .main-drag-guide-enabled {
+  z-index: 10;
   transition: opacity 100ms ease;
   opacity: 1;
 }
