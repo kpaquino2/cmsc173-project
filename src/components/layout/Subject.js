@@ -32,14 +32,18 @@ const Subject = ({ index, subject, bgColor }) => {
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
   const [, setIsDayEnabledLab] = useAtom(isDayEnabledLabAtom);
   const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
-  const [labConflicts, setLabConflicts] = useState([]);
+  const [labConflicts, setLabConflicts] = useState([]); // boolean array for lab conflicts
 
+  // checks for changes in subjects and current plan
   useEffect(() => {
     checkConflicting();
   }, [subjects, currentPlan]);
 
+  // check conflicts
   const checkConflicting = () => {
-    var conf = false;
+    var conf = false; // default value of conflicts
+
+    // computes for int value of subj start and end
     var subjStart =
       parseInt(subject.startTime.split(":")[0]) * 60 +
       parseInt(subject.startTime.split(":")[1]);
@@ -48,6 +52,7 @@ const Subject = ({ index, subject, bgColor }) => {
       parseInt(subject.endTime.split(":")[0]) * 60 +
       parseInt(subject.endTime.split(":")[1]);
 
+    // checks for conflict for each day of the subject
     Object.keys(subject.daysOccur).forEach((day, i) => {
       if (subject.daysOccur[day]) {
         currentPlan.schedule[i].classes.forEach((clas) => {
@@ -57,17 +62,24 @@ const Subject = ({ index, subject, bgColor }) => {
           var classEnd =
             parseInt(clas.to.split(":")[0]) * 60 +
             parseInt(clas.to.split(":")[1]);
+
+          // will be true when the subject and class conflict
           if (subjStart < classEnd && subjEnd > classStart) {
             conf = true;
           }
         });
       }
     });
-    setIsConflicting(conf);
 
-    var newLabConf = [];
+    setIsConflicting(conf); // set the state of isConflicting to true
+
+    // checks the conflict of each lab in the subject
+
+    var newLabConf = []; // empty list of new lab conflict (will replace the old conflicts array)
+    // iterate over the labsections
     subjects[index].labSections.forEach((labSection, idx) => {
-      conf = false;
+      conf = false; // default conf value
+      // get int value of start and end of each lab
       var labStart =
         parseInt(labSection.labStartTime.split(":")[0]) * 60 +
         parseInt(labSection.labStartTime.split(":")[1]);
@@ -75,6 +87,8 @@ const Subject = ({ index, subject, bgColor }) => {
       var labEnd =
         parseInt(labSection.labEndTime.split(":")[0]) * 60 +
         parseInt(labSection.labEndTime.split(":")[1]);
+
+      // for each lab section, compare the classes of the days it occurs
       Object.keys(labSection.labDaysOccur).forEach((day, i) => {
         if (labSection.labDaysOccur[day]) {
           currentPlan.schedule[i].classes.forEach((clas) => {
