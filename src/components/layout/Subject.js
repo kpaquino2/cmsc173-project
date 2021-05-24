@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faTrashAlt, faEdit, faGripLines } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from 'react';
 import { LabSection } from "./LabSection";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrashAlt, faEdit, faGripLines } from '@fortawesome/free-solid-svg-icons';
 
 import "../../styles/Subject.css";
 
@@ -33,7 +34,6 @@ const Subject = ({ index, subject, bgColor }) => {
   const [, setLabEdit] = useAtom(editLabAtom);
 
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
-  const [, setIsDayEnabledLab] = useAtom(isDayEnabledLabAtom);
   const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
   const [labConflicts, setLabConflicts] = useState([]); // boolean array for lab conflicts
 
