@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,6 +9,7 @@ import { subjectsAtom } from "../atom/subjects";
 import { currentPlanAtom } from '../atom/plans';
 import { isSubjectOpenAtom, editSubjectAtom, isDayEnabledSubjectAtom } from "../atom/modal";
 import { isLabOpenAtom, editLabAtom, isDayEnabledLabAtom } from "../atom/labmodal"
+import { showInitialGuideAtom } from "../atom/initialguides";
 
 const Subject = ({index, subject, bgColor, isConflicting = true}) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
@@ -22,6 +23,8 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
 	
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
   const [, setIsDayEnabledLab] = useAtom(isDayEnabledLabAtom);
+
+  const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
 
   const addSubjectToSchedule = (lab) => {
     var newClass = {
@@ -53,6 +56,9 @@ const Subject = ({index, subject, bgColor, isConflicting = true}) => {
         }
       })
     }
+
+    // Hide the user hint on the plan area.
+    setShowInitialGuide(false);
 
     setCurrentPlan({ ...currentPlan, schedule: newSched });
   };

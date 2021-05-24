@@ -61,6 +61,12 @@ const Sidebar = () => {
               <Subject key={idx} index={idx} subject={subject} bgColor={colors[idx % colors.length]} />
             );
           })}
+          {
+            subjects.length === 0 && 
+            <div className="initial-instructions">
+              Click <strong><FontAwesomeIcon icon={faPlus} size="sm" /> Add a Subject</strong> <br /> to add to your list of subjects.
+            </div>
+          }
         </div>
       </div>
       <div className="sidebar-item options" style={{display: "none"}}>
