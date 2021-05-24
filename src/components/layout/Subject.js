@@ -66,6 +66,7 @@ const Subject = ({ index, subject, bgColor }) => {
   };
 
   const addSubjectToSchedule = (lab) => {
+    if (isConflicting) return;
     var newClass = {
       subject: subject.name,
       section: subject.section,
@@ -189,7 +190,7 @@ const Subject = ({ index, subject, bgColor }) => {
             subject.labSections.map((labSection, idx) => (
               <div
                 key={idx}
-                className="lab-section-container"
+                className="lab-section-container lab-section-container-disabled"
                 onClick={() => addSubjectToSchedule(labSection)}
               >
                 <div className="lab-section-text">
