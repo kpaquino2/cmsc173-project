@@ -28,7 +28,7 @@ export const Modal = () => {
       startTime: subjects[edit]?.startTime,
       endTime: subjects[edit]?.endTime,
     });
-  }, [edit]);
+  }, [subjects, edit, setFormInputs]);
 
   const resetDays = () => {
     setIsDayEnabled({

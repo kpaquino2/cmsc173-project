@@ -38,45 +38,44 @@ const Subject = ({ index, subject, bgColor }) => {
   const [, setIsDayEnabledSubject] = useAtom(isDayEnabledSubjectAtom);
   const [, setShowInitialGuide] = useAtom(showInitialGuideAtom);
 
-  // check conflicts
-  const checkConflicting = () => {
-    var conf = false; // default value of conflicts
-
-    // computes for int value of subj start and end
-    var subjStart =
-      parseInt(subject.startTime.split(":")[0]) * 60 +
-      parseInt(subject.startTime.split(":")[1]);
-
-    var subjEnd =
-      parseInt(subject.endTime.split(":")[0]) * 60 +
-      parseInt(subject.endTime.split(":")[1]);
-
-    // checks for conflict for each day of the subject
-    Object.keys(subject.daysOccur).forEach((day, i) => {
-      if (subject.daysOccur[day]) {
-        currentPlan.schedule[i].classes.forEach((clas) => {
-          var classStart =
-            parseInt(clas.from.split(":")[0]) * 60 +
-            parseInt(clas.from.split(":")[1]);
-          var classEnd =
-            parseInt(clas.to.split(":")[0]) * 60 +
-            parseInt(clas.to.split(":")[1]);
-
-          // will be true when the subject and class conflict
-          if (subjStart < classEnd && subjEnd > classStart) {
-            conf = true;
-          }
-        });
-      }
-    });
-
-    setIsConflicting(conf); // set the state of isConflicting to true
-  };
-
   // checks for changes in subjects and current plan
   useEffect(() => {
+    // check conflicts
+    const checkConflicting = () => {
+      var conf = false; // default value of conflicts
+
+      // computes for int value of subj start and end
+      var subjStart =
+        parseInt(subject.startTime.split(":")[0]) * 60 +
+        parseInt(subject.startTime.split(":")[1]);
+
+      var subjEnd =
+        parseInt(subject.endTime.split(":")[0]) * 60 +
+        parseInt(subject.endTime.split(":")[1]);
+
+      // checks for conflict for each day of the subject
+      Object.keys(subject.daysOccur).forEach((day, i) => {
+        if (subject.daysOccur[day]) {
+          currentPlan.schedule[i].classes.forEach((clas) => {
+            var classStart =
+              parseInt(clas.from.split(":")[0]) * 60 +
+              parseInt(clas.from.split(":")[1]);
+            var classEnd =
+              parseInt(clas.to.split(":")[0]) * 60 +
+              parseInt(clas.to.split(":")[1]);
+
+            // will be true when the subject and class conflict
+            if (subjStart < classEnd && subjEnd > classStart) {
+              conf = true;
+            }
+          });
+        }
+      });
+
+      setIsConflicting(conf); // set the state of isConflicting to true
+    };
     checkConflicting();
-  }, [subjects, currentPlan]);
+  }, [subject, subjects, currentPlan]);
 
   const addSubjectToSchedule = (lab) => {
     if (isConflicting) return;

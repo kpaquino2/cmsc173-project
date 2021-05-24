@@ -43,39 +43,38 @@ export const LabSection = ({
     },
   });
 
-  const checkLabConflicting = () => {
-    var conf = false;
-
-    var labStart =
-      parseInt(labSection.labStartTime.split(":")[0]) * 60 +
-      parseInt(labSection.labStartTime.split(":")[1]);
-
-    var labEnd =
-      parseInt(labSection.labEndTime.split(":")[0]) * 60 +
-      parseInt(labSection.labEndTime.split(":")[1]);
-
-    // checks for conflict for each day of the subject
-    Object.keys(labSection.labDaysOccur).forEach((day, i) => {
-      if (labSection.labDaysOccur[day]) {
-        currentPlan.schedule[i].classes.forEach((clas) => {
-          var classStart =
-            parseInt(clas.from.split(":")[0]) * 60 +
-            parseInt(clas.from.split(":")[1]);
-          var classEnd =
-            parseInt(clas.to.split(":")[0]) * 60 +
-            parseInt(clas.to.split(":")[1]);
-          // will be true when the subject and class conflict
-          if (labStart < classEnd && labEnd > classStart) {
-            conf = true;
-          }
-        });
-      }
-    });
-
-    setIsConflicting(conf);
-  };
-
   useEffect(() => {
+    const checkLabConflicting = () => {
+      var conf = false;
+
+      var labStart =
+        parseInt(labSection.labStartTime.split(":")[0]) * 60 +
+        parseInt(labSection.labStartTime.split(":")[1]);
+
+      var labEnd =
+        parseInt(labSection.labEndTime.split(":")[0]) * 60 +
+        parseInt(labSection.labEndTime.split(":")[1]);
+
+      // checks for conflict for each day of the subject
+      Object.keys(labSection.labDaysOccur).forEach((day, i) => {
+        if (labSection.labDaysOccur[day]) {
+          currentPlan.schedule[i].classes.forEach((clas) => {
+            var classStart =
+              parseInt(clas.from.split(":")[0]) * 60 +
+              parseInt(clas.from.split(":")[1]);
+            var classEnd =
+              parseInt(clas.to.split(":")[0]) * 60 +
+              parseInt(clas.to.split(":")[1]);
+            // will be true when the subject and class conflict
+            if (labStart < classEnd && labEnd > classStart) {
+              conf = true;
+            }
+          });
+        }
+      });
+
+      setIsConflicting(conf);
+    };
     checkLabConflicting();
   }, [labSection, currentPlan]);
 
