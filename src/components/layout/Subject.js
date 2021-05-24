@@ -231,6 +231,7 @@ const Subject = ({ index, subject, bgColor }) => {
             {subject.labSections &&
               subject.labSections.map((labSection, idx) => (
                 <LabSection
+                  bgColor={bgColor}
                   key={idx}
                   lab_index={idx}
                   subject_index={index}
