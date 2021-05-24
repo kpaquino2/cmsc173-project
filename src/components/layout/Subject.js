@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 
@@ -84,23 +84,10 @@ const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
           );
         });
         newSched[day].classes = temp;
-        console.log("temp:\n", temp);
       }
     }
     setCurrentPlan({ ...currentPlan, schedule: newSched });
     console.log("currplan:\n", currentPlan);
-  };
-
-  const deleteSubject = () => {
-    const newSubjects = subjects.slice();
-    newSubjects.splice(index, 1);
-    setSubjects(newSubjects);
-  };
-
-  const deleteLab = (idx) => {
-    const newSubjects = subjects.slice();
-    newSubjects[index].labSections.splice(idx, 1);
-    setSubjects(newSubjects);
   };
 
   return (
@@ -135,15 +122,27 @@ const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
             icon={faTrashAlt}
             className="delete-icon"
             onClick={(e) => {
+              var tbd;
               e.stopPropagation();
               const newSubjects = subjects.slice();
-              var tbd = createTempUser(
+
+              if (newSubjects[index].labSections.length !== 0) {
+                for (let i in newSubjects.labSections) {
+                  tbd = createTempUser(
+                    newSubjects[index].name,
+                    `${newSubjects[index].section}-${newSubjects[index].labSections[i].labSec}`
+                  );
+                  console.log("all lab", tbd);
+
+                  deleteClass(tbd);
+                  newSubjects[index].labSections.splice(i, 1);
+                }
+              }
+              tbd = createTempUser(
                 subjects[index].name,
                 subjects[index].section
               );
-              // console.log("direct", subjects[index]);
-              console.log("copy", tbd);
-              // console.log(tbd === subjects[index]);
+              // console.log("tobedeleted", tbd);
               deleteClass(tbd);
               newSubjects.splice(index, 1);
               setSubjects(newSubjects);
@@ -212,8 +211,25 @@ const Subject = ({ index, subject, bgColor, isConflicting = true }) => {
                   <FontAwesomeIcon
                     icon={faTrashAlt}
                     className="delete-icon"
-                    onClick={() => {
-                      deleteLab(idx);
+                    onClick={(e) => {
+                      e.stopPropagation();
+
+                      const newSubjects = subjects.slice();
+                      console.log(index, idx);
+                      console.log(subjects[0].labSections[0]);
+                      const labSec = `${subjects[index].section}-${subjects[index].labSections[idx].labSec}`;
+                      console.log(labSec);
+                      // console.log(subjects[index].labSections);
+                      var tbd = createTempUser(
+                        // subjects[index].labSections[idx].name,
+                        subjects[index].name,
+                        labSec
+                      );
+                      console.log("delete lab", tbd);
+                      deleteClass(tbd);
+
+                      newSubjects[index].labSections.splice(idx, 1);
+                      setSubjects(newSubjects);
                     }}
                   />
                 </div>
