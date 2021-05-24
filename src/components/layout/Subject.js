@@ -35,9 +35,9 @@ const Subject = ({ index, subject, bgColor }) => {
   const [labConflicts, setLabConflicts] = useState([]); // boolean array for lab conflicts
 
   // checks for changes in subjects and current plan
-  useEffect(() => {
-    checkConflicting();
-  }, [subjects, currentPlan]);
+  // useEffect(() => {
+  //   checkConflicting();
+  // }, [subjects, currentPlan]);
 
   // check conflicts
   const checkConflicting = () => {
@@ -222,6 +222,8 @@ const Subject = ({ index, subject, bgColor }) => {
                   newSubjects[index].labSections.splice(i, 1);
                 }
               }
+              setSubjects(newSubjects);
+
               tbd = createTempUser(
                 subjects[index].name,
                 subjects[index].section
