@@ -1,11 +1,11 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faDownload, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "@headlessui/react";
 
 import { useAtom } from "jotai";
 import allowConflictAtom from "../../atoms/allowConflictAtom";
-import { isSubjectOpenAtom, editSubjectAtom } from "../atom/modal"
+import { isSubjectOpenAtom, editSubjectAtom } from "../atom/modal";
 import { subjectsAtom } from "../atom/subjects";
 
 import "../../styles/Sidebar.css";
@@ -13,6 +13,7 @@ import Subject from "./Subject";
 
 import { Modal } from "./Modal";
 import { LabModal } from "./LabModal";
+import { downloadSchedule } from "./Main";
 
 const Sidebar = () => {
   const [, setIsOpen] = useAtom(isSubjectOpenAtom);
@@ -37,14 +38,12 @@ const Sidebar = () => {
       <Modal />
       <LabModal />
       <div className="sidebar-item title">
-        <div style={{marginRight: "1rem"}}>
+        <div style={{ marginRight: "1rem" }}>
           <FontAwesomeIcon icon={faClock} size={"2x"} />
         </div>
-        <h1>
-          Easy Planner
-        </h1>
+        <h1>Easy Planner</h1>
       </div>
-      <button 
+      <button
         className="add-subject-button"
         onClick={() => {
           setIsOpen(true);
@@ -58,19 +57,37 @@ const Sidebar = () => {
         <div className="subjects">
           {subjects.map((subject, idx) => {
             return (
-              <Subject key={idx} index={idx} subject={subject} bgColor={colors[idx % colors.length]} />
+              <Subject
+                key={idx}
+                index={idx}
+                subject={subject}
+                bgColor={colors[idx % colors.length]}
+              />
             );
           })}
-          {
-            subjects.length === 0 && 
+          {subjects.length === 0 && (
             <div className="initial-instructions">
-              Click <strong><FontAwesomeIcon icon={faPlus} size="sm" /> Add a Subject</strong> <br /> to add to your list of subjects.
+              Click{" "}
+              <strong>
+                <FontAwesomeIcon icon={faPlus} size="sm" /> Add a Subject
+              </strong>{" "}
+              <br /> to add to your list of subjects.
             </div>
-          }
+          )}
         </div>
       </div>
-      <div className="sidebar-item options" style={{display: "none"}}>
-        <Switch.Group as="div" className="switch-group">
+      <div className="sidebar-item options">
+        <div className="switch-group">
+          <div className="switch-lab">Download schedule</div>
+          <div className="download-button" onClick={downloadSchedule}>
+            <FontAwesomeIcon icon={faDownload} size="lg" />
+          </div>
+        </div>
+        <Switch.Group
+          as="div"
+          className="switch-group"
+          style={{ display: "none" }}
+        >
           <Switch.Label className="switch-label">Allow conflicts</Switch.Label>
           <Switch
             className={`switch ${
@@ -79,13 +96,15 @@ const Sidebar = () => {
             checked={enabled}
             onChange={() => {
               setEnabled(!enabled);
-            }}>
+            }}
+          >
             <span
               className={`switch-indicator ${
                 enabled
                   ? "switch-indicator-enabled"
                   : "switch-indicator-disabled"
-              }`}></span>
+              }`}
+            ></span>
           </Switch>
         </Switch.Group>
       </div>

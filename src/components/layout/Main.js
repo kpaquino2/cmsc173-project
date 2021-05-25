@@ -2,12 +2,51 @@ import React from "react";
 import { useAtom } from "jotai";
 import { currentPlanAtom } from "../atom/plans";
 import { showInitialGuideAtom } from "../atom/initialguides";
+import html2canvas from "html2canvas";
 import "../../styles/Layout.css";
 import Class from "./Class.js";
 
 // Drag-and-drop functionality
 import { useDroppable } from "@dnd-kit/core";
 import { isDraggingAtom } from "../atom/dragguide";
+
+export const downloadSchedule = () => {
+  html2canvas(document.querySelector("#main")).then((canvas) => {
+    // console.log(canvas);
+    // document.body.appendChild(canvas);
+    var lnk = document.createElement("a"),
+      e;
+
+    lnk.download = "schedule.png";
+
+    lnk.href = canvas.toDataURL("image/png");
+
+    if (document.createEvent) {
+      e = document.createEvent("MouseEvents");
+      e.initMouseEvent(
+        "click",
+        true,
+        true,
+        window,
+        0,
+        0,
+        0,
+        0,
+        0,
+        false,
+        false,
+        false,
+        false,
+        0,
+        null
+      );
+
+      lnk.dispatchEvent(e);
+    } else if (lnk.fireEvent) {
+      lnk.fireEvent("onclick");
+    }
+  });
+};
 
 const Main = () => {
   const [currentPlan] = useAtom(currentPlanAtom);
@@ -20,6 +59,7 @@ const Main = () => {
 
   return (
     <div
+      id="main"
       className="main"
       ref={setNodeRef}
       style={{ outline: isOver ? "#16b92e 2px solid" : "" }}
