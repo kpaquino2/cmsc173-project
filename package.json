@@ -13,6 +13,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "html2canvas": "^1.0.0-rc.7",
     "install": "^0.13.0",
     "jotai": "^0.16.5",
     "npm": "^7.14.0",
