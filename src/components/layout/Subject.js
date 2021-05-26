@@ -188,7 +188,7 @@ const Subject = ({ index, subject, bgColor }) => {
           position: transform ? "absolute" : "static",
           width: transform ? "calc(20% - 5rem)" : "",
           zIndex: transform ? "100" : "auto",
-          // top: transform ? `${mousePos - 32}px` : undefined,
+          top: transform ? `${mousePos - 32}px` : undefined,
           left: transform ? "0" : undefined,
         }}
         ref={setNodeRef}
