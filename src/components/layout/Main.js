@@ -12,9 +12,7 @@ import { isDraggingAtom } from "../atom/dragguide";
 
 export const downloadSchedule = () => {
   html2canvas(document.querySelector("#main"), {
-    ignoreElements: (element) =>
-      element.className === "main-drag-guide" ||
-      element.className === "main-drag-guide-enabled",
+    ignoreElements: (element) => element.id === "drag-guide",
   }).then((canvas) => {
     // console.log(canvas);
     // document.body.appendChild(canvas);
@@ -69,6 +67,7 @@ const Main = () => {
       style={{ outline: isOver ? "#16b92e 2px solid" : "" }}
     >
       <div
+        id="drag-guide"
         className={`main-drag-guide ${
           isDragging && !isOver ? "main-drag-guide-enabled" : ""
         }`}
