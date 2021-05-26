@@ -11,7 +11,11 @@ import { useDroppable } from "@dnd-kit/core";
 import { isDraggingAtom } from "../atom/dragguide";
 
 export const downloadSchedule = () => {
-  html2canvas(document.querySelector("#main")).then((canvas) => {
+  html2canvas(document.querySelector("#main"), {
+    ignoreElements: (element) =>
+      element.className === "main-drag-guide" ||
+      element.className === "main-drag-guide-enabled",
+  }).then((canvas) => {
     // console.log(canvas);
     // document.body.appendChild(canvas);
     var lnk = document.createElement("a"),
