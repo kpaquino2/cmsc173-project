@@ -17,6 +17,8 @@ import { useAtom } from "jotai";
 import { useDraggable } from "@dnd-kit/core";
 import { currentPlanAtom } from "../atom/plans";
 import { useEffect } from "react";
+import { mousePosAtom } from "../atom/mouseposition";
+import { isDraggingAtom } from "../atom/dragguide";
 
 export const LabSection = ({
   bgColor,
@@ -78,6 +80,9 @@ export const LabSection = ({
     checkLabConflicting();
   }, [labSection, currentPlan]);
 
+  const [mousePos, setMousePos] = useAtom(mousePosAtom);
+  const [isDragging] = useAtom(isDraggingAtom);
+
   return (
     <div
       key={lab_index}
@@ -93,9 +98,19 @@ export const LabSection = ({
         width: transform ? "calc(20% - 5rem)" : "",
         zIndex: transform ? "100" : "auto",
         borderRadius: transform ? "1rem" : undefined,
+        top: transform ? `${mousePos - 50}px` : undefined,
       }}
     >
-      <div className="lab-grip-line" {...attributes} {...listeners}>
+      <div
+        className="lab-grip-line"
+        {...attributes}
+        {...listeners}
+        onMouseOver={(e) => {
+          if (!isDragging) {
+            setMousePos(e.clientY);
+          }
+        }}
+      >
         <FontAwesomeIcon icon={faGripVertical} />
       </div>
       <div
