@@ -11,7 +11,9 @@ import { useDroppable } from "@dnd-kit/core";
 import { isDraggingAtom } from "../atom/dragguide";
 
 export const downloadSchedule = () => {
-  html2canvas(document.querySelector("#main")).then((canvas) => {
+  html2canvas(document.querySelector("#main"), {
+    ignoreElements: (element) => element.id === "drag-guide",
+  }).then((canvas) => {
     // console.log(canvas);
     // document.body.appendChild(canvas);
     var lnk = document.createElement("a"),
@@ -65,6 +67,7 @@ const Main = () => {
       style={{ outline: isOver ? "#16b92e 2px solid" : "" }}
     >
       <div
+        id="drag-guide"
         className={`main-drag-guide ${
           isDragging && !isOver ? "main-drag-guide-enabled" : ""
         }`}
