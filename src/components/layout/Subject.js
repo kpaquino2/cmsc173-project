@@ -23,6 +23,9 @@ import { isLabOpenAtom, editLabAtom } from "../atom/labmodal";
 import { showInitialGuideAtom } from "../atom/initialguides";
 // Drag-and-Drop Functionality
 import { useDraggable } from "@dnd-kit/core";
+import { useRef } from "react";
+import { isDraggingAtom } from "../atom/dragguide";
+import { mousePosAtom } from "../atom/mouseposition";
 
 const Subject = ({ index, subject, bgColor }) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
@@ -166,8 +169,13 @@ const Subject = ({ index, subject, bgColor }) => {
     },
   });
 
+  const subjectContainerRef = useRef(null);
+
+  const [mousePos, setMousePos] = useAtom(mousePosAtom);
+  const [isDragging] = useAtom(isDraggingAtom);
+
   return (
-    <>
+    <div ref={subjectContainerRef}>
       <div
         className={`subject-container ${
           isConflicting ? "subject-container-disabled" : ""
@@ -180,11 +188,22 @@ const Subject = ({ index, subject, bgColor }) => {
           position: transform ? "absolute" : "static",
           width: transform ? "calc(20% - 5rem)" : "",
           zIndex: transform ? "100" : "auto",
+          // top: transform ? `${mousePos - 32}px` : undefined,
+          left: transform ? "0" : undefined,
         }}
         ref={setNodeRef}
       >
         {subject.labSections && subject.labSections.length === 0 && (
-          <div className="drag-handle-indicator" {...listeners} {...attributes}>
+          <div
+            className="drag-handle-indicator"
+            {...listeners}
+            {...attributes}
+            onMouseOver={(e) => {
+              if (!isDragging) {
+                setMousePos(e.clientY);
+              }
+            }}
+          >
             <FontAwesomeIcon icon={faGripLines} />
           </div>
         )}
@@ -296,7 +315,7 @@ const Subject = ({ index, subject, bgColor }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
