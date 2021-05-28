@@ -50,6 +50,17 @@ export const Modal = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    for (let i = 0; i < subjects.length; i++) {
+      if (i === edit) continue;
+      if (
+        subjects[i].name === formInputs.subject &&
+        subjects[i].section === formInputs.section
+      ) {
+        alert("You have already entered a subject with the same section."); // medyo scueffed kasi alert() lang gamit
+        return;
+      }
+    }
+
     // editing subject
     if (edit !== -1) {
       const newSubject = subjects[edit];
