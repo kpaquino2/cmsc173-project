@@ -163,6 +163,8 @@ export const Modal = () => {
                           startTime: e.target.value,
                         }));
                       }}
+                      min="07:00"
+                      max="19:00"
                       required
                     />
                   </div>
@@ -184,6 +186,7 @@ export const Modal = () => {
                         }));
                       }}
                       min={startTimeRef.current?.value}
+                      max="19:00"
                       required
                     />
                   </div>
