@@ -110,7 +110,7 @@ export const Modal = () => {
                       type="text"
                       id="subject"
                       className="input"
-                      defaultValue={edit !== -1 ? subjects[edit].name : ""}
+                      defaultValue={edit !== -1 ? subjects[edit]?.name : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev,
@@ -130,7 +130,7 @@ export const Modal = () => {
                       type="text"
                       id="section"
                       className="input"
-                      defaultValue={edit !== -1 ? subjects[edit].section : ""}
+                      defaultValue={edit !== -1 ? subjects[edit]?.section : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev,
@@ -152,7 +152,9 @@ export const Modal = () => {
                       type="time"
                       id="start_time"
                       className="input"
-                      defaultValue={edit !== -1 ? subjects[edit].startTime : ""}
+                      defaultValue={
+                        edit !== -1 ? subjects[edit]?.startTime : ""
+                      }
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev,
@@ -172,7 +174,7 @@ export const Modal = () => {
                       type="time"
                       id="end_time"
                       className="input"
-                      defaultValue={edit !== -1 ? subjects[edit].endTime : ""}
+                      defaultValue={edit !== -1 ? subjects[edit]?.endTime : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev,
