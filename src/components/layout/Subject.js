@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LabSection } from "./LabSection";
+import { SubjectPreview } from "./SubjectPreview";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -174,8 +175,18 @@ const Subject = ({ index, subject, bgColor }) => {
   const [mousePos, setMousePos] = useAtom(mousePosAtom);
   const [isDragging] = useAtom(isDraggingAtom);
 
+  const [willShowPreview, setWillShowPreview] = useState(false);
+
   return (
     <div ref={subjectContainerRef}>
+      {willShowPreview && (
+        <SubjectPreview
+          currentPlan={currentPlan}
+          subject={subject}
+          bgColor={bgColor}
+        />
+      )}
+
       <div
         className={`subject-container ${
           isConflicting ? "subject-container-disabled" : ""
@@ -213,6 +224,18 @@ const Subject = ({ index, subject, bgColor }) => {
           onClick={
             subject.labSections.length ? null : () => addSubjectToSchedule(null)
           }
+          onMouseEnter={(e) => {
+            if (subject.labSections && subject.labSections.length === 0) {
+              e.stopPropagation();
+              setWillShowPreview(true);
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (subject.labSections && subject.labSections.length === 0) {
+              e.stopPropagation();
+              setWillShowPreview(false);
+            }
+          }}
         >
           <div className="subject-text">
             <h2>{subject.name}</h2>

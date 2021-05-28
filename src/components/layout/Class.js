@@ -5,7 +5,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useAtom } from "jotai";
 import { currentPlanAtom } from "../atom/plans";
 
-const Class = ({ classState }) => {
+const Class = ({ classState, isPreview = false }) => {
   const [currentPlan, setCurrentPlan] = useAtom(currentPlanAtom);
 
   // calculate the number of minutes from classState.from
@@ -49,21 +49,26 @@ const Class = ({ classState }) => {
     <div
       className="class-container"
       style={{
-        height: `calc(7.5% * ${diff} )`,
-        top: `calc(3.8% + ${offset} * 7.6% )`,
+        height: isPreview ? `calc(8% * ${diff} )` : `calc(7.5% * ${diff} )`,
+        top: isPreview
+          ? `calc(5.55% + ${offset} * 7.8% )`
+          : `calc(3.8% + ${offset} * 7.6% )`,
         background: classState.color,
+        opacity: isPreview ? "0.5" : "1",
       }}
     >
       <div className="top-section">
         <div className="subject-text">{classState.subject}</div>
         <div>
-          <button className="class-close-button" onClick={deleteClass}>
-            <FontAwesomeIcon
-              icon={faTimes}
-              className="class-close-icon"
-              size="lg"
-            />
-          </button>
+          {!isPreview && (
+            <button className="class-close-button" onClick={deleteClass}>
+              <FontAwesomeIcon
+                icon={faTimes}
+                className="class-close-icon"
+                size="lg"
+              />
+            </button>
+          )}
         </div>
       </div>
       <div className="data-text">{classState.section}</div>
