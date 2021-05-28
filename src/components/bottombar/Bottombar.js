@@ -17,7 +17,7 @@ const Bottombar = () => {
   return (
     <div className="bottombar">
       <div
-        className="tab"
+        className="tab add-tab"
         onClick={() => {
           setPlans([
             ...plans,

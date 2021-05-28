@@ -179,6 +179,8 @@ const Subject = ({ index, subject, bgColor }) => {
       <div
         className={`subject-container ${
           isConflicting ? "subject-container-disabled" : ""
+        } ${
+          subject.labSections.length === 0 ? "subject-container-clickable" : ""
         }`}
         style={{
           background: bgColor,
