@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Dialog, Transition, Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import { useAtom } from "jotai";
@@ -20,6 +20,7 @@ export const Modal = () => {
   const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [edit, setEdit] = useAtom(editSubjectAtom);
+  const startTimeRef = useRef(null);
 
   useEffect(() => {
     setFormInputs({
@@ -152,6 +153,7 @@ export const Modal = () => {
                       type="time"
                       id="start_time"
                       className="input"
+                      ref={startTimeRef}
                       defaultValue={
                         edit !== -1 ? subjects[edit]?.startTime : ""
                       }
@@ -181,6 +183,7 @@ export const Modal = () => {
                           endTime: e.target.value,
                         }));
                       }}
+                      min={startTimeRef.current?.value}
                       required
                     />
                   </div>
