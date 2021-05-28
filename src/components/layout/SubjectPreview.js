@@ -3,7 +3,12 @@ import ReactDOM from "react-dom";
 import "../../styles/Subject.css";
 import Class from "./Class";
 
-export const SubjectPreview = ({ currentPlan, subject, bgColor }) => {
+export const SubjectPreview = ({
+  currentPlan,
+  subject,
+  bgColor,
+  lab_index = null,
+}) => {
   return ReactDOM.createPortal(
     <div className="preview-block">
       <div className="preview-time-column">
@@ -37,6 +42,20 @@ export const SubjectPreview = ({ currentPlan, subject, bgColor }) => {
               isPreview={true}
             />
           )}
+          {subject.labSections &&
+            subject.labSections[lab_index] &&
+            subject.labSections[lab_index].labDaysOccur[day.name] && (
+              <Class
+                classState={{
+                  subject: subject.name,
+                  section: subject.section,
+                  from: subject.labSections[lab_index].labStartTime,
+                  to: subject.labSections[lab_index].labEndTime,
+                  color: bgColor,
+                }}
+                isPreview={true}
+              />
+            )}
         </div>
       ))}
     </div>,

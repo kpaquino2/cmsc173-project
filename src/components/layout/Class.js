@@ -51,7 +51,7 @@ const Class = ({ classState, isPreview = false }) => {
       style={{
         height: isPreview ? `calc(8% * ${diff} )` : `calc(7.5% * ${diff} )`,
         top: isPreview
-          ? `calc(5.55% + ${offset} * 7.8% )`
+          ? `calc(4.8% + ${offset} * 7.8% )`
           : `calc(3.8% + ${offset} * 7.6% )`,
         background: classState.color,
         opacity: isPreview ? "0.5" : "1",
