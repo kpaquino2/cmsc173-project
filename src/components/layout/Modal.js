@@ -65,6 +65,7 @@ export const Modal = () => {
     if (Object.keys(isDayEnabled).every((k) => !isDayEnabled[k])){
       setDayError(true);
     } else {
+      setDayError(false);
       // editing subject
       if (edit !== -1) {
         const newSubject = subjects[edit];
