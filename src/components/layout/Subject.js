@@ -133,8 +133,8 @@ const Subject = ({ index, subject, bgColor }) => {
         if (plans[i].schedule[day].classes.length !== 0) {
           var temp = plans[i].schedule[day].classes.filter((c) => {
             return (
-              c.subject !== toBeDeleted.subject &&
-              c.section !== toBeDeleted.section
+              c.subject !== toBeDeleted.subject ||
+              c.section.split("-")[0] !== toBeDeleted.section.split("-")[0]
             );
           });
           plans[i].schedule[day].classes = temp;
@@ -179,7 +179,7 @@ const Subject = ({ index, subject, bgColor }) => {
 
   return (
     <div ref={subjectContainerRef}>
-      {willShowPreview && (
+      {(willShowPreview || isDragging) && (
         <SubjectPreview
           currentPlan={currentPlan}
           subject={subject}
