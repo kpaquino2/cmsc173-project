@@ -179,7 +179,7 @@ const Subject = ({ index, subject, bgColor }) => {
 
   return (
     <div ref={subjectContainerRef}>
-      {(willShowPreview || isDragging) && (
+      {willShowPreview && (
         <SubjectPreview
           currentPlan={currentPlan}
           subject={subject}
@@ -215,6 +215,12 @@ const Subject = ({ index, subject, bgColor }) => {
               if (!isDragging) {
                 setMousePos(e.clientY);
               }
+            }}
+            onMouseDown={() => {
+              setWillShowPreview(true);
+            }}
+            onMouseUp={() => {
+              setWillShowPreview(false);
             }}
           >
             <FontAwesomeIcon icon={faGripLines} />
