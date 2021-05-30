@@ -22,6 +22,7 @@ export const Modal = () => {
   const [edit, setEdit] = useAtom(editSubjectAtom);
   const startTimeRef = useRef(null);
   const [dayError, setDayError] = useState(false);
+  const [subjError, setSubjError] = useState(false);
 
   useEffect(() => {
     setFormInputs({
@@ -57,10 +58,11 @@ export const Modal = () => {
         subjects[i].name === formInputs.subject &&
         subjects[i].section === formInputs.section
       ) {
-        alert("You have already entered a subject with the same section."); // medyo scueffed kasi alert() lang gamit
+        setSubjError(true);
         return;
       }
     }
+    setSubjError(false);
 
     if (Object.keys(isDayEnabled).every((k) => !isDayEnabled[k])){
       setDayError(true);
@@ -157,6 +159,13 @@ export const Modal = () => {
                       }}
                       required
                     />
+                    <span
+                      className={`${
+                        subjError  ? "error" : "hide"
+                      }`}
+                    >
+                      Subject with same section exists.
+                    </span>
                   </div>
                 </div>
 
