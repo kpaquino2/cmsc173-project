@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dialog, Transition, Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import { useAtom } from "jotai";
@@ -21,6 +21,8 @@ export const Modal = () => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [edit, setEdit] = useAtom(editSubjectAtom);
   const startTimeRef = useRef(null);
+  const [dayError, setDayError] = useState(false);
+  const [subjError, setSubjError] = useState(false);
 
   useEffect(() => {
     setFormInputs({
@@ -56,37 +58,43 @@ export const Modal = () => {
         subjects[i].name === formInputs.subject &&
         subjects[i].section === formInputs.section
       ) {
-        alert("You have already entered a subject with the same section."); // medyo scueffed kasi alert() lang gamit
+        setSubjError(true);
         return;
       }
     }
+    setSubjError(false);
 
-    // editing subject
-    if (edit !== -1) {
-      const newSubject = subjects[edit];
-      newSubject.name = formInputs.subject;
-      newSubject.section = formInputs.section;
-      newSubject.startTime = formInputs.startTime;
-      newSubject.endTime = formInputs.endTime;
-      newSubject.daysOccur = isDayEnabled;
-      // adding subject
+    if (Object.keys(isDayEnabled).every((k) => !isDayEnabled[k])){
+      setDayError(true);
     } else {
-      setSubjects([
-        ...subjects,
-        {
-          name: formInputs.subject,
-          section: formInputs.section,
-          startTime: formInputs.startTime,
-          endTime: formInputs.endTime,
-          daysOccur: isDayEnabled,
-          labSections: [],
-        },
-      ]);
-    }
+      setDayError(false);
+      // editing subject
+      if (edit !== -1) {
+        const newSubject = subjects[edit];
+        newSubject.name = formInputs.subject;
+        newSubject.section = formInputs.section;
+        newSubject.startTime = formInputs.startTime;
+        newSubject.endTime = formInputs.endTime;
+        newSubject.daysOccur = isDayEnabled;
+        // adding subject
+      } else {
+        setSubjects([
+          ...subjects,
+          {
+            name: formInputs.subject,
+            section: formInputs.section,
+            startTime: formInputs.startTime,
+            endTime: formInputs.endTime,
+            daysOccur: isDayEnabled,
+            labSections: [],
+          },
+        ]);
+      }
 
-    setIsOpen(false);
-    setEdit(-1);
-    resetDays();
+      setIsOpen(false);
+      setEdit(-1);
+      resetDays();
+    }
   };
 
   return (
@@ -133,7 +141,7 @@ export const Modal = () => {
                     />
                   </div>
 
-                  {/* SUBJECT INPUT */}
+                  {/* SECTION INPUT */}
                   <div className="input-div">
                     <label htmlFor="section" className="label">
                       Section
@@ -151,6 +159,13 @@ export const Modal = () => {
                       }}
                       required
                     />
+                    <span
+                      className={`${
+                        subjError  ? "error" : "hide"
+                      }`}
+                    >
+                      Subject with same section exists.
+                    </span>
                   </div>
                 </div>
 
@@ -316,6 +331,14 @@ export const Modal = () => {
                       </Switch>
                     </span>
                   </div>
+
+                  <span
+                    className={`${
+                      dayError && Object.keys(isDayEnabled).every((k) => !isDayEnabled[k]) ? "error" : "hide"
+                    }`}
+                  >
+                    Select at least one day.
+                  </span>
                 </div>
 
                 <button className="add-button" type="submit">
