@@ -55,24 +55,28 @@ export const Modal = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    for (let i = 0; i < subjects.length; i++) {
-      if (i === edit) continue;
-      if (
-        subjects[i].name === formInputs.subject &&
-        subjects[i].section === formInputs.section
-      ) {
-        setSubjError(true);
-        return;
-      }
-    }
-    setSubjError(false);
-
     if (Object.keys(isDayEnabled).every((k) => !isDayEnabled[k])){
       setDayError(true);
     } else {
       setDayError(false);
       // editing subject
       if (edit !== -1) {
+        if (
+          subjects[edit].name !== formInputs.subject ||
+          subjects[edit].section !== formInputs.section
+        ){
+          for (let i = 0; i < subjects.length; i++) {
+            if (
+              subjects[i].name === formInputs.subject &&
+              subjects[i].section === formInputs.section
+            ) {
+              setSubjError(true);
+              return;
+            }
+          }
+          setSubjError(false);
+        }
+
         const newSubject = subjects[edit];
         newSubject.name = formInputs.subject;
         newSubject.section = formInputs.section;
@@ -81,6 +85,17 @@ export const Modal = () => {
         newSubject.daysOccur = isDayEnabled;
         // adding subject
       } else {
+        for (let i = 0; i < subjects.length; i++) {
+          if (
+            subjects[i].name === formInputs.subject &&
+            subjects[i].section === formInputs.section
+          ) {
+            setSubjError(true);
+            return;
+          }
+        }
+        setSubjError(false);
+
         setSubjects([
           ...subjects,
           {
@@ -162,14 +177,14 @@ export const Modal = () => {
                       }}
                       required
                     />
-                    <span
-                      className={`${
-                        subjError  ? "error" : "hide"
-                      }`}
-                    >
-                      Subject with same section exists.
-                    </span>
                   </div>
+                  <span
+                    className={`${
+                      subjError  ? "error" : "hide"
+                    }`}
+                  >
+                    Subject with same section exists.
+                  </span>
                 </div>
 
                 <div className="grid">
