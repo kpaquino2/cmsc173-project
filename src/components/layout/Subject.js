@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LabSection } from "./LabSection";
+import { SubjectPreview } from "./SubjectPreview";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -132,8 +133,8 @@ const Subject = ({ index, subject, bgColor }) => {
         if (plans[i].schedule[day].classes.length !== 0) {
           var temp = plans[i].schedule[day].classes.filter((c) => {
             return (
-              c.subject !== toBeDeleted.subject &&
-              c.section !== toBeDeleted.section
+              c.subject !== toBeDeleted.subject ||
+              c.section.split("-")[0] !== toBeDeleted.section.split("-")[0]
             );
           });
           plans[i].schedule[day].classes = temp;
@@ -174,11 +175,23 @@ const Subject = ({ index, subject, bgColor }) => {
   const [mousePos, setMousePos] = useAtom(mousePosAtom);
   const [isDragging] = useAtom(isDraggingAtom);
 
+  const [willShowPreview, setWillShowPreview] = useState(false);
+
   return (
     <div ref={subjectContainerRef}>
+      {willShowPreview && (
+        <SubjectPreview
+          currentPlan={currentPlan}
+          subject={subject}
+          bgColor={bgColor}
+        />
+      )}
+
       <div
         className={`subject-container ${
           isConflicting ? "subject-container-disabled" : ""
+        } ${
+          subject.labSections.length === 0 ? "subject-container-clickable" : ""
         }`}
         style={{
           background: bgColor,
@@ -203,6 +216,12 @@ const Subject = ({ index, subject, bgColor }) => {
                 setMousePos(e.clientY);
               }
             }}
+            onMouseDown={() => {
+              setWillShowPreview(true);
+            }}
+            onMouseUp={() => {
+              setWillShowPreview(false);
+            }}
           >
             <FontAwesomeIcon icon={faGripLines} />
           </div>
@@ -211,6 +230,18 @@ const Subject = ({ index, subject, bgColor }) => {
           onClick={
             subject.labSections.length ? null : () => addSubjectToSchedule(null)
           }
+          onMouseEnter={(e) => {
+            if (subject.labSections && subject.labSections.length === 0) {
+              e.stopPropagation();
+              setWillShowPreview(true);
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (subject.labSections && subject.labSections.length === 0) {
+              e.stopPropagation();
+              setWillShowPreview(false);
+            }
+          }}
         >
           <div className="subject-text">
             <h2>{subject.name}</h2>

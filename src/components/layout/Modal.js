@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dialog, Transition, Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import { useAtom } from "jotai";
@@ -20,6 +20,9 @@ export const Modal = () => {
   const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects, setSubjects] = useAtom(subjectsAtom);
   const [edit, setEdit] = useAtom(editSubjectAtom);
+  const startTimeRef = useRef(null);
+  const [dayError, setDayError] = useState(false);
+  const [subjError, setSubjError] = useState(false);
 
   useEffect(() => {
     setFormInputs({
@@ -42,6 +45,9 @@ export const Modal = () => {
   };
 
   const closeModal = () => {
+    setSubjError(false);
+    setDayError(false);
+    setEdit(-1);
     setIsOpen(false);
     resetDays();
   };
@@ -49,32 +55,64 @@ export const Modal = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // editing subject
-    if (edit !== -1) {
-      const newSubject = subjects[edit];
-      newSubject.name = formInputs.subject;
-      newSubject.section = formInputs.section;
-      newSubject.startTime = formInputs.startTime;
-      newSubject.endTime = formInputs.endTime;
-      newSubject.daysOccur = isDayEnabled;
-      // adding subject
+    if (Object.keys(isDayEnabled).every((k) => !isDayEnabled[k])){
+      setDayError(true);
     } else {
-      setSubjects([
-        ...subjects,
-        {
-          name: formInputs.subject,
-          section: formInputs.section,
-          startTime: formInputs.startTime,
-          endTime: formInputs.endTime,
-          daysOccur: isDayEnabled,
-          labSections: [],
-        },
-      ]);
-    }
+      setDayError(false);
+      // editing subject
+      if (edit !== -1) {
+        if (
+          subjects[edit].name !== formInputs.subject ||
+          subjects[edit].section !== formInputs.section
+        ){
+          for (let i = 0; i < subjects.length; i++) {
+            if (
+              subjects[i].name === formInputs.subject &&
+              subjects[i].section === formInputs.section
+            ) {
+              setSubjError(true);
+              return;
+            }
+          }
+          setSubjError(false);
+        }
 
-    setIsOpen(false);
-    setEdit(-1);
-    resetDays();
+        const newSubject = subjects[edit];
+        newSubject.name = formInputs.subject;
+        newSubject.section = formInputs.section;
+        newSubject.startTime = formInputs.startTime;
+        newSubject.endTime = formInputs.endTime;
+        newSubject.daysOccur = isDayEnabled;
+        // adding subject
+      } else {
+        for (let i = 0; i < subjects.length; i++) {
+          if (
+            subjects[i].name === formInputs.subject &&
+            subjects[i].section === formInputs.section
+          ) {
+            setSubjError(true);
+            return;
+          }
+        }
+        setSubjError(false);
+
+        setSubjects([
+          ...subjects,
+          {
+            name: formInputs.subject,
+            section: formInputs.section,
+            startTime: formInputs.startTime,
+            endTime: formInputs.endTime,
+            daysOccur: isDayEnabled,
+            labSections: [],
+          },
+        ]);
+      }
+
+      setIsOpen(false);
+      setEdit(-1);
+      resetDays();
+    }
   };
 
   return (
@@ -110,7 +148,7 @@ export const Modal = () => {
                       type="text"
                       id="subject"
                       className="input"
-                      defaultValue={edit !== -1 ? subjects[edit].name : ""}
+                      defaultValue={edit !== -1 ? subjects[edit]?.name : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev,
@@ -121,7 +159,7 @@ export const Modal = () => {
                     />
                   </div>
 
-                  {/* SUBJECT INPUT */}
+                  {/* SECTION INPUT */}
                   <div className="input-div">
                     <label htmlFor="section" className="label">
                       Section
@@ -130,7 +168,7 @@ export const Modal = () => {
                       type="text"
                       id="section"
                       className="input"
-                      defaultValue={edit !== -1 ? subjects[edit].section : ""}
+                      defaultValue={edit !== -1 ? subjects[edit]?.section : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev,
@@ -140,6 +178,13 @@ export const Modal = () => {
                       required
                     />
                   </div>
+                  <span
+                    className={`${
+                      subjError  ? "error" : "hide"
+                    }`}
+                  >
+                    Subject with same section exists.
+                  </span>
                 </div>
 
                 <div className="grid">
@@ -152,13 +197,18 @@ export const Modal = () => {
                       type="time"
                       id="start_time"
                       className="input"
-                      defaultValue={edit !== -1 ? subjects[edit].startTime : ""}
+                      ref={startTimeRef}
+                      defaultValue={
+                        edit !== -1 ? subjects[edit]?.startTime : ""
+                      }
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev,
                           startTime: e.target.value,
                         }));
                       }}
+                      min="07:00"
+                      max="19:00"
                       required
                     />
                   </div>
@@ -172,13 +222,15 @@ export const Modal = () => {
                       type="time"
                       id="end_time"
                       className="input"
-                      defaultValue={edit !== -1 ? subjects[edit].endTime : ""}
+                      defaultValue={edit !== -1 ? subjects[edit]?.endTime : ""}
                       onChange={(e) => {
                         setFormInputs((prev) => ({
                           ...prev,
                           endTime: e.target.value,
                         }));
                       }}
+                      min={startTimeRef.current?.value}
+                      max="19:00"
                       required
                     />
                   </div>
@@ -297,6 +349,14 @@ export const Modal = () => {
                       </Switch>
                     </span>
                   </div>
+
+                  <span
+                    className={`${
+                      dayError && Object.keys(isDayEnabled).every((k) => !isDayEnabled[k]) ? "error" : "hide"
+                    }`}
+                  >
+                    Select at least one day.
+                  </span>
                 </div>
 
                 <button className="add-button" type="submit">

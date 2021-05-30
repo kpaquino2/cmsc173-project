@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { SubjectPreview } from "./SubjectPreview";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrashAlt,
@@ -82,6 +83,7 @@ export const LabSection = ({
 
   const [mousePos, setMousePos] = useAtom(mousePosAtom);
   const [isDragging] = useAtom(isDraggingAtom);
+  const [willShowPreview, setWillShowPreview] = useState(false);
 
   return (
     <div
@@ -101,6 +103,14 @@ export const LabSection = ({
         top: transform ? `${mousePos - 50}px` : undefined,
       }}
     >
+      {willShowPreview && (
+        <SubjectPreview
+          currentPlan={currentPlan}
+          subject={subject}
+          bgColor={bgColor}
+          lab_index={lab_index}
+        />
+      )}
       <div
         className="lab-grip-line"
         {...attributes}
@@ -116,6 +126,14 @@ export const LabSection = ({
       <div
         className="lab-section-information"
         onClick={() => addSubjectToSchedule(labSection)}
+        onMouseEnter={(e) => {
+          e.stopPropagation();
+          setWillShowPreview(true);
+        }}
+        onMouseLeave={(e) => {
+          e.stopPropagation();
+          setWillShowPreview(false);
+        }}
       >
         <div className="lab-section-text">
           <strong>{`${subject.section}-${labSection.labSec}`}</strong>

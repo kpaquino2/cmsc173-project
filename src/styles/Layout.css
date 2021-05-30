@@ -95,6 +95,11 @@
   background-color: #92dfee;
 }
 
+.add-tab {
+  background: #0396b3;
+  color: white;
+}
+
 .time-column {
   width: 10%;
   background-color: #f9fafb;

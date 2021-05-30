@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Dialog, Transition, Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import "../../styles/Modal.css";
@@ -20,6 +20,9 @@ export const LabModal = () => {
   const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects] = useAtom(subjectsAtom);
   const [edit, setEdit] = useAtom(editLabAtom);
+  const startTimeRef = useRef(null);
+  const [dayError, setDayError] = useState(false);
+  const [sectionError, setSectionError] = useState(false);
 
   const resetDays = () => {
     setIsDayEnabled({
@@ -33,6 +36,9 @@ export const LabModal = () => {
   };
 
   const closeModal = () => {
+    setDayError(false);
+    setSectionError(false);
+    setEdit([0, 0, 0]);
     setIsOpen(false);
     resetDays();
   };
@@ -40,27 +46,56 @@ export const LabModal = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // adding lab
-    if (edit[0] === 0) {
-      const newLab = subjects[edit[1]].labSections;
-      newLab.push({
-        labSec: formInputs.section,
-        labStartTime: formInputs.startTime,
-        labEndTime: formInputs.endTime,
-        labDaysOccur: isDayEnabled,
-      });
-
-      // editing lab
+    if (Object.keys(isDayEnabled).every((k) => !isDayEnabled[k])){
+      setDayError(true);
     } else {
-      const newLab = subjects[edit[1]].labSections[edit[2]];
-      newLab.labSec = formInputs.section;
-      newLab.labStartTime = formInputs.startTime;
-      newLab.labEndTime = formInputs.endTime;
-      newLab.labDaysOccur = isDayEnabled;
+      setDayError(false);
+      // adding lab
+      if (edit[0] === 0) {
+        for (let i = 0; i < subjects[edit[1]].labSections.length; i++) {
+          if (
+            subjects[edit[1]].labSections[i].labSec === formInputs.section
+          ) {
+            setSectionError(true);
+            return;
+          }
+        }
+        setSectionError(false);
+
+        const newLab = subjects[edit[1]].labSections;
+        newLab.push({
+          labSec: formInputs.section,
+          labStartTime: formInputs.startTime,
+          labEndTime: formInputs.endTime,
+          labDaysOccur: isDayEnabled,
+        });
+
+        // editing lab
+      } else {
+        // checks if the lab section was edited
+        if (subjects[edit[1]].labSections[edit[2]].labSec !== formInputs.section){
+          // checks if the edited lab section already existed
+          for (let i = 0; i < subjects[edit[1]].labSections.length; i++) {
+            if (
+              subjects[edit[1]].labSections[i].labSec === formInputs.section
+            ) {
+              setSectionError(true);
+              return;
+            }
+          }
+        }
+        setSectionError(false);
+
+        const newLab = subjects[edit[1]].labSections[edit[2]];
+        newLab.labSec = formInputs.section;
+        newLab.labStartTime = formInputs.startTime;
+        newLab.labEndTime = formInputs.endTime;
+        newLab.labDaysOccur = isDayEnabled;
+      }
+      setIsOpen(false);
+      setEdit([0, 0, 0]);
+      resetDays();
     }
-    setIsOpen(false);
-    setEdit([0, 0, 0]);
-    resetDays();
   };
 
   return (
@@ -86,11 +121,26 @@ export const LabModal = () => {
             {/* MODAL BODY */}
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
-                <div>
-                  {/* SUBJECT INPUT */}
+
+                <div className="grid">
+                  {/* SUBJECT + SECTION INPUT */}
+                  <div className="input-div">
+                    <label htmlFor="subject" className="label">
+                      Subject
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      className="input"
+                      defaultValue={subjects[edit[1]] && subjects[edit[1]].name + " " + subjects[edit[1]].section}
+                      disabled
+                    />
+                  </div>
+
+                  {/* SECTION INPUT */}
                   <div className="input-div">
                     <label htmlFor="section" className="label">
-                      Section:
+                      Lab Section
                     </label>
                     <input
                       type="text"
@@ -109,6 +159,13 @@ export const LabModal = () => {
                       }}
                       required
                     />
+                    <span
+                      className={`${
+                        sectionError ? "error" : "hide"
+                      }`}
+                    >
+                      Lab section in {subjects[edit[1]] && subjects[edit[1]].name + " " + subjects[edit[1]].section} exists.
+                    </span>
                   </div>
                 </div>
 
@@ -116,7 +173,7 @@ export const LabModal = () => {
                   {/* START TIME INPUT */}
                   <div className="input-div">
                     <label htmlFor="start_time" className="label">
-                      Start time:
+                      Start time
                     </label>
                     <input
                       type="time"
@@ -133,6 +190,9 @@ export const LabModal = () => {
                           startTime: e.target.value,
                         }));
                       }}
+                      ref={startTimeRef}
+                      min="07:00"
+                      max="19:00"
                       required
                     />
                   </div>
@@ -140,7 +200,7 @@ export const LabModal = () => {
                   {/* END TIME INPUT */}
                   <div className="input-div">
                     <label htmlFor="end_time" className="label">
-                      End time:
+                      End time
                     </label>
                     <input
                       type="time"
@@ -157,6 +217,8 @@ export const LabModal = () => {
                           endTime: e.target.value,
                         }));
                       }}
+                      min={startTimeRef.current?.value}
+                      max="19:00"
                       required
                     />
                   </div>
@@ -274,6 +336,14 @@ export const LabModal = () => {
                       </Switch>
                     </span>
                   </div>
+                
+                  <span
+                    className={`${
+                      dayError && Object.keys(isDayEnabled).every((k) => !isDayEnabled[k]) ? "error" : "hide"
+                    }`}
+                  >
+                    Select at least one day.
+                  </span>
                 </div>
 
                 <button className="add-button" type="submit">

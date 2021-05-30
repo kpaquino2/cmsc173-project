@@ -33,15 +33,16 @@
   vertical-align: middle;
   transition-property: all;
   background-color: white;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   border-radius: 1rem;
 }
 
 .modal-title {
   font-size: 1.125rem;
-  line-height: 1.50rem;
+  line-height: 1.5rem;
   font-weight: bold;
-  color: #111827;	
+  color: #111827;
   position: relative;
 }
 
@@ -52,7 +53,7 @@
   border: none;
   background: none;
   cursor: pointer;
-  color: #111827;	
+  color: #111827;
 }
 
 .close-button:hover {
@@ -97,13 +98,12 @@
 
 .switch-set {
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .switch-button {
   margin-right: 0.5rem;
 }
-
 
 .enabled {
   display: inline;
@@ -145,7 +145,8 @@
   background-color: #05966980;
 }
 
-.enabled:hover, .disabled:hover {
+.enabled:hover,
+.disabled:hover {
   cursor: pointer;
 }
 
@@ -164,9 +165,17 @@
 .add-button:hover {
   cursor: pointer;
   background: #a8dce5;
-
 }
 
 .add-button:active {
   background: #88cfdb;
+}
+
+.error {
+  color: red;
+  margin-top: -1rem;
+}
+
+.hide {
+  display: none;
 }
