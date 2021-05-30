@@ -29,7 +29,10 @@ const Class = ({ classState, isPreview = false }) => {
     for (let day in newSched) {
       if (newSched[day].classes.length !== 0) {
         var temp = newSched[day].classes.filter((c) => {
-          return c.subject !== classState.subject;
+          return (
+            c.subject !== classState.subject ||
+            c.section.split("-")[0] !== classState.section.split("-")[0]
+          );
         });
         newSched[day].classes = temp;
       }
@@ -51,7 +54,7 @@ const Class = ({ classState, isPreview = false }) => {
       style={{
         height: isPreview ? `calc(8% * ${diff} )` : `calc(7.5% * ${diff} )`,
         top: isPreview
-          ? `calc(4.8% + ${offset} * 7.8% )`
+          ? `calc(3.8% + ${offset} * 8.02% )`
           : `calc(3.8% + ${offset} * 7.6% )`,
         background: classState.color,
         opacity: isPreview ? "0.5" : "1",
