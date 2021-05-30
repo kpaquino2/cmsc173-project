@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Dialog, Transition, Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import "../../styles/Modal.css";
@@ -21,6 +21,7 @@ export const LabModal = () => {
   const [subjects] = useAtom(subjectsAtom);
   const [edit, setEdit] = useAtom(editLabAtom);
   const startTimeRef = useRef(null);
+  const [dayError, setDayError] = useState(false);
 
   const resetDays = () => {
     setIsDayEnabled({
@@ -41,27 +42,32 @@ export const LabModal = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // adding lab
-    if (edit[0] === 0) {
-      const newLab = subjects[edit[1]].labSections;
-      newLab.push({
-        labSec: formInputs.section,
-        labStartTime: formInputs.startTime,
-        labEndTime: formInputs.endTime,
-        labDaysOccur: isDayEnabled,
-      });
-
-      // editing lab
+    if (Object.keys(isDayEnabled).every((k) => !isDayEnabled[k])){
+      setDayError(true);
     } else {
-      const newLab = subjects[edit[1]].labSections[edit[2]];
-      newLab.labSec = formInputs.section;
-      newLab.labStartTime = formInputs.startTime;
-      newLab.labEndTime = formInputs.endTime;
-      newLab.labDaysOccur = isDayEnabled;
+      setDayError(false);
+      // adding lab
+      if (edit[0] === 0) {
+        const newLab = subjects[edit[1]].labSections;
+        newLab.push({
+          labSec: formInputs.section,
+          labStartTime: formInputs.startTime,
+          labEndTime: formInputs.endTime,
+          labDaysOccur: isDayEnabled,
+        });
+
+        // editing lab
+      } else {
+        const newLab = subjects[edit[1]].labSections[edit[2]];
+        newLab.labSec = formInputs.section;
+        newLab.labStartTime = formInputs.startTime;
+        newLab.labEndTime = formInputs.endTime;
+        newLab.labDaysOccur = isDayEnabled;
+      }
+      setIsOpen(false);
+      setEdit([0, 0, 0]);
+      resetDays();
     }
-    setIsOpen(false);
-    setEdit([0, 0, 0]);
-    resetDays();
   };
 
   return (
@@ -295,6 +301,14 @@ export const LabModal = () => {
                       </Switch>
                     </span>
                   </div>
+                
+                  <span
+                    className={`${
+                      dayError && Object.keys(isDayEnabled).every((k) => !isDayEnabled[k]) ? "error" : "hide"
+                    }`}
+                  >
+                    Select at least one day.
+                  </span>
                 </div>
 
                 <button className="add-button" type="submit">
