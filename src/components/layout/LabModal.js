@@ -22,6 +22,7 @@ export const LabModal = () => {
   const [edit, setEdit] = useAtom(editLabAtom);
   const startTimeRef = useRef(null);
   const [dayError, setDayError] = useState(false);
+  const [sectionError, setSectionError] = useState(false);
 
   const resetDays = () => {
     setIsDayEnabled({
@@ -35,6 +36,9 @@ export const LabModal = () => {
   };
 
   const closeModal = () => {
+    setDayError(false);
+    setSectionError(false);
+    setEdit([0, 0, 0]);
     setIsOpen(false);
     resetDays();
   };
@@ -48,6 +52,16 @@ export const LabModal = () => {
       setDayError(false);
       // adding lab
       if (edit[0] === 0) {
+        for (let i = 0; i < subjects[edit[1]].labSections.length; i++) {
+          if (
+            subjects[edit[1]].labSections[i].labSec === formInputs.section
+          ) {
+            setSectionError(true);
+            return;
+          }
+        }
+        setSectionError(false);
+
         const newLab = subjects[edit[1]].labSections;
         newLab.push({
           labSec: formInputs.section,
@@ -58,6 +72,20 @@ export const LabModal = () => {
 
         // editing lab
       } else {
+        // checks if the lab section was edited
+        if (subjects[edit[1]].labSections[edit[2]].labSec !== formInputs.section){
+          // checks if the edited lab section already existed
+          for (let i = 0; i < subjects[edit[1]].labSections.length; i++) {
+            if (
+              subjects[edit[1]].labSections[i].labSec === formInputs.section
+            ) {
+              setSectionError(true);
+              return;
+            }
+          }
+        }
+        setSectionError(false);
+
         const newLab = subjects[edit[1]].labSections[edit[2]];
         newLab.labSec = formInputs.section;
         newLab.labStartTime = formInputs.startTime;
@@ -131,6 +159,13 @@ export const LabModal = () => {
                       }}
                       required
                     />
+                    <span
+                      className={`${
+                        sectionError ? "error" : "hide"
+                      }`}
+                    >
+                      Lab section in {subjects[edit[1]] && subjects[edit[1]].name + " " + subjects[edit[1]].section} exists.
+                    </span>
                   </div>
                 </div>
 

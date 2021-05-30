@@ -45,6 +45,9 @@ export const Modal = () => {
   };
 
   const closeModal = () => {
+    setSubjError(false);
+    setDayError(false);
+    setEdit(-1);
     setIsOpen(false);
     resetDays();
   };
