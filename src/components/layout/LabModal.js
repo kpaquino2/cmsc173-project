@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Dialog, Transition, Switch } from "@headlessui/react";
 import { Fragment } from "react";
 import "../../styles/Modal.css";
@@ -20,6 +20,7 @@ export const LabModal = () => {
   const [formInputs, setFormInputs] = useAtom(formInputsAtom);
   const [subjects] = useAtom(subjectsAtom);
   const [edit, setEdit] = useAtom(editLabAtom);
+  const startTimeRef = useRef(null);
 
   const resetDays = () => {
     setIsDayEnabled({
@@ -86,11 +87,26 @@ export const LabModal = () => {
             {/* MODAL BODY */}
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
-                <div>
-                  {/* SUBJECT INPUT */}
+
+                <div className="grid">
+                  {/* SUBJECT + SECTION INPUT */}
+                  <div className="input-div">
+                    <label htmlFor="subject" className="label">
+                      Subject
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      className="input"
+                      defaultValue={subjects[edit[1]] && subjects[edit[1]].name + " " + subjects[edit[1]].section}
+                      disabled
+                    />
+                  </div>
+
+                  {/* SECTION INPUT */}
                   <div className="input-div">
                     <label htmlFor="section" className="label">
-                      Section:
+                      Lab Section
                     </label>
                     <input
                       type="text"
@@ -116,7 +132,7 @@ export const LabModal = () => {
                   {/* START TIME INPUT */}
                   <div className="input-div">
                     <label htmlFor="start_time" className="label">
-                      Start time:
+                      Start time
                     </label>
                     <input
                       type="time"
@@ -133,6 +149,9 @@ export const LabModal = () => {
                           startTime: e.target.value,
                         }));
                       }}
+                      ref={startTimeRef}
+                      min="07:00"
+                      max="19:00"
                       required
                     />
                   </div>
@@ -140,7 +159,7 @@ export const LabModal = () => {
                   {/* END TIME INPUT */}
                   <div className="input-div">
                     <label htmlFor="end_time" className="label">
-                      End time:
+                      End time
                     </label>
                     <input
                       type="time"
@@ -157,6 +176,8 @@ export const LabModal = () => {
                           endTime: e.target.value,
                         }));
                       }}
+                      min={startTimeRef.current?.value}
+                      max="19:00"
                       required
                     />
                   </div>
