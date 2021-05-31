@@ -161,7 +161,7 @@ export const LabModal = () => {
                     />
                     <span
                       className={`${
-                        sectionError ? "error" : "hide"
+                        sectionError ? "lab-error" : "hide"
                       }`}
                     >
                       Lab section in {subjects[edit[1]] && subjects[edit[1]].name + " " + subjects[edit[1]].section} exists.
