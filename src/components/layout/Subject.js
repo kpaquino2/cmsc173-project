@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { LabSection } from "./LabSection";
 import { SubjectPreview } from "./SubjectPreview";
 
@@ -27,6 +28,7 @@ import { useDraggable } from "@dnd-kit/core";
 import { useRef } from "react";
 import { isDraggingAtom } from "../atom/dragguide";
 import { mousePosAtom } from "../atom/mouseposition";
+import { subjectsListRefAtom } from "../atom/subjectsListRefAtom";
 
 const Subject = ({ index, subject, bgColor }) => {
   const [subjects, setSubjects] = useAtom(subjectsAtom);
@@ -172,181 +174,182 @@ const Subject = ({ index, subject, bgColor }) => {
 
   const subjectContainerRef = useRef(null);
 
-  const [mousePos, setMousePos] = useAtom(mousePosAtom);
-  const [isDragging] = useAtom(isDraggingAtom);
+  const [subjectsListRef] = useAtom(subjectsListRefAtom);
+  const [isDraggingSelf, setIsDraggingSelf] = useState(false);
 
   const [willShowPreview, setWillShowPreview] = useState(false);
+  return ReactDOM.createPortal(
+    <>
+      <div ref={subjectContainerRef}>
+        {willShowPreview && (
+          <SubjectPreview
+            currentPlan={currentPlan}
+            subject={subject}
+            bgColor={bgColor}
+          />
+        )}
 
-  return (
-    <div ref={subjectContainerRef}>
-      {willShowPreview && (
-        <SubjectPreview
-          currentPlan={currentPlan}
-          subject={subject}
-          bgColor={bgColor}
-        />
-      )}
-
-      <div
-        className={`subject-container ${
-          isConflicting ? "subject-container-disabled" : ""
-        } ${
-          subject.labSections.length === 0 ? "subject-container-clickable" : ""
-        }`}
-        style={{
-          background: bgColor,
-          transform: transform
-            ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-            : "",
-          position: transform ? "absolute" : "static",
-          width: transform ? "calc(20% - 5rem)" : "",
-          zIndex: transform ? "100" : "auto",
-          top: transform ? `${mousePos - 32}px` : undefined,
-          left: transform ? "0" : undefined,
-        }}
-        ref={setNodeRef}
-      >
-        {subject.labSections && subject.labSections.length === 0 && (
+        <div
+          className={`subject-container ${
+            isConflicting ? "subject-container-disabled" : ""
+          } ${
+            subject.labSections.length === 0
+              ? "subject-container-clickable"
+              : ""
+          }`}
+          style={{
+            background: bgColor,
+            transform: transform
+              ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+              : "",
+            position: transform ? "absolute" : "static",
+            width: transform ? "calc(20% - 5rem)" : "",
+            zIndex: transform ? "100" : "auto",
+          }}
+          ref={setNodeRef}
+        >
+          {subject.labSections && subject.labSections.length === 0 && (
+            <div
+              className="drag-handle-indicator"
+              {...listeners}
+              {...attributes}
+              onMouseDown={() => {
+                setWillShowPreview(true);
+                setIsDraggingSelf(true);
+              }}
+              onMouseUp={() => {
+                setWillShowPreview(false);
+                setIsDraggingSelf(false);
+              }}
+            >
+              <FontAwesomeIcon icon={faGripLines} />
+            </div>
+          )}
           <div
-            className="drag-handle-indicator"
-            {...listeners}
-            {...attributes}
-            onMouseOver={(e) => {
-              if (!isDragging) {
-                setMousePos(e.clientY);
+            onClick={
+              subject.labSections.length
+                ? null
+                : () => addSubjectToSchedule(null)
+            }
+            onMouseEnter={(e) => {
+              if (subject.labSections && subject.labSections.length === 0) {
+                e.stopPropagation();
+                setWillShowPreview(true);
               }
             }}
-            onMouseDown={() => {
-              setWillShowPreview(true);
-            }}
-            onMouseUp={() => {
-              setWillShowPreview(false);
+            onMouseLeave={(e) => {
+              if (subject.labSections && subject.labSections.length === 0) {
+                e.stopPropagation();
+                setWillShowPreview(false);
+              }
             }}
           >
-            <FontAwesomeIcon icon={faGripLines} />
-          </div>
-        )}
-        <div
-          onClick={
-            subject.labSections.length ? null : () => addSubjectToSchedule(null)
-          }
-          onMouseEnter={(e) => {
-            if (subject.labSections && subject.labSections.length === 0) {
-              e.stopPropagation();
-              setWillShowPreview(true);
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (subject.labSections && subject.labSections.length === 0) {
-              e.stopPropagation();
-              setWillShowPreview(false);
-            }
-          }}
-        >
-          <div className="subject-text">
-            <h2>{subject.name}</h2>
-            <FontAwesomeIcon
-              icon={faEdit}
-              className={`edit-icon ${
-                isConflicting ? "edit-icon-disabled" : ""
-              }`}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsSubjectOpen(true);
-                setSubjectEdit(index);
-                setIsDayEnabledSubject({
-                  Monday: subjects[index].daysOccur.Monday,
-                  Tuesday: subjects[index].daysOccur.Tuesday,
-                  Wednesday: subjects[index].daysOccur.Wednesday,
-                  Thursday: subjects[index].daysOccur.Thursday,
-                  Friday: subjects[index].daysOccur.Friday,
-                  Saturday: subjects[index].daysOccur.Saturday,
-                });
-              }}
-            />
-            <FontAwesomeIcon
-              icon={faTrashAlt}
-              className="delete-icon"
-              onClick={(e) => {
-                var tbd;
-                e.stopPropagation();
-                const newSubjects = subjects.slice();
+            <div className="subject-text">
+              <h2>{subject.name}</h2>
+              <FontAwesomeIcon
+                icon={faEdit}
+                className={`edit-icon ${
+                  isConflicting ? "edit-icon-disabled" : ""
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsSubjectOpen(true);
+                  setSubjectEdit(index);
+                  setIsDayEnabledSubject({
+                    Monday: subjects[index].daysOccur.Monday,
+                    Tuesday: subjects[index].daysOccur.Tuesday,
+                    Wednesday: subjects[index].daysOccur.Wednesday,
+                    Thursday: subjects[index].daysOccur.Thursday,
+                    Friday: subjects[index].daysOccur.Friday,
+                    Saturday: subjects[index].daysOccur.Saturday,
+                  });
+                }}
+              />
+              <FontAwesomeIcon
+                icon={faTrashAlt}
+                className="delete-icon"
+                onClick={(e) => {
+                  var tbd;
+                  e.stopPropagation();
+                  const newSubjects = subjects.slice();
 
-                if (newSubjects[index].labSections.length !== 0) {
-                  for (let i in newSubjects.labSections) {
-                    tbd = createTempUser(
-                      newSubjects[index].name,
-                      `${newSubjects[index].section}-${newSubjects[index].labSections[i].labSec}`
-                    );
+                  if (newSubjects[index].labSections.length !== 0) {
+                    for (let i in newSubjects.labSections) {
+                      tbd = createTempUser(
+                        newSubjects[index].name,
+                        `${newSubjects[index].section}-${newSubjects[index].labSections[i].labSec}`
+                      );
 
-                    deleteClass(tbd);
-                    newSubjects[index].labSections.splice(i, 1);
+                      deleteClass(tbd);
+                      newSubjects[index].labSections.splice(i, 1);
+                    }
                   }
-                }
-                setSubjects(newSubjects);
+                  setSubjects(newSubjects);
 
-                tbd = createTempUser(
-                  subjects[index].name,
-                  subjects[index].section
-                );
-                deleteClass(tbd);
-                newSubjects.splice(index, 1);
-                setSubjects(newSubjects);
-              }}
-            />
-          </div>
-          <div className="subject-details">
-            <div className="section-text">
-              <strong className="section-label">Section:</strong>
-              <span>{` ${subject.section}`}</span>
+                  tbd = createTempUser(
+                    subjects[index].name,
+                    subjects[index].section
+                  );
+                  deleteClass(tbd);
+                  newSubjects.splice(index, 1);
+                  setSubjects(newSubjects);
+                }}
+              />
             </div>
-            <div className="time-text">
-              <strong className="time-label">Time:</strong>
-              <span>{` ${subject.startTime}-${subject.endTime} `}</span>
+            <div className="subject-details">
+              <div className="section-text">
+                <strong className="section-label">Section:</strong>
+                <span>{` ${subject.section}`}</span>
+              </div>
+              <div className="time-text">
+                <strong className="time-label">Time:</strong>
+                <span>{` ${subject.startTime}-${subject.endTime} `}</span>
+              </div>
+              <div className="time-text">
+                <strong className="time-label">Day/s: </strong>
+                <span>
+                  Every{" "}
+                  {subject.daysOccur &&
+                    Object.keys(subject.daysOccur)
+                      .filter((day) => {
+                        return subject.daysOccur[day];
+                      })
+                      .join(", ")}
+                </span>
+              </div>
             </div>
-            <div className="time-text">
-              <strong className="time-label">Day/s: </strong>
-              <span>
-                Every{" "}
-                {subject.daysOccur &&
-                  Object.keys(subject.daysOccur)
-                    .filter((day) => {
-                      return subject.daysOccur[day];
-                    })
-                    .join(", ")}
-              </span>
+            <div className="all-lab-sect-container">
+              <button
+                className="add-lab-button lab-section-container"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsLabOpen(true);
+                  setLabEdit([0, index, 0]);
+                }}
+                disabled={isConflicting}
+              >
+                <FontAwesomeIcon icon={faPlus} className="plus-icon" />
+                Add Lab Section
+              </button>
+              {subject.labSections &&
+                subject.labSections.map((labSection, idx) => (
+                  <LabSection
+                    bgColor={bgColor}
+                    key={idx}
+                    lab_index={idx}
+                    subject_index={index}
+                    subject={subject}
+                    labSection={labSection}
+                    addSubjectToSchedule={addSubjectToSchedule}
+                    deleteLab={deleteLab}
+                  />
+                ))}
             </div>
-          </div>
-          <div className="all-lab-sect-container">
-            <button
-              className="add-lab-button lab-section-container"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsLabOpen(true);
-                setLabEdit([0, index, 0]);
-              }}
-              disabled={isConflicting}
-            >
-              <FontAwesomeIcon icon={faPlus} className="plus-icon" />
-              Add Lab Section
-            </button>
-            {subject.labSections &&
-              subject.labSections.map((labSection, idx) => (
-                <LabSection
-                  bgColor={bgColor}
-                  key={idx}
-                  lab_index={idx}
-                  subject_index={index}
-                  subject={subject}
-                  labSection={labSection}
-                  addSubjectToSchedule={addSubjectToSchedule}
-                  deleteLab={deleteLab}
-                />
-              ))}
           </div>
         </div>
       </div>
-    </div>
+    </>,
+    isDraggingSelf ? document.body : subjectsListRef
   );
 };
 

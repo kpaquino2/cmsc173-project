@@ -14,12 +14,14 @@ import Subject from "./Subject";
 import { Modal } from "./Modal";
 import { LabModal } from "./LabModal";
 import { downloadSchedule } from "./Main";
+import { subjectsListRefAtom } from "../atom/subjectsListRefAtom";
 
 const Sidebar = () => {
   const [, setIsOpen] = useAtom(isSubjectOpenAtom);
   const [, setEdit] = useAtom(editSubjectAtom);
   const [enabled, setEnabled] = useAtom(allowConflictAtom);
   const [subjects] = useAtom(subjectsAtom);
+  const [, setSubjectsListRef] = useAtom(subjectsListRefAtom);
 
   const colors = [
     "linear-gradient(90deg, hsla(197, 100%, 63%, 0.875) 0%, hsla(294, 100%, 55%, 0.875) 100%)",
@@ -54,7 +56,7 @@ const Sidebar = () => {
         Add a Subject
       </button>
       <div className="sidebar-item subjects-list">
-        <div className="subjects">
+        <div className="subjects" ref={setSubjectsListRef}>
           {subjects.map((subject, idx) => {
             return (
               <Subject
