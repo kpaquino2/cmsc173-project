@@ -26,8 +26,6 @@ import { showInitialGuideAtom } from "../atom/initialguides";
 // Drag-and-Drop Functionality
 import { useDraggable } from "@dnd-kit/core";
 import { useRef } from "react";
-import { isDraggingAtom } from "../atom/dragguide";
-import { mousePosAtom } from "../atom/mouseposition";
 import { subjectsListRefAtom } from "../atom/subjectsListRefAtom";
 
 const Subject = ({ index, subject, bgColor }) => {
@@ -176,6 +174,7 @@ const Subject = ({ index, subject, bgColor }) => {
 
   const [subjectsListRef] = useAtom(subjectsListRefAtom);
   const [isDraggingSelf, setIsDraggingSelf] = useState(false);
+  const [labListRef, setLabListRef] = useState(null);
 
   const [willShowPreview, setWillShowPreview] = useState(false);
   return ReactDOM.createPortal(
@@ -318,7 +317,7 @@ const Subject = ({ index, subject, bgColor }) => {
                 </span>
               </div>
             </div>
-            <div className="all-lab-sect-container">
+            <div className="all-lab-sect-container" ref={setLabListRef}>
               <button
                 className="add-lab-button lab-section-container"
                 onClick={(e) => {
@@ -342,6 +341,7 @@ const Subject = ({ index, subject, bgColor }) => {
                     labSection={labSection}
                     addSubjectToSchedule={addSubjectToSchedule}
                     deleteLab={deleteLab}
+                    labListRef={labListRef}
                   />
                 ))}
             </div>

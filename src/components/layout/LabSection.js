@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import { SubjectPreview } from "./SubjectPreview";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,8 +19,6 @@ import { useAtom } from "jotai";
 import { useDraggable } from "@dnd-kit/core";
 import { currentPlanAtom } from "../atom/plans";
 import { useEffect } from "react";
-import { mousePosAtom } from "../atom/mouseposition";
-import { isDraggingAtom } from "../atom/dragguide";
 
 export const LabSection = ({
   bgColor,
@@ -29,6 +28,7 @@ export const LabSection = ({
   labSection,
   addSubjectToSchedule,
   deleteLab,
+  labListRef,
 }) => {
   const [, setIsLabOpen] = useAtom(isLabOpenAtom);
   const [, setLabEdit] = useAtom(editLabAtom);
@@ -80,12 +80,10 @@ export const LabSection = ({
     };
     checkLabConflicting();
   }, [labSection, currentPlan]);
-
-  const [mousePos, setMousePos] = useAtom(mousePosAtom);
-  const [isDragging] = useAtom(isDraggingAtom);
   const [willShowPreview, setWillShowPreview] = useState(false);
+  const [isDraggingSelf, setIsDraggingSelf] = useState(false);
 
-  return (
+  return ReactDOM.createPortal(
     <div
       key={lab_index}
       className={`lab-section-container ${
@@ -100,7 +98,6 @@ export const LabSection = ({
         width: transform ? "calc(20% - 5rem)" : "",
         zIndex: transform ? "100" : "auto",
         borderRadius: transform ? "1rem" : undefined,
-        top: transform ? `${mousePos - 50}px` : undefined,
       }}
     >
       {willShowPreview && (
@@ -115,10 +112,13 @@ export const LabSection = ({
         className="lab-grip-line"
         {...attributes}
         {...listeners}
-        onMouseOver={(e) => {
-          if (!isDragging) {
-            setMousePos(e.clientY);
-          }
+        onMouseDown={(e) => {
+          e.stopPropagation();
+          setIsDraggingSelf(true);
+        }}
+        onMouseUp={(e) => {
+          e.stopPropagation();
+          setIsDraggingSelf(false);
         }}
       >
         <FontAwesomeIcon icon={faGripVertical} />
@@ -178,6 +178,7 @@ export const LabSection = ({
           </span>
         </div>
       </div>
-    </div>
+    </div>,
+    isDraggingSelf ? document.body : labListRef
   );
 };
